@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, health, jobs, recruiter
+from app.api import auth, health, jobs, recruiter, resumes
 from app.core.config import settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -36,6 +36,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router)
     app.include_router(jobs.router)
     app.include_router(recruiter.router)
+    app.include_router(resumes.router)
     return app
 
 
