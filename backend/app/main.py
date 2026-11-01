@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import applications, auth, health, jobs, profile, recruiter, resumes, stats
+from app.api import admin, applications, auth, health, jobs, profile, recruiter, resumes, stats
 from app.core.config import settings
 from app.ml.classifier import get_classifier
 from app.ml.embeddings import get_embedder
@@ -45,6 +45,7 @@ def create_app() -> FastAPI:
     app.include_router(stats.router)
     app.include_router(applications.router)
     app.include_router(profile.router)
+    app.include_router(admin.router)
     return app
 
 
