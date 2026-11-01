@@ -1,10 +1,13 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Any
 
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     BigInteger,
     Boolean,
     DateTime,
+    Float,
     ForeignKey,
     Index,
     Integer,
@@ -18,6 +21,7 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, deferred, mapped_column
 
 from app.db.session import Base
+from app.models.enums import RoleCategory, pg_enum
 
 
 class Resume(Base):
@@ -35,6 +39,12 @@ class Resume(Base):
     # Seeker-confirmed values (editable after parsing).
     skills: Mapped[list[str]] = mapped_column(ARRAY(String(60)), default=list)
     years_experience: Mapped[Decimal | None] = mapped_column(Numeric(4, 1))
+    embedding: Mapped[Any | None] = deferred(mapped_column(Vector(384)))
+    embedding_hash: Mapped[str | None] = mapped_column(String(40))
+    predicted_category: Mapped[RoleCategory | None] = mapped_column(
+        pg_enum(RoleCategory, "role_category")
+    )
+    category_confidence: Mapped[float | None] = mapped_column(Float)
     is_current: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
     confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

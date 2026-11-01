@@ -1,3 +1,4 @@
+import logging
 from datetime import UTC, datetime
 
 from fastapi import HTTPException, status
@@ -8,6 +9,9 @@ from app.models.enums import JobStatus, RemoteType, UserRole
 from app.schemas.jobs import JobCreate, JobUpdate
 from app.services.cache import bump_jobs_version
 from app.services.companies import get_or_create_company
+from app.services.matching import ensure_job_embeddings
+
+log = logging.getLogger(__name__)
 
 
 def get_job_or_404(db: Session, job_id: int) -> Job:
@@ -80,5 +84,12 @@ def set_job_status(db: Session, job: Job, new_status: JobStatus) -> Job:
 
 
 def on_job_changed(db: Session, job: Job) -> None:
-    """Invalidate search cache + autocomplete index (both keyed on the jobs version)."""
+    """Invalidate search cache + autocomplete index (both keyed on the jobs version) and
+    refresh the job embedding. Embedding failures are logged, not raised: matching
+    recomputes missing embeddings lazily."""
     bump_jobs_version()
+    try:
+        ensure_job_embeddings(db, [job])
+    except Exception:
+        db.rollback()
+        log.exception("could not embed job %s", job.id)

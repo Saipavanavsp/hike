@@ -7,22 +7,48 @@ from app.core.deps import get_optional_user, require_role
 from app.db.session import get_db
 from app.models import Job, SavedJob, User
 from app.models.enums import RemoteType, RoleCategory, UserRole
-from app.schemas.jobs import JobDetail, JobListItem, JobPage, SavedJobItem, Suggestion
+from app.schemas.jobs import (
+    JobDetail,
+    JobListItem,
+    JobPage,
+    MatchBreakdown,
+    SavedJobItem,
+    Suggestion,
+)
 from app.services import search as search_service
 from app.services.autocomplete import index as autocomplete_index
 from app.services.jobs import get_job_or_404
+from app.services.matching import get_match_results, match_one
+from app.services.resumes import current_resume
 
 router = APIRouter(prefix="/api/jobs", tags=["jobs"])
 
 
 def seeker_match_context(db: Session, user: User | None):
     """(match_lookup, resume_category) for a seeker with a resume; (None, None) otherwise."""
-    return None, None
+    if user is None or user.role != UserRole.seeker:
+        return None, None
+    resume = current_resume(db, user.id)
+    if resume is None:
+        return None, None
+
+    def lookup(job_ids: list[int]) -> dict[int, int]:
+        return {jid: b["score"] for jid, b in get_match_results(db, resume, job_ids).items()}
+
+    category = resume.predicted_category.value if resume.predicted_category else None
+    return lookup, category
 
 
 def job_detail_extras(db: Session, user: User | None, job: Job, detail: JobDetail) -> None:
     """Fill per-user fields (match breakdown, application status) on a job detail."""
-    return None
+    if user is None or user.role != UserRole.seeker:
+        return
+    resume = current_resume(db, user.id)
+    if resume is not None:
+        breakdown = match_one(db, resume, job.id)
+        if breakdown:
+            detail.match = MatchBreakdown(**breakdown)
+            detail.match_score = breakdown["score"]
 
 
 @router.get("", response_model=JobPage)

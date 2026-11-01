@@ -1,0 +1,190 @@
+{
+ "matching": {
+  "n_resumes": 20,
+  "n_jobs": 50,
+  "n_relevant_pairs": 119,
+  "methods": {
+   "tfidf": {
+    "precision_at_5": 0.76,
+    "recall_at_5": 0.6687,
+    "mrr": 1.0,
+    "accuracy": 0.933
+   },
+   "embeddings": {
+    "precision_at_5": 0.69,
+    "recall_at_5": 0.5926,
+    "mrr": 0.975,
+    "accuracy": 0.919
+   },
+   "hike": {
+    "precision_at_5": 0.74,
+    "recall_at_5": 0.6505,
+    "mrr": 1.0,
+    "accuracy": 0.929
+   }
+  },
+  "cosine_distribution": {
+   "relevant": {
+    "p05": 0.308,
+    "median": 0.46,
+    "p95": 0.57
+   },
+   "not_relevant": {
+    "p05": 0.213,
+    "median": 0.337,
+    "p95": 0.466
+   }
+  }
+ },
+ "classifier": {
+  "labels": [
+   "backend",
+   "frontend",
+   "fullstack",
+   "data_ml",
+   "devops",
+   "mobile",
+   "qa"
+  ],
+  "cv_synthetic": {
+   "n": 280,
+   "accuracy": 1.0,
+   "macro_f1": 1.0,
+   "confusion_matrix": [
+    [
+     40,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     40,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     40,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     40,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     40,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     40,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     40
+    ]
+   ]
+  },
+  "seed_resumes": {
+   "n": 20,
+   "accuracy": 1.0,
+   "confusion_matrix": [
+    [
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     3,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2
+    ]
+   ],
+   "errors": []
+  }
+ }
+}

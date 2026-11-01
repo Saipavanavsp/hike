@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.ml.skills import get_taxonomy
 from app.models import Resume, SeekerProfile, User
 from app.models.enums import UserRole
+from app.services.matching import ensure_resume_derived
 from app.services.resume_parser import (
     ALLOWED,
     InvalidResumeFile,
@@ -102,8 +103,8 @@ def confirm_resume(
 
 
 def on_resume_confirmed(db: Session, resume: Resume) -> None:
-    """Hook for derived data (embeddings, role category)."""
-    return None
+    """Embedding + predicted role category, computed once the seeker confirms."""
+    ensure_resume_derived(db, resume)
 
 
 def can_view_resume_file(db: Session, viewer: User, resume: Resume) -> bool:

@@ -1,0 +1,142 @@
+[
+ {
+  "name": "Nimbus Ledger",
+  "industry": "Fintech",
+  "size_range": "201-500",
+  "hq_city": "Bengaluru",
+  "about": "Nimbus Ledger makes accounting and GST compliance software for 40,000 small businesses."
+ },
+ {
+  "name": "Tidepool Labs",
+  "industry": "Developer tools",
+  "size_range": "51-200",
+  "hq_city": "Pune",
+  "about": "Tidepool Labs builds API monitoring and usage-based billing tools for engineering teams."
+ },
+ {
+  "name": "Kestrel Systems",
+  "industry": "Logistics software",
+  "size_range": "201-500",
+  "hq_city": "Hyderabad",
+  "about": "Kestrel Systems plans delivery routes for grocery and pharmacy fleets in 30 cities."
+ },
+ {
+  "name": "Orchid Analytics",
+  "industry": "Analytics consulting",
+  "size_range": "51-200",
+  "hq_city": "Pune",
+  "about": "Orchid Analytics builds forecasting and reporting systems for retail and FMCG clients."
+ },
+ {
+  "name": "Banyan Cloud",
+  "industry": "Cloud infrastructure",
+  "size_range": "501-1000",
+  "hq_city": "Bengaluru",
+  "about": "Banyan Cloud runs managed Kubernetes and databases for Indian startups."
+ },
+ {
+  "name": "Saffron Pay",
+  "industry": "Payments",
+  "size_range": "501-1000",
+  "hq_city": "Bengaluru",
+  "about": "Saffron Pay processes UPI and card payments for 2 lakh merchants."
+ },
+ {
+  "name": "Monsoon Mobility",
+  "industry": "Mobility",
+  "size_range": "1001-5000",
+  "hq_city": "Hyderabad",
+  "about": "Monsoon Mobility operates an electric ride-hailing fleet across South India."
+ },
+ {
+  "name": "Ironwood Health",
+  "industry": "Healthtech",
+  "size_range": "201-500",
+  "hq_city": "Chennai",
+  "about": "Ironwood Health builds clinic management and e-prescription software for 6,000 clinics."
+ },
+ {
+  "name": "Quillstack",
+  "industry": "Publishing SaaS",
+  "size_range": "51-200",
+  "hq_city": "Bengaluru",
+  "about": "Quillstack is a remote-first company that builds a publishing platform for newsrooms."
+ },
+ {
+  "name": "Peregrine Freight",
+  "industry": "Freight marketplace",
+  "size_range": "201-500",
+  "hq_city": "Chennai",
+  "about": "Peregrine Freight matches shippers with truck carriers and handles tracking and payments."
+ },
+ {
+  "name": "Kiln Energy",
+  "industry": "Energy analytics",
+  "size_range": "51-200",
+  "hq_city": "Pune",
+  "about": "Kiln Energy helps factories cut power bills using smart meter data."
+ },
+ {
+  "name": "Cobalt Harbor",
+  "industry": "Cybersecurity",
+  "size_range": "201-500",
+  "hq_city": "Hyderabad",
+  "about": "Cobalt Harbor sells threat detection for mid-size banks and insurers."
+ },
+ {
+  "name": "Jamun Retail Tech",
+  "industry": "Retail software",
+  "size_range": "501-1000",
+  "hq_city": "Bengaluru",
+  "about": "Jamun Retail Tech makes point-of-sale and inventory software used by 4,000 stores."
+ },
+ {
+  "name": "Vantage Agro",
+  "industry": "Agritech",
+  "size_range": "51-200",
+  "hq_city": "Hyderabad",
+  "about": "Vantage Agro gives farmers crop advisories and market prices in nine languages."
+ },
+ {
+  "name": "Granite Byte",
+  "industry": "Product engineering services",
+  "size_range": "1001-5000",
+  "hq_city": "Chennai",
+  "about": "Granite Byte builds and tests software for banking and retail clients."
+ },
+ {
+  "name": "Halcyon Learning",
+  "industry": "Edtech",
+  "size_range": "201-500",
+  "hq_city": "Bengaluru",
+  "about": "Halcyon Learning runs live and recorded courses for 3 million school students."
+ },
+ {
+  "name": "Neem Insure",
+  "industry": "Insurtech",
+  "size_range": "201-500",
+  "hq_city": "Pune",
+  "about": "Neem Insure sells health and motor insurance online and through 8,000 agents."
+ },
+ {
+  "name": "Sandal Studio",
+  "industry": "E-commerce platform",
+  "size_range": "51-200",
+  "hq_city": "Bengaluru",
+  "about": "Sandal Studio lets small brands build online stores without code."
+ },
+ {
+  "name": "Tarang Media",
+  "industry": "Streaming",
+  "size_range": "501-1000",
+  "hq_city": "Hyderabad",
+  "about": "Tarang Media streams regional films, series and live cricket to 12 million users."
+ },
+ {
+  "name": "Zephyr Grid",
+  "industry": "IoT / smart buildings",
+  "size_range": "201-500",
+  "hq_city": "Chennai",
+  "about": "Zephyr Grid connects HVAC, lighting and meters in 900 commercial buildings."
+ }
+]

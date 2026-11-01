@@ -1,5 +1,7 @@
 from datetime import datetime
+from typing import Any
 
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     BigInteger,
     CheckConstraint,
@@ -48,6 +50,9 @@ class Job(Base):
     closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     # Maintained by the jobs_search_vector_update() trigger (see migration 0003).
     search_vector: Mapped[str | None] = deferred(mapped_column(TSVECTOR))
+    # all-MiniLM-L6-v2 embedding of title + skills + description; recomputed when the hash changes.
+    embedding: Mapped[Any | None] = deferred(mapped_column(Vector(384)))
+    embedding_hash: Mapped[str | None] = mapped_column(String(40))
 
     company: Mapped[Company] = relationship(lazy="joined")
 

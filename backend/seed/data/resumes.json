@@ -1,0 +1,790 @@
+[
+ {
+  "name": "Rahul Verma",
+  "email": "rahul@example.com",
+  "phone": "+91 9588 999385",
+  "location": "Bengaluru",
+  "category": "backend",
+  "years": 3,
+  "title": "Backend Engineer",
+  "skills": [
+   "Python",
+   "Django",
+   "PostgreSQL",
+   "Redis",
+   "Celery",
+   "Docker",
+   "AWS",
+   "REST APIs"
+  ],
+  "summary": "Backend Engineer with 3 years of experience in Python, Django, PostgreSQL. I like boring, reliable systems and clear APIs.",
+  "experience": [
+   {
+    "title": "Backend Engineer",
+    "company": "Silverline Apps",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Split a monolith module into two Django services with clear API contracts.",
+     "Introduced Redis for caching hot reads and background job queues.",
+     "Wrote integration tests and set up Docker-based local environments for the team.",
+     "Built a Python service handling 1.5M requests per day with p95 under 120 ms."
+    ]
+   }
+  ],
+  "skills_text": "Python, Django, PostgreSQL, Redis, Celery, Docker, AWS, REST APIs",
+  "education": [
+   "B.E. in Information Science, RV College of Engineering, Bengaluru, 2018 - 2022"
+  ],
+  "file": "rahul_verma.pdf",
+  "demo": true
+ },
+ {
+  "name": "Sneha Kulkarni",
+  "email": "sneha@example.com",
+  "phone": "+91 9258 453521",
+  "location": "Pune",
+  "category": "backend",
+  "years": 6,
+  "title": "Senior Software Engineer",
+  "skills": [
+   "Java",
+   "Spring Boot",
+   "PostgreSQL",
+   "Kafka",
+   "Microservices",
+   "AWS",
+   "Hibernate"
+  ],
+  "summary": "Senior Software Engineer with 6 years of experience in Java, Spring Boot, PostgreSQL. I like boring, reliable systems and clear APIs.",
+  "experience": [
+   {
+    "title": "Senior Software Engineer",
+    "company": "Northwind Digital",
+    "dates": "Aug 2023 - Present",
+    "bullets": [
+     "Built a Java service handling 1.5M requests per day with p95 under 120 ms.",
+     "Investigated production incidents and wrote postmortems with follow-up fixes.",
+     "Introduced Kafka for caching hot reads and background job queues."
+    ]
+   },
+   {
+    "title": "Software Engineer",
+    "company": "Silverline Apps",
+    "dates": "Nov 2020 - Jul 2023",
+    "bullets": [
+     "Designed PostgreSQL schemas and migrations for billing data; added indexes that cut report time from 40s to 2s.",
+     "Split a monolith module into two Spring Boot services with clear API contracts."
+    ]
+   }
+  ],
+  "skills_text": "Java, Spring Boot, PostgreSQL, Kafka, Microservices, AWS, Hibernate",
+  "education": [
+   "B.E. in Computer Engineering, Pune Institute of Computer Technology, 2015 - 2019"
+  ],
+  "file": "sneha_kulkarni.pdf",
+  "demo": false
+ },
+ {
+  "name": "Imran Shaikh",
+  "email": "imran@example.com",
+  "phone": "+91 9698 509918",
+  "location": "Hyderabad",
+  "category": "backend",
+  "years": 4,
+  "title": "Software Engineer II",
+  "skills": [
+   "Go",
+   "gRPC",
+   "PostgreSQL",
+   "Redis",
+   "Kubernetes",
+   "Docker"
+  ],
+  "summary": "Software Engineer II working with Go, gRPC, PostgreSQL. I like boring, reliable systems and clear APIs.",
+  "experience": [
+   {
+    "title": "Software Engineer II",
+    "company": "Corvid Technologies",
+    "dates": "Aug 2024 - Present",
+    "bullets": [
+     "Introduced Redis for caching hot reads and background job queues.",
+     "Wrote integration tests and set up Docker-based local environments for the team.",
+     "Designed PostgreSQL schemas and migrations for billing data; added indexes that cut report time from 40s to 2s."
+    ]
+   },
+   {
+    "title": "Software Engineer",
+    "company": "Silverline Apps",
+    "dates": "Nov 2022 - Jul 2024",
+    "bullets": [
+     "Split a monolith module into two gRPC services with clear API contracts.",
+     "Built a Go service handling 1.5M requests per day with p95 under 120 ms."
+    ]
+   }
+  ],
+  "skills_text": "Go, gRPC, PostgreSQL, Redis, Kubernetes, Docker",
+  "education": [
+   "B.Tech in Computer Science, NIT Warangal, 2017 - 2021"
+  ],
+  "file": "imran_shaikh.pdf",
+  "demo": false
+ },
+ {
+  "name": "Deepika Rao",
+  "email": "deepika@example.com",
+  "phone": "+91 9757 830420",
+  "location": "Chennai",
+  "category": "backend",
+  "years": 1,
+  "title": "Associate Backend Developer",
+  "skills": [
+   "Python",
+   "FastAPI",
+   "PostgreSQL",
+   "SQLAlchemy",
+   "Docker",
+   "Git"
+  ],
+  "summary": "Associate Backend Developer working with Python, FastAPI, PostgreSQL. I like boring, reliable systems and clear APIs.",
+  "experience": [
+   {
+    "title": "Associate Backend Developer",
+    "company": "Copperleaf IT",
+    "dates": "Nov 2025 - Present",
+    "bullets": [
+     "Introduced SQLAlchemy for caching hot reads and background job queues.",
+     "Investigated production incidents and wrote postmortems with follow-up fixes.",
+     "Split a monolith module into two FastAPI services with clear API contracts.",
+     "Wrote integration tests and set up Docker-based local environments for the team."
+    ]
+   }
+  ],
+  "skills_text": "Python, FastAPI, PostgreSQL, SQLAlchemy, Docker, Git",
+  "education": [
+   "MCA, College of Engineering Guindy, Chennai, 2020 - 2024"
+  ],
+  "file": "deepika_rao.pdf",
+  "demo": false
+ },
+ {
+  "name": "Aditya Joshi",
+  "email": "aditya@example.com",
+  "phone": "+91 9583 258726",
+  "location": "Bengaluru",
+  "category": "frontend",
+  "years": 3,
+  "title": "Frontend Engineer",
+  "skills": [
+   "React",
+   "TypeScript",
+   "Redux",
+   "Jest",
+   "CSS",
+   "HTML"
+  ],
+  "summary": "Frontend Engineer with 3 years of experience in React, TypeScript, Redux. I care about accessible, fast interfaces.",
+  "experience": [
+   {
+    "title": "Frontend Engineer",
+    "company": "Lotus Infoways",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Rebuilt the checkout UI in React and TypeScript, raising conversion by 6%.",
+     "Created 40+ reusable components with documentation and visual tests.",
+     "Cut bundle size by 35% with code splitting and lazy loading.",
+     "Fixed keyboard navigation and contrast issues found in an accessibility audit."
+    ]
+   }
+  ],
+  "skills_text": "React, TypeScript, Redux, Jest, CSS, HTML",
+  "education": [
+   "MCA, College of Engineering Guindy, Chennai, 2018 - 2022"
+  ],
+  "file": "aditya_joshi.pdf",
+  "demo": true
+ },
+ {
+  "name": "Nandini Krishnan",
+  "email": "nandini@example.com",
+  "phone": "+91 9183 197117",
+  "location": "Hyderabad",
+  "category": "frontend",
+  "years": 6,
+  "title": "Senior Frontend Engineer",
+  "skills": [
+   "React",
+   "Next.js",
+   "TypeScript",
+   "Tailwind CSS",
+   "Storybook",
+   "Web Accessibility",
+   "Web Performance"
+  ],
+  "summary": "Senior Frontend Engineer with 6 years of experience in React, Next.js, TypeScript. I care about accessible, fast interfaces.",
+  "experience": [
+   {
+    "title": "Senior Frontend Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Aug 2023 - Present",
+    "bullets": [
+     "Rebuilt the checkout UI in React and Next.js, raising conversion by 6%.",
+     "Worked with designers in Figma to turn rough flows into production screens.",
+     "Fixed keyboard navigation and contrast issues found in an accessibility audit."
+    ]
+   },
+   {
+    "title": "Frontend Engineer",
+    "company": "Mango Grove Labs",
+    "dates": "Nov 2020 - Jul 2023",
+    "bullets": [
+     "Added Tailwind CSS tests for the most used screens and wired them into CI.",
+     "Created 40+ reusable components with documentation and visual tests."
+    ]
+   }
+  ],
+  "skills_text": "React, Next.js, TypeScript, Tailwind CSS, Storybook, Web Accessibility, Web Performance",
+  "education": [
+   "MCA, College of Engineering Guindy, Chennai, 2015 - 2019"
+  ],
+  "file": "nandini_krishnan.pdf",
+  "demo": false
+ },
+ {
+  "name": "Farhan Ali",
+  "email": "farhan@example.com",
+  "phone": "+91 9248 578017",
+  "location": "Pune",
+  "category": "frontend",
+  "years": 2,
+  "title": "UI Developer",
+  "skills": [
+   "Angular",
+   "TypeScript",
+   "Sass",
+   "D3.js",
+   "Jest",
+   "HTML"
+  ],
+  "summary": "UI Developer working with Angular, TypeScript, Sass. I care about accessible, fast interfaces.",
+  "experience": [
+   {
+    "title": "UI Developer",
+    "company": "Copperleaf IT",
+    "dates": "Nov 2024 - Present",
+    "bullets": [
+     "Rebuilt the checkout UI in Angular and TypeScript, raising conversion by 6%.",
+     "Worked with designers in Figma to turn rough flows into production screens.",
+     "Fixed keyboard navigation and contrast issues found in an accessibility audit.",
+     "Created 40+ reusable components with documentation and visual tests."
+    ]
+   }
+  ],
+  "skills_text": "Angular, TypeScript, Sass, D3.js, Jest, HTML",
+  "education": [
+   "B.E. in Information Science, RV College of Engineering, Bengaluru, 2019 - 2023"
+  ],
+  "file": "farhan_ali.pdf",
+  "demo": false
+ },
+ {
+  "name": "Pooja Reddy",
+  "email": "pooja@example.com",
+  "phone": "+91 9545 461013",
+  "location": "Pune",
+  "category": "fullstack",
+  "years": 3,
+  "title": "Full Stack Engineer",
+  "skills": [
+   "TypeScript",
+   "React",
+   "Node.js",
+   "PostgreSQL",
+   "Prisma",
+   "Docker"
+  ],
+  "summary": "Full Stack Engineer with 3 years of experience in TypeScript, React, Node.js. I enjoy owning features from the database to the UI.",
+  "experience": [
+   {
+    "title": "Full Stack Engineer",
+    "company": "Northwind Digital",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Mentored two interns through their first production features.",
+     "Shipped a self-serve onboarding flow: React UI, Node.js API and PostgreSQL schema.",
+     "Owned deployments and alerts for three services and their web clients.",
+     "Replaced a cron-based sync with webhooks, removing a 15-minute data lag."
+    ]
+   }
+  ],
+  "skills_text": "TypeScript, React, Node.js, PostgreSQL, Prisma, Docker",
+  "education": [
+   "B.E. in Information Science, RV College of Engineering, Bengaluru, 2018 - 2022"
+  ],
+  "file": "pooja_reddy.pdf",
+  "demo": true
+ },
+ {
+  "name": "Karthik Subramanian",
+  "email": "karthik@example.com",
+  "phone": "+91 9926 561919",
+  "location": "Chennai",
+  "category": "fullstack",
+  "years": 7,
+  "title": "Senior Full Stack Engineer",
+  "skills": [
+   "React",
+   "TypeScript",
+   "Python",
+   "Django",
+   "PostgreSQL",
+   "AWS"
+  ],
+  "summary": "Senior Full Stack Engineer with 7 years of experience in React, TypeScript, Python. I enjoy owning features from the database to the UI.",
+  "experience": [
+   {
+    "title": "Senior Full Stack Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Feb 2023 - Present",
+    "bullets": [
+     "Mentored two interns through their first production features.",
+     "Shipped a self-serve onboarding flow: TypeScript UI, Python API and Django schema.",
+     "Built an admin console used daily by 30 support staff."
+    ]
+   },
+   {
+    "title": "Full Stack Engineer",
+    "company": "Silverline Apps",
+    "dates": "Nov 2019 - Jan 2023",
+    "bullets": [
+     "Wrote end-to-end tests for signup, billing and invoicing.",
+     "Owned deployments and alerts for three services and their web clients."
+    ]
+   }
+  ],
+  "skills_text": "React, TypeScript, Python, Django, PostgreSQL, AWS",
+  "education": [
+   "B.Sc Computer Science, Loyola College, Chennai, 2014 - 2018"
+  ],
+  "file": "karthik_subramanian.pdf",
+  "demo": false
+ },
+ {
+  "name": "Simran Kaur",
+  "email": "simran@example.com",
+  "phone": "+91 9909 037759",
+  "location": "Bengaluru",
+  "category": "fullstack",
+  "years": 1.5,
+  "title": "Full Stack Developer",
+  "skills": [
+   "MongoDB",
+   "Express",
+   "React",
+   "Node.js",
+   "JavaScript"
+  ],
+  "summary": "Full Stack Developer working with MongoDB, Express, React. I enjoy owning features from the database to the UI.",
+  "experience": [
+   {
+    "title": "Full Stack Developer",
+    "company": "Copperleaf IT",
+    "dates": "May 2025 - Present",
+    "bullets": [
+     "Owned deployments and alerts for three services and their web clients.",
+     "Wrote end-to-end tests for signup, billing and invoicing.",
+     "Built an admin console used daily by 30 support staff.",
+     "Replaced a cron-based sync with webhooks, removing a 15-minute data lag."
+    ]
+   }
+  ],
+  "skills_text": "MongoDB, Express, React, Node.js, JavaScript",
+  "education": [
+   "B.Tech in Electronics and Communication, JNTU Hyderabad, 2020 - 2024"
+  ],
+  "file": "simran_kaur.pdf",
+  "demo": false
+ },
+ {
+  "name": "Vikram Iyer",
+  "email": "vikram@example.com",
+  "phone": "+91 9621 454127",
+  "location": "Pune",
+  "category": "data_ml",
+  "years": 3,
+  "title": "Data Scientist",
+  "skills": [
+   "Python",
+   "Pandas",
+   "scikit-learn",
+   "SQL",
+   "Statistics",
+   "Tableau"
+  ],
+  "summary": "Data Scientist with 3 years of experience in Python, Pandas, scikit-learn. I focus on models that are measurable and useful to the business.",
+  "experience": [
+   {
+    "title": "Data Scientist",
+    "company": "Indigo Bay Systems",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Set up experiment tracking and offline evaluation so results were reproducible.",
+     "Built a Pandas model that improved forecast accuracy by 11% over the previous baseline.",
+     "Deployed a model as an internal API and monitored drift every week.",
+     "Prepared training data from 200M rows of transactions using scikit-learn."
+    ]
+   }
+  ],
+  "skills_text": "Python, Pandas, scikit-learn, SQL, Statistics, Tableau",
+  "education": [
+   "B.Sc Computer Science, Loyola College, Chennai, 2018 - 2022"
+  ],
+  "file": "vikram_iyer.pdf",
+  "demo": true
+ },
+ {
+  "name": "Ayesha Khan",
+  "email": "ayesha@example.com",
+  "phone": "+91 9768 143326",
+  "location": "Hyderabad",
+  "category": "data_ml",
+  "years": 5,
+  "title": "Machine Learning Engineer",
+  "skills": [
+   "Python",
+   "PyTorch",
+   "Apache Spark",
+   "MLflow",
+   "Kubernetes",
+   "Recommender Systems"
+  ],
+  "summary": "Machine Learning Engineer with 5 years of experience in Python, PyTorch, Apache Spark. I focus on models that are measurable and useful to the business.",
+  "experience": [
+   {
+    "title": "Machine Learning Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Feb 2024 - Present",
+    "bullets": [
+     "Cleaned and joined messy data from five source systems.",
+     "Prepared training data from 200M rows of transactions using Apache Spark.",
+     "Deployed a model as an internal API and monitored drift every week."
+    ]
+   },
+   {
+    "title": "Machine Learning Engineer",
+    "company": "Silverline Apps",
+    "dates": "Nov 2021 - Jan 2024",
+    "bullets": [
+     "Set up experiment tracking and offline evaluation so results were reproducible.",
+     "Presented findings to business stakeholders with clear charts and caveats."
+    ]
+   }
+  ],
+  "skills_text": "Python, PyTorch, Apache Spark, MLflow, Kubernetes, Recommender Systems",
+  "education": [
+   "B.Tech in Information Technology, VIT Vellore, 2016 - 2020"
+  ],
+  "file": "ayesha_khan.pdf",
+  "demo": false
+ },
+ {
+  "name": "Siddharth Menon",
+  "email": "siddharth@example.com",
+  "phone": "+91 9245 706210",
+  "location": "Pune",
+  "category": "data_ml",
+  "years": 3,
+  "title": "Data Engineer",
+  "skills": [
+   "Python",
+   "Apache Spark",
+   "Apache Airflow",
+   "dbt",
+   "SQL",
+   "AWS"
+  ],
+  "summary": "Data Engineer working with Python, Apache Spark, Apache Airflow. I focus on models that are measurable and useful to the business.",
+  "experience": [
+   {
+    "title": "Data Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Prepared training data from 200M rows of transactions using Apache Airflow.",
+     "Cleaned and joined messy data from five source systems.",
+     "Set up experiment tracking and offline evaluation so results were reproducible.",
+     "Presented findings to business stakeholders with clear charts and caveats."
+    ]
+   }
+  ],
+  "skills_text": "Python, Apache Spark, Apache Airflow, dbt, SQL, AWS",
+  "education": [
+   "B.Sc Computer Science, Loyola College, Chennai, 2018 - 2022"
+  ],
+  "file": "siddharth_menon.pdf",
+  "demo": false
+ },
+ {
+  "name": "Lakshmi Narayanan",
+  "email": "lakshmi@example.com",
+  "phone": "+91 9588 229686",
+  "location": "Chennai",
+  "category": "data_ml",
+  "years": 2,
+  "title": "NLP Engineer",
+  "skills": [
+   "Python",
+   "NLP",
+   "Hugging Face",
+   "PyTorch",
+   "FastAPI"
+  ],
+  "summary": "NLP Engineer with 2 years of experience in Python, NLP, Hugging Face. I focus on models that are measurable and useful to the business.",
+  "experience": [
+   {
+    "title": "NLP Engineer",
+    "company": "Copperleaf IT",
+    "dates": "Nov 2024 - Present",
+    "bullets": [
+     "Cleaned and joined messy data from five source systems.",
+     "Set up experiment tracking and offline evaluation so results were reproducible.",
+     "Deployed a model as an internal API and monitored drift every week.",
+     "Built a NLP model that improved forecast accuracy by 11% over the previous baseline."
+    ]
+   }
+  ],
+  "skills_text": "Python, NLP, Hugging Face, PyTorch, FastAPI",
+  "education": [
+   "B.E. in Computer Engineering, Pune Institute of Computer Technology, 2019 - 2023"
+  ],
+  "file": "lakshmi_narayanan.pdf",
+  "demo": false
+ },
+ {
+  "name": "Manish Gupta",
+  "email": "manish@example.com",
+  "phone": "+91 9120 812641",
+  "location": "Bengaluru",
+  "category": "devops",
+  "years": 4,
+  "title": "DevOps Engineer",
+  "skills": [
+   "Kubernetes",
+   "Docker",
+   "Terraform",
+   "AWS",
+   "GitHub Actions",
+   "Prometheus"
+  ],
+  "summary": "DevOps Engineer with 4 years of experience in Kubernetes, Docker, Terraform. I automate repetitive operations work and keep production calm.",
+  "experience": [
+   {
+    "title": "DevOps Engineer",
+    "company": "Lotus Infoways",
+    "dates": "Aug 2024 - Present",
+    "bullets": [
+     "Managed Kubernetes clusters running 300 services across three environments.",
+     "Ran incident response for P1 outages and led blameless reviews.",
+     "Wrote Terraform modules for networking, databases and IAM; reviewed all infra changes."
+    ]
+   },
+   {
+    "title": "DevOps Engineer",
+    "company": "Indigo Bay Systems",
+    "dates": "Nov 2022 - Jul 2024",
+    "bullets": [
+     "Set up Prometheus dashboards and paging alerts tied to SLOs.",
+     "Reduced monthly cloud spend by 18% with right-sizing and spot instances."
+    ]
+   }
+  ],
+  "skills_text": "Kubernetes, Docker, Terraform, AWS, GitHub Actions, Prometheus",
+  "education": [
+   "MCA, College of Engineering Guindy, Chennai, 2017 - 2021"
+  ],
+  "file": "manish_gupta.pdf",
+  "demo": false
+ },
+ {
+  "name": "Revathi Srinivasan",
+  "email": "revathi@example.com",
+  "phone": "+91 9909 851739",
+  "location": "Chennai",
+  "category": "devops",
+  "years": 1,
+  "title": "Junior DevOps Engineer",
+  "skills": [
+   "Linux",
+   "Docker",
+   "Jenkins",
+   "Bash",
+   "AWS",
+   "Git"
+  ],
+  "summary": "Junior DevOps Engineer working with Linux, Docker, Jenkins. I automate repetitive operations work and keep production calm.",
+  "experience": [
+   {
+    "title": "Junior DevOps Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Nov 2025 - Present",
+    "bullets": [
+     "Cut deploy time from 25 to 6 minutes by reworking the AWS pipelines.",
+     "Set up Git dashboards and paging alerts tied to SLOs.",
+     "Wrote Jenkins modules for networking, databases and IAM; reviewed all infra changes.",
+     "Managed Linux clusters running 300 services across three environments."
+    ]
+   }
+  ],
+  "skills_text": "Linux, Docker, Jenkins, Bash, AWS, Git",
+  "education": [
+   "B.Tech in Computer Science, NIT Warangal, 2020 - 2024"
+  ],
+  "file": "revathi_srinivasan.pdf",
+  "demo": false
+ },
+ {
+  "name": "Aman Tiwari",
+  "email": "aman@example.com",
+  "phone": "+91 9608 482316",
+  "location": "Hyderabad",
+  "category": "mobile",
+  "years": 3,
+  "title": "Android Developer",
+  "skills": [
+   "Kotlin",
+   "Android",
+   "Jetpack Compose",
+   "Kotlin Coroutines",
+   "Retrofit",
+   "MVVM"
+  ],
+  "summary": "Android Developer with 3 years of experience in Kotlin, Android, Jetpack Compose. I build apps that stay fast on budget phones.",
+  "experience": [
+   {
+    "title": "Android Developer",
+    "company": "Northwind Digital",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Implemented offline caching and background sync for unreliable networks.",
+     "Brought crash-free sessions from 97.1% to 99.6%.",
+     "Wrote unit and UI tests for login, payments and profile flows.",
+     "Released fortnightly builds to the store with staged rollouts."
+    ]
+   }
+  ],
+  "skills_text": "Kotlin, Android, Jetpack Compose, Kotlin Coroutines, Retrofit, MVVM",
+  "education": [
+   "B.Tech in Information Technology, VIT Vellore, 2018 - 2022"
+  ],
+  "file": "aman_tiwari.pdf",
+  "demo": true
+ },
+ {
+  "name": "Divya Pillai",
+  "email": "divya@example.com",
+  "phone": "+91 9750 572325",
+  "location": "Bengaluru",
+  "category": "mobile",
+  "years": 2.5,
+  "title": "iOS Developer",
+  "skills": [
+   "Swift",
+   "iOS",
+   "SwiftUI",
+   "UIKit",
+   "Xcode"
+  ],
+  "summary": "iOS Developer working with Swift, iOS, SwiftUI. I build apps that stay fast on budget phones.",
+  "experience": [
+   {
+    "title": "iOS Developer",
+    "company": "Copperleaf IT",
+    "dates": "May 2024 - Present",
+    "bullets": [
+     "Released fortnightly builds to the store with staged rollouts.",
+     "Brought crash-free sessions from 97.1% to 99.6%.",
+     "Implemented offline caching and background sync for unreliable networks.",
+     "Reduced cold start time by 40% on low-end devices."
+    ]
+   }
+  ],
+  "skills_text": "Swift, iOS, SwiftUI, UIKit, Xcode",
+  "education": [
+   "B.Tech in Information Technology, VIT Vellore, 2019 - 2023"
+  ],
+  "file": "divya_pillai.pdf",
+  "demo": false
+ },
+ {
+  "name": "Harish Kumar",
+  "email": "harish@example.com",
+  "phone": "+91 9718 257024",
+  "location": "Chennai",
+  "category": "qa",
+  "years": 3,
+  "title": "QA Automation Engineer",
+  "skills": [
+   "Selenium",
+   "Java",
+   "TestNG",
+   "API Testing",
+   "Jenkins",
+   "Postman"
+  ],
+  "summary": "QA Automation Engineer with 3 years of experience in Selenium, Java, TestNG. I make releases predictable with good test coverage.",
+  "experience": [
+   {
+    "title": "QA Automation Engineer",
+    "company": "Brightline Software",
+    "dates": "Nov 2023 - Present",
+    "bullets": [
+     "Wrote test plans and acceptance criteria with product managers.",
+     "Ran smoke tests on every release candidate before rollout.",
+     "Logged and triaged defects with clear steps, logs and screenshots.",
+     "Built an API test suite covering 120 endpoints, run on every pull request."
+    ]
+   }
+  ],
+  "skills_text": "Selenium, Java, TestNG, API Testing, Jenkins, Postman",
+  "education": [
+   "B.Tech in Electronics and Communication, JNTU Hyderabad, 2018 - 2022"
+  ],
+  "file": "harish_kumar.pdf",
+  "demo": false
+ },
+ {
+  "name": "Tanvi Deshpande",
+  "email": "tanvi@example.com",
+  "phone": "+91 9209 415691",
+  "location": "Pune",
+  "category": "qa",
+  "years": 2,
+  "title": "QA Engineer",
+  "skills": [
+   "Manual Testing",
+   "Selenium",
+   "Jira",
+   "SQL",
+   "Test Planning"
+  ],
+  "summary": "QA Engineer working with Manual Testing, Selenium, Jira. I make releases predictable with good test coverage.",
+  "experience": [
+   {
+    "title": "QA Engineer",
+    "company": "Corvid Technologies",
+    "dates": "Nov 2024 - Present",
+    "bullets": [
+     "Built an API test suite covering 120 endpoints, run on every pull request.",
+     "Automated 450 regression cases with Manual Testing, cutting a 3-day manual cycle to 2 hours.",
+     "Wrote test plans and acceptance criteria with product managers.",
+     "Reduced flaky tests from 9% to under 1% of runs."
+    ]
+   }
+  ],
+  "skills_text": "Manual Testing, Selenium, Jira, SQL, Test Planning",
+  "education": [
+   "B.E. in Computer Engineering, Pune Institute of Computer Technology, 2019 - 2023"
+  ],
+  "file": "tanvi_deshpande.pdf",
+  "demo": false
+ }
+]

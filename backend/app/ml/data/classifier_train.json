@@ -1,0 +1,1122 @@
+[
+ {
+  "text": "Frontend Engineer with 3 years of experience. Implemented pixel-perfect responsive layouts from figma; migrated a large codebase to TypeScript. Skills: JavaScript, Jira, Responsive Design, JavaScript, HTML, CSS, Web Accessibility, Figma, Vue.js, Next.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "DevOps Engineer with 4 years of experience. Handled on-call and incident response; built CI/CD pipelines. Skills: Ansible, Kubernetes, Python, Helm, Postman, Jira, Nginx, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "Software Engineer - Backend with 2 years of experience. Built event-driven microservices; optimised slow SQL queries and added indexes; wrote background workers and job queues. Skills: Hibernate, System Design, PostgreSQL, Bash, Code Review, MongoDB, REST APIs, Microservices, Scrum, MySQL, RabbitMQ.",
+  "label": "backend"
+ },
+ {
+  "text": "Data Engineer with 1 years of experience. Improved model accuracy with feature engineering; fine-tuned transformer models. Skills: Machine Learning, Scrum, Power BI, Storybook, PyTorch, Statistics, Airflow, Pandas, dbt, MLflow, Docker.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Software Engineer - Web UI with 8 years of experience. Improved core web vitals; built accessible forms and tables; managed client state with Redux. Skills: Angular, Linux, Tailwind CSS, MongoDB, Vite, Material UI.",
+  "label": "frontend"
+ },
+ {
+  "text": "Mobile App Developer with 3 years of experience. Published apps on the play store and app store; optimised app startup time. Skills: SwiftUI, Kotlin Coroutines, Core Data, Next.js, Android, Scrum, SQL, Agile, Kotlin.",
+  "label": "mobile"
+ },
+ {
+  "text": "NLP Engineer with 4 years of experience. Improved model accuracy with feature engineering; built feature pipelines in Spark. Skills: Apache Spark, Docker, Statistics, MLflow, Vue.js, Scrum, Agile, Airflow, dbt, Power BI.",
+  "label": "data_ml"
+ },
+ {
+  "text": "API Developer with 1 years of experience. Implemented caching with redis; designed database schemas and migrations; built event-driven microservices. Skills: Datadog, Spring Boot, Hibernate, Jira, REST APIs, GraphQL, Java, Go, Scrum.",
+  "label": "backend"
+ },
+ {
+  "text": "NLP Engineer with 2 years of experience. Built etl pipelines and data warehouses; built feature pipelines in Spark. Skills: PyTorch, Agile, Machine Learning, Flask, Apache Spark, Python, Airflow, BigQuery, Jira.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Site Reliability Engineer with 6 years of experience. Reduced cloud costs; handled on-call and incident response. Skills: Argo CD, TensorFlow, Jira, Datadog, Git, REST APIs, Google Cloud, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "Mobile App Developer with 3 years of experience. Reduced app crash rate; implemented push notifications. Skills: SQL, Android, Gradle, JavaScript, UIKit, Linux, Xcode.",
+  "label": "mobile"
+ },
+ {
+  "text": "iOS Developer with 3 years of experience. Implemented push notifications; shipped a cross-platform Flutter app. Skills: Android, MVVM, Flask, Firebase, Git, React Native, SwiftUI, Kotlin, Agile, Flutter.",
+  "label": "mobile"
+ },
+ {
+  "text": "AI Engineer with 3 years of experience. Built feature pipelines in spark; ran A/B tests and statistical analysis. Skills: Computer Vision, Material UI, Airflow, PyTorch, scikit-learn, Git, MLflow.",
+  "label": "data_ml"
+ },
+ {
+  "text": "QA Engineer with 8 years of experience. Reported and tracked defects in jira; set up tests in the CI pipeline; performed load testing with JMeter. Skills: Performance Testing, Cypress, JUnit, Jira, Manual Testing, Git, SQL, Selenium, Dart, Test Automation, Docker.",
+  "label": "qa"
+ },
+ {
+  "text": "Quality Analyst with 2 years of experience. Automated mobile tests with appium; reported and tracked defects in Jira; wrote automated regression suites. Skills: Cucumber, REST APIs, API Testing, MVVM, Selenium, TestNG, Cypress, Jira, Postman.",
+  "label": "qa"
+ },
+ {
+  "text": "Python Developer with 6 years of experience. Designed and scaled rest and grpc services; built event-driven microservices; reduced API p95 latency. Skills: gRPC, Jira, Django, FastAPI, Microservices, Hibernate, GraphQL, Agile, Go, RabbitMQ, PostgreSQL.",
+  "label": "backend"
+ },
+ {
+  "text": "iOS Developer with 3 years of experience. Optimised app startup time; built offline-first mobile apps; implemented push notifications. Skills: Flutter, Gradle, SwiftUI, React Native, Jira, Power BI.",
+  "label": "mobile"
+ },
+ {
+  "text": "Product Engineer with 1 years of experience. Built mern stack applications; developed dashboards and the APIs behind them. Skills: Redux, MongoDB, Node.js, Code Review, TypeScript, Appium, Express, Tailwind CSS.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Software Engineer (Full Stack) with 2 years of experience. Built both the react client and the node.js api; built MERN stack applications; shipped end-to-end features across frontend and backend. Skills: SQL, TypeScript, MongoDB, Agile, Next.js, Tailwind CSS, Prisma, GraphQL, FastAPI, Node.js, Swift.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Software Engineer - Backend with 8 years of experience. Designed database schemas and migrations; designed and scaled REST and gRPC services. Skills: Scrum, Microservices, Postman, Hibernate, Java, MySQL, System Design.",
+  "label": "backend"
+ },
+ {
+  "text": "MERN Stack Developer with 1 years of experience. Deployed full stack apps on aws and vercel; built MERN stack applications; developed dashboards and the APIs behind them. Skills: REST APIs, Tailwind CSS, PostgreSQL, CI/CD, Django, GraphQL, Docker.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Software Test Engineer with 4 years of experience. Built api test frameworks; maintained test plans and test cases. Skills: Test Automation, Selenium, SQL, Cucumber, Postman, Python, JMeter, Jetpack Compose.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Automation Engineer with 5 years of experience. Set up tests in the ci pipeline; automated mobile tests with Appium; wrote automated regression suites. Skills: Regression Testing, TestNG, Java, JMeter, Code Review, MySQL, API Testing, Python, Jira, JUnit, Git.",
+  "label": "qa"
+ },
+ {
+  "text": "Full Stack Developer with 6 years of experience. Deployed full stack apps on aws and vercel; owned features from database schema to UI; built MERN stack applications. Skills: Redux, Node.js, Agile, Tailwind CSS, Computer Vision, TypeScript, MongoDB, REST APIs, AWS.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Backend Engineer with 2 years of experience. Owned payment and ledger apis; wrote background workers and job queues. Skills: MySQL, RabbitMQ, PostgreSQL, Flask, GraphQL, Jira, PyTorch, Node.js, System Design, gRPC.",
+  "label": "backend"
+ },
+ {
+  "text": "Java Developer with 6 years of experience. Built event-driven microservices; designed database schemas and migrations. Skills: Go, Kotlin Coroutines, Redis, Git, Hibernate, FastAPI, Linux, Spring Boot, System Design, MySQL, Microservices.",
+  "label": "backend"
+ },
+ {
+  "text": "Machine Learning Engineer with 1 years of experience. Fine-tuned transformer models; built feature pipelines in Spark; trained and deployed classification models. Skills: Tableau, Deep Learning, Jira, NLP, Pandas, Hugging Face, Figma, Machine Learning, Statistics, Computer Vision.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Software Engineer (Full Stack) with 2 years of experience. Owned features from database schema to ui; built MERN stack applications; shipped end-to-end features across frontend and backend. Skills: Next.js, JavaScript, Prisma, Node.js, AWS, SQL, Redux, Linux, React, Vue.js, Docker.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Frontend Engineer with 3 years of experience. Migrated a large codebase to typescript; built a component library and design system. Skills: Figma, Flutter, Responsive Design, Scrum, Storybook, Vue.js, Vite.",
+  "label": "frontend"
+ },
+ {
+  "text": "Full-Stack Engineer with 8 years of experience. Owned features from database schema to ui; built both the React client and the Node.js API. Skills: React, Prisma, Redux, GraphQL, REST APIs, Terraform, TypeScript, Tailwind CSS, JavaScript, Node.js.",
+  "label": "fullstack"
+ },
+ {
+  "text": "ML Engineer with 3 years of experience. Ran a/b tests and statistical analysis; built feature pipelines in Spark. Skills: NLP, Agile, Linux, Docker, Apache Spark, Ansible, Tableau, scikit-learn.",
+  "label": "data_ml"
+ },
+ {
+  "text": "React Native Developer with 6 years of experience. Built screens in jetpack compose; implemented push notifications; published apps on the Play Store and App Store. Skills: Dart, Git, TypeScript, Gradle, React Native, Xcode, Code Review.",
+  "label": "mobile"
+ },
+ {
+  "text": "Java Developer with 6 years of experience. Built event-driven microservices; reduced API p95 latency; designed and scaled REST and gRPC services. Skills: RabbitMQ, Hibernate, Docker, Microservices, PostgreSQL, Redux, Go, Python, Node.js, Django.",
+  "label": "backend"
+ },
+ {
+  "text": "UI Developer with 3 years of experience. Implemented pixel-perfect responsive layouts from figma; worked closely with designers on UI. Skills: Linux, Vite, Angular, Terraform, Jest, Next.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "Angular Developer with 3 years of experience. Improved core web vitals; built a component library and design system; migrated a large codebase to TypeScript. Skills: Node.js, Git, Docker, Agile, Storybook, Angular, Jest, Redux, Responsive Design, Next.js, Sass, TypeScript.",
+  "label": "frontend"
+ },
+ {
+  "text": "Data Analyst with 4 years of experience. Built etl pipelines and data warehouses; built a RAG prototype with LLMs; built feature pipelines in Spark. Skills: Statistics, Airflow, Node.js, Code Review, BigQuery, PyTorch.",
+  "label": "data_ml"
+ },
+ {
+  "text": "NLP Engineer with 2 years of experience. Improved model accuracy with feature engineering; built feature pipelines in Spark. Skills: BigQuery, SQL, NumPy, dbt, LLMs, Agile, TensorFlow, Airflow, MLflow, Retrofit, Git, NLP.",
+  "label": "data_ml"
+ },
+ {
+  "text": "ML Engineer with 3 years of experience. Created dashboards for business teams; built a RAG prototype with LLMs; built feature pipelines in Spark. Skills: Deep Learning, PyTorch, Machine Learning, Kotlin, scikit-learn, NumPy, SQL, Power BI, Tableau, Pandas.",
+  "label": "data_ml"
+ },
+ {
+  "text": "DevOps Engineer with 3 years of experience. Wrote terraform modules for aws; handled on-call and incident response; automated server configuration with Ansible. Skills: Jira, Bash, Grafana, Google Cloud, Python, Prometheus, Git, Argo CD, Nginx, GitHub Actions, SQL, AWS.",
+  "label": "devops"
+ },
+ {
+  "text": "UI Developer with 2 years of experience. Worked closely with designers on ui; built a component library and design system; built accessible forms and tables. Skills: Vue.js, React, TypeScript, Material UI, Jira, Jest, Kafka, JavaScript, Angular.",
+  "label": "frontend"
+ },
+ {
+  "text": "Full-Stack Engineer with 3 years of experience. Built both the react client and the node.js api; deployed full stack apps on AWS and Vercel; shipped end-to-end features across frontend and backend. Skills: TypeScript, Django, Prisma, Test Automation, JavaScript, Node.js, Scrum, FastAPI.",
+  "label": "fullstack"
+ },
+ {
+  "text": "SDET with 5 years of experience. Built api test frameworks; reported and tracked defects in Jira. Skills: JUnit, Jira, Postman, Appium, Regression Testing, Java, Git, Core Data, Linux.",
+  "label": "qa"
+ },
+ {
+  "text": "SDET with 4 years of experience. Maintained test plans and test cases; performed load testing with JMeter; set up tests in the CI pipeline. Skills: Cucumber, Node.js, TestNG, Jira, Agile, Cypress, Git, API Testing.",
+  "label": "qa"
+ },
+ {
+  "text": "ML Engineer with 6 years of experience. Ran a/b tests and statistical analysis; improved model accuracy with feature engineering. Skills: Deep Learning, BigQuery, Docker, Agile, LLMs, Power BI, Code Review, dbt, Python, MLflow, Terraform.",
+  "label": "data_ml"
+ },
+ {
+  "text": "API Developer with 8 years of experience. Built event-driven microservices; reduced API p95 latency. Skills: SQL, Microservices, MongoDB, Go, Kafka, Flask, Django, Node.js, Agile, React, PostgreSQL.",
+  "label": "backend"
+ },
+ {
+  "text": "Platform Engineer with 1 years of experience. Wrote terraform modules for aws; improved deployment reliability. Skills: Jira, Code Review, Azure, Responsive Design, CI/CD, GitHub Actions, Prometheus, Docker, Argo CD, Kubernetes, Ansible, Nginx.",
+  "label": "devops"
+ },
+ {
+  "text": "UI Developer with 5 years of experience. Built accessible forms and tables; improved Core Web Vitals. Skills: React, Tailwind CSS, iOS, Git, Redux, Web Accessibility, Storybook, Vue.js, Sass.",
+  "label": "frontend"
+ },
+ {
+  "text": "Software Engineer - Backend with 4 years of experience. Wrote background workers and job queues; optimised slow SQL queries and added indexes. Skills: MySQL, Docker, Flask, MLflow, Microservices, System Design, SQL, RabbitMQ, Code Review, PostgreSQL, MongoDB, Go.",
+  "label": "backend"
+ },
+ {
+  "text": "UI Developer with 8 years of experience. Worked closely with designers on ui; built a component library and design system; improved Core Web Vitals. Skills: Angular, Git, Responsive Design, GraphQL, Jest, Figma, Jira, Material UI, React, Linux, Redux.",
+  "label": "frontend"
+ },
+ {
+  "text": "QA Engineer with 2 years of experience. Built api test frameworks; set up tests in the CI pipeline; reported and tracked defects in Jira. Skills: Jira, Performance Testing, Agile, JMeter, Scrum, Airflow, SQL, Cypress, Appium, Cucumber, Postman.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Engineer with 1 years of experience. Reported and tracked defects in jira; automated mobile tests with Appium; set up tests in the CI pipeline. Skills: Selenium, Jira, Docker, JUnit, TestNG, Performance Testing, Playwright, Python, Java, Storybook.",
+  "label": "qa"
+ },
+ {
+  "text": "AI Engineer with 4 years of experience. Built a rag prototype with llms; built feature pipelines in Spark; built ETL pipelines and data warehouses. Skills: Docker, Python, Airflow, Pandas, JavaScript, MLflow, Tableau, Machine Learning, Computer Vision.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Quality Analyst with 5 years of experience. Performed load testing with jmeter; wrote automated regression suites; automated mobile tests with Appium. Skills: Playwright, Jira, Postman, JUnit, JMeter, Selenium, Test Automation, Airflow, Cucumber.",
+  "label": "qa"
+ },
+ {
+  "text": "API Developer with 1 years of experience. Wrote background workers and job queues; owned payment and ledger APIs. Skills: Scrum, Celery, Go, Pandas, Jira, Docker, gRPC, GraphQL, Flask, Redis, Spring Boot.",
+  "label": "backend"
+ },
+ {
+  "text": "Cloud Engineer with 4 years of experience. Set up monitoring and alerting with prometheus; automated server configuration with Ansible. Skills: Datadog, Jenkins, Helm, Google Cloud, Argo CD, CI/CD, Jira, Agile, Gradle.",
+  "label": "devops"
+ },
+ {
+  "text": "Machine Learning Engineer with 2 years of experience. Ran a/b tests and statistical analysis; built feature pipelines in Spark; trained and deployed classification models. Skills: Bash, Docker, Pandas, BigQuery, Statistics, Deep Learning, Code Review, Hugging Face, dbt, Tableau, Agile.",
+  "label": "data_ml"
+ },
+ {
+  "text": "AI Engineer with 2 years of experience. Built a rag prototype with llms; built ETL pipelines and data warehouses. Skills: Deep Learning, Agile, JUnit, Hugging Face, Airflow, BigQuery, REST APIs, Pandas, Scrum.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Full Stack Developer with 4 years of experience. Developed dashboards and the apis behind them; deployed full stack apps on AWS and Vercel. Skills: FastAPI, Next.js, Jira, AWS, SQL, Scrum, Django, Django.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Automated server configuration with ansible; handled on-call and incident response; improved deployment reliability. Skills: Jenkins, Linux, Flutter, GitHub Actions, Grafana, Google Cloud, Datadog, AWS, Azure, Prometheus.",
+  "label": "devops"
+ },
+ {
+  "text": "Software Engineer - Web UI with 4 years of experience. Built a component library and design system; improved Core Web Vitals. Skills: HTML, Material UI, Angular, Redux, Jira, Jest, Git, REST APIs, Web Accessibility, Figma, Java.",
+  "label": "frontend"
+ },
+ {
+  "text": "Angular Developer with 1 years of experience. Built a component library and design system; managed client state with Redux. Skills: Webpack, Redux, Docker, Node.js, Vite, Figma, Sass, Next.js, Vue.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "NLP Engineer with 2 years of experience. Trained and deployed classification models; built ETL pipelines and data warehouses; improved model accuracy with feature engineering. Skills: MLflow, Playwright, Docker, Power BI, Apache Spark, Deep Learning, Linux.",
+  "label": "data_ml"
+ },
+ {
+  "text": "QA Engineer with 3 years of experience. Automated mobile tests with appium; reported and tracked defects in Jira; wrote automated regression suites. Skills: Performance Testing, TestNG, Jira, Jira, SQL, JUnit, Express, Python, Git.",
+  "label": "qa"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Managed kubernetes clusters in production; wrote Terraform modules for AWS. Skills: Datadog, Google Cloud, Agile, Bash, Python, AWS, Kubernetes, Scrum, Prometheus, Webpack, Helm.",
+  "label": "devops"
+ },
+ {
+  "text": "Platform Engineer with 1 years of experience. Built ci/cd pipelines; improved deployment reliability; handled on-call and incident response. Skills: Datadog, Tableau, Docker, SQL, Jenkins, CI/CD, Helm.",
+  "label": "devops"
+ },
+ {
+  "text": "Data Analyst with 2 years of experience. Created dashboards for business teams; ran A/B tests and statistical analysis. Skills: Spring Boot, Git, Hugging Face, NLP, Machine Learning, Apache Spark, LLMs, MLflow, Deep Learning, scikit-learn.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Mobile Engineer with 3 years of experience. Built offline-first mobile apps; published apps on the Play Store and App Store; built screens in Jetpack Compose. Skills: Firebase, Vue.js, iOS, Core Data, UIKit, Dart, Docker, REST APIs.",
+  "label": "mobile"
+ },
+ {
+  "text": "Software Engineer - Web UI with 4 years of experience. Worked closely with designers on ui; managed client state with Redux; built a component library and design system. Skills: Dart, CSS, Sass, Storybook, HTML, Vite, Material UI, Scrum, Linux, Figma, Tailwind CSS.",
+  "label": "frontend"
+ },
+ {
+  "text": "Test Automation Engineer with 3 years of experience. Performed load testing with jmeter; built API test frameworks. Skills: Cypress, Jira, MongoDB, Postman, Cucumber, Python, Docker, Code Review, Java.",
+  "label": "qa"
+ },
+ {
+  "text": "Mobile Engineer with 6 years of experience. Built offline-first mobile apps; shipped a cross-platform Flutter app; published apps on the Play Store and App Store. Skills: UIKit, Jetpack Compose, Agile, SwiftUI, Playwright, Android.",
+  "label": "mobile"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 4 years of experience. Designed database schemas and migrations; wrote background workers and job queues; reduced API p95 latency. Skills: SQL, FastAPI, Django, Scrum, Spring Boot, PostgreSQL, Python, Jira, gRPC, System Design, Azure.",
+  "label": "backend"
+ },
+ {
+  "text": "Golang Engineer with 1 years of experience. Designed database schemas and migrations; built event-driven microservices; implemented caching with Redis. Skills: REST APIs, Django, Flask, Spring Boot, System Design, dbt.",
+  "label": "backend"
+ },
+ {
+  "text": "Frontend Developer with 2 years of experience. Implemented pixel-perfect responsive layouts from figma; worked closely with designers on UI. Skills: CSS, SQL, HTML, Web Accessibility, MLflow, Linux, Vue.js, Agile.",
+  "label": "frontend"
+ },
+ {
+  "text": "API Developer with 8 years of experience. Designed and scaled rest and grpc services; designed database schemas and migrations. Skills: REST APIs, Java, System Design, MongoDB, TensorFlow, Git, Jira, Hibernate, GraphQL.",
+  "label": "backend"
+ },
+ {
+  "text": "Platform Engineer with 1 years of experience. Improved deployment reliability; wrote Terraform modules for AWS. Skills: Datadog, Python, Git, Scrum, Bash, Terraform, Nginx, Docker, GitHub Actions, Express.",
+  "label": "devops"
+ },
+ {
+  "text": "Python Developer with 6 years of experience. Implemented caching with redis; designed database schemas and migrations. Skills: RabbitMQ, Agile, FastAPI, Linux, AWS, PostgreSQL, SQL, MySQL.",
+  "label": "backend"
+ },
+ {
+  "text": "React Native Developer with 1 years of experience. Built offline-first mobile apps; optimised app startup time; implemented push notifications. Skills: Helm, Xcode, Flutter, Git, SwiftUI, Code Review, iOS.",
+  "label": "mobile"
+ },
+ {
+  "text": "Software Engineer (Full Stack) with 3 years of experience. Deployed full stack apps on aws and vercel; built both the React client and the Node.js API; owned features from database schema to UI. Skills: Docker, Django, Linux, AWS, TypeScript, Prisma, Git, JavaScript, dbt.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Software Engineer - Web UI with 2 years of experience. Built a component library and design system; implemented pixel-perfect responsive layouts from Figma. Skills: React, Redux, Angular, TypeScript, Node.js, Jest, Figma, Code Review, Git, Next.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "QA Engineer with 8 years of experience. Built api test frameworks; performed load testing with JMeter. Skills: JUnit, GraphQL, Performance Testing, Playwright, Linux, Appium, Cypress.",
+  "label": "qa"
+ },
+ {
+  "text": "Angular Developer with 6 years of experience. Migrated a large codebase to typescript; managed client state with Redux. Skills: Responsive Design, Figma, REST APIs, PyTorch, Web Accessibility, Next.js, JavaScript.",
+  "label": "frontend"
+ },
+ {
+  "text": "Python Developer with 6 years of experience. Wrote background workers and job queues; designed database schemas and migrations. Skills: Hibernate, Docker, Flask, REST APIs, Microservices, Angular, Scrum, Redis, gRPC.",
+  "label": "backend"
+ },
+ {
+  "text": "Product Engineer with 8 years of experience. Deployed full stack apps on aws and vercel; developed dashboards and the APIs behind them. Skills: Node.js, Redux, MongoDB, System Design, GraphQL, PostgreSQL, Jira.",
+  "label": "fullstack"
+ },
+ {
+  "text": "MERN Stack Developer with 3 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend. Skills: Express, AWS, Vue.js, Python, REST APIs, Tailwind CSS, Node.js, Linux, Next.js, Django.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Full-Stack Engineer with 3 years of experience. Shipped end-to-end features across frontend and backend; built MERN stack applications. Skills: TypeScript, Tailwind CSS, SQL, Scrum, MySQL, FastAPI, Redux, MongoDB.",
+  "label": "fullstack"
+ },
+ {
+  "text": "React Native Developer with 2 years of experience. Optimised app startup time; built screens in Jetpack Compose; reduced app crash rate. Skills: iOS, Flutter, Agile, Pandas, Xcode, SwiftUI.",
+  "label": "mobile"
+ },
+ {
+  "text": "Android Developer with 8 years of experience. Published apps on the play store and app store; shipped a cross-platform Flutter app; implemented push notifications. Skills: Swift, MVVM, Core Data, Android, Jetpack Compose, Gradle, Xcode, Kotlin Coroutines, Agile, Linux, Bash.",
+  "label": "mobile"
+ },
+ {
+  "text": "Product Engineer with 8 years of experience. Built mern stack applications; deployed full stack apps on AWS and Vercel; developed dashboards and the APIs behind them. Skills: Prisma, Jetpack Compose, Code Review, GraphQL, Redux, MongoDB.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Full-Stack Engineer with 6 years of experience. Shipped end-to-end features across frontend and backend; owned features from database schema to UI; built both the React client and the Node.js API. Skills: REST APIs, AWS, GraphQL, PostgreSQL, TypeScript, Jira, Vue.js, Next.js, FastAPI, AWS, Express, Git.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Data Analyst with 1 years of experience. Trained and deployed classification models; built feature pipelines in Spark; created dashboards for business teams. Skills: dbt, Code Review, Git, iOS, LLMs, Pandas, BigQuery, Deep Learning, scikit-learn, Machine Learning, Jira.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Wrote terraform modules for aws; built CI/CD pipelines. Skills: Grafana, CI/CD, Agile, REST APIs, Node.js, AWS, Linux, Scrum.",
+  "label": "devops"
+ },
+ {
+  "text": "Quality Analyst with 3 years of experience. Set up tests in the ci pipeline; performed load testing with JMeter; maintained test plans and test cases. Skills: Jira, Python, Java, Performance Testing, Regression Testing, Postman, Scrum, Tailwind CSS, Cypress.",
+  "label": "qa"
+ },
+ {
+  "text": "Platform Engineer with 8 years of experience. Improved deployment reliability; automated server configuration with Ansible. Skills: GitHub Actions, Helm, Scrum, Linux, Linux, Code Review, Jenkins, Azure, Apache Spark.",
+  "label": "devops"
+ },
+ {
+  "text": "Software Test Engineer with 2 years of experience. Built api test frameworks; performed load testing with JMeter. Skills: Postman, Selenium, Material UI, Agile, Code Review, Test Automation, Cypress, Playwright.",
+  "label": "qa"
+ },
+ {
+  "text": "API Developer with 1 years of experience. Optimised slow sql queries and added indexes; reduced API p95 latency. Skills: Jira, Python, Hibernate, Agile, Playwright, Django, gRPC, Go, Microservices.",
+  "label": "backend"
+ },
+ {
+  "text": "Product Engineer with 2 years of experience. Owned features from database schema to ui; built both the React client and the Node.js API; shipped end-to-end features across frontend and backend. Skills: React, Vue.js, Redux, Jira, Docker, Agile, Vue.js, TypeScript.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Test Automation Engineer with 4 years of experience. Automated mobile tests with appium; reported and tracked defects in Jira. Skills: API Testing, JUnit, Appium, Code Review, Performance Testing, Google Cloud, Java.",
+  "label": "qa"
+ },
+ {
+  "text": "Full Stack Developer with 6 years of experience. Shipped end-to-end features across frontend and backend; deployed full stack apps on AWS and Vercel; developed dashboards and the APIs behind them. Skills: Git, SQL, PostgreSQL, Code Review, Next.js, Linux, Vue.js, GraphQL, Django, FastAPI.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Flutter Developer with 6 years of experience. Published apps on the play store and app store; shipped a cross-platform Flutter app; built screens in Jetpack Compose. Skills: React Native, Argo CD, UIKit, iOS, Kotlin Coroutines, Agile.",
+  "label": "mobile"
+ },
+ {
+  "text": "Golang Engineer with 2 years of experience. Implemented caching with redis; reduced API p95 latency; wrote background workers and job queues. Skills: Scrum, TypeScript, Python, FastAPI, Docker, PostgreSQL, Redis, MongoDB, Spring Boot.",
+  "label": "backend"
+ },
+ {
+  "text": "iOS Developer with 4 years of experience. Published apps on the play store and app store; built offline-first mobile apps. Skills: SwiftUI, Xcode, Docker, Vue.js, Firebase, React Native, Kotlin Coroutines, Jetpack Compose.",
+  "label": "mobile"
+ },
+ {
+  "text": "Product Engineer with 8 years of experience. Built mern stack applications; owned features from database schema to UI. Skills: React, Tailwind CSS, FastAPI, AWS, Scrum, Go.",
+  "label": "fullstack"
+ },
+ {
+  "text": "API Developer with 5 years of experience. Implemented caching with redis; wrote background workers and job queues; designed database schemas and migrations. Skills: Django, System Design, Docker, REST APIs, FastAPI, GraphQL, Agile, gRPC, Python.",
+  "label": "backend"
+ },
+ {
+  "text": "Android Developer with 5 years of experience. Optimised app startup time; published apps on the Play Store and App Store; shipped a cross-platform Flutter app. Skills: Jetpack Compose, Agile, Android, Statistics, Swift, React Native, Gradle, Code Review, Dart, iOS, Kotlin.",
+  "label": "mobile"
+ },
+ {
+  "text": "Site Reliability Engineer with 3 years of experience. Improved deployment reliability; built CI/CD pipelines; automated server configuration with Ansible. Skills: Linux, Helm, Jenkins, Agile, CI/CD, Azure, Airflow, Bash, Git, Google Cloud, Grafana, Python.",
+  "label": "devops"
+ },
+ {
+  "text": "React Developer with 2 years of experience. Improved core web vitals; implemented pixel-perfect responsive layouts from Figma. Skills: JUnit, Vite, SQL, HTML, TypeScript, Code Review, Scrum, Vue.js, Figma, Responsive Design.",
+  "label": "frontend"
+ },
+ {
+  "text": "iOS Developer with 4 years of experience. Reduced app crash rate; published apps on the Play Store and App Store. Skills: Scrum, iOS, Swift, GitHub Actions, UIKit, Android, Linux.",
+  "label": "mobile"
+ },
+ {
+  "text": "Angular Developer with 3 years of experience. Built accessible forms and tables; implemented pixel-perfect responsive layouts from Figma. Skills: Agile, Vue.js, Code Review, Tailwind CSS, Figma, iOS, CSS.",
+  "label": "frontend"
+ },
+ {
+  "text": "Android Developer with 5 years of experience. Shipped a cross-platform flutter app; built screens in Jetpack Compose. Skills: REST APIs, Dart, Gradle, Jira, Scrum, Next.js, Jetpack Compose, React Native, UIKit, Kotlin.",
+  "label": "mobile"
+ },
+ {
+  "text": "React Developer with 8 years of experience. Managed client state with redux; implemented pixel-perfect responsive layouts from Figma. Skills: Jest, Vite, Code Review, CSS, REST APIs, Jira, Tailwind CSS, Angular, Storybook, Firebase, Webpack.",
+  "label": "frontend"
+ },
+ {
+  "text": "Full-Stack Engineer with 4 years of experience. Built mern stack applications; shipped end-to-end features across frontend and backend. Skills: Jira, React, FastAPI, Tailwind CSS, REST APIs, TypeScript, Prisma, AWS, Scrum.",
+  "label": "fullstack"
+ },
+ {
+  "text": "API Developer with 4 years of experience. Designed and scaled rest and grpc services; implemented caching with Redis; owned payment and ledger APIs. Skills: Postman, MongoDB, Spring Boot, Hibernate, Linux, Microservices, Flask, SQL, Git, Go, Redis.",
+  "label": "backend"
+ },
+ {
+  "text": "Frontend Engineer with 2 years of experience. Migrated a large codebase to typescript; worked closely with designers on UI. Skills: Hugging Face, Web Accessibility, Agile, Vue.js, CSS, Storybook, Material UI, TypeScript, Next.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "Platform Engineer with 6 years of experience. Reduced cloud costs; automated server configuration with Ansible. Skills: Helm, Nginx, Jira, Bash, AWS, Vue.js, Terraform, Ansible.",
+  "label": "devops"
+ },
+ {
+  "text": "Machine Learning Engineer with 2 years of experience. Trained and deployed classification models; built ETL pipelines and data warehouses. Skills: dbt, Hugging Face, Airflow, Sass, scikit-learn, REST APIs, PyTorch.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 2 years of experience. Built event-driven microservices; implemented caching with Redis; wrote background workers and job queues. Skills: Redis, Celery, Go, MVVM, Agile, SQL, Hibernate, System Design.",
+  "label": "backend"
+ },
+ {
+  "text": "QA Engineer with 3 years of experience. Set up tests in the ci pipeline; automated mobile tests with Appium; maintained test plans and test cases. Skills: REST APIs, JMeter, Linux, Code Review, Postman, Cucumber, Jira, Nginx, Test Automation, Performance Testing.",
+  "label": "qa"
+ },
+ {
+  "text": "Full-Stack Engineer with 4 years of experience. Built both the react client and the node.js api; built MERN stack applications. Skills: FastAPI, Manual Testing, Next.js, Linux, JavaScript, Vue.js, Redux, React, REST APIs, Django.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Frontend Developer with 5 years of experience. Built accessible forms and tables; built a component library and design system. Skills: Sass, Linux, Vite, Next.js, Jest, Webpack, Scrum, Storybook, Python, Angular, Material UI.",
+  "label": "frontend"
+ },
+ {
+  "text": "Test Automation Engineer with 3 years of experience. Reported and tracked defects in jira; performed load testing with JMeter; set up tests in the CI pipeline. Skills: Agile, Cypress, API Testing, Manual Testing, PostgreSQL, TestNG, Python.",
+  "label": "qa"
+ },
+ {
+  "text": "Java Developer with 6 years of experience. Wrote background workers and job queues; designed and scaled REST and gRPC services; owned payment and ledger APIs. Skills: Jira, Celery, Code Review, Microservices, Node.js, Spring Boot, Django, MongoDB, RabbitMQ, MySQL.",
+  "label": "backend"
+ },
+ {
+  "text": "Data Scientist with 3 years of experience. Ran a/b tests and statistical analysis; built feature pipelines in Spark; improved model accuracy with feature engineering. Skills: Jira, scikit-learn, Deep Learning, Linux, NLP, Scrum, Python, Airflow, Statistics, Machine Learning.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Handled on-call and incident response; improved deployment reliability; wrote Terraform modules for AWS. Skills: Prometheus, Azure, MongoDB, Argo CD, Docker, SQL, Grafana, AWS, Ansible, REST APIs, Jenkins.",
+  "label": "devops"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Set up monitoring and alerting with prometheus; wrote Terraform modules for AWS. Skills: AWS, Python, Argo CD, REST APIs, Jira, Grafana, Nginx, Helm, Django, Azure.",
+  "label": "devops"
+ },
+ {
+  "text": "Backend Engineer with 4 years of experience. Wrote background workers and job queues; optimised slow SQL queries and added indexes; built event-driven microservices. Skills: Git, SQL, gRPC, Node.js, Celery, RabbitMQ, Hibernate, MySQL, Jetpack Compose, Microservices, Flask.",
+  "label": "backend"
+ },
+ {
+  "text": "Data Engineer with 6 years of experience. Built a rag prototype with llms; fine-tuned transformer models. Skills: Tableau, Git, GitHub Actions, TensorFlow, Apache Spark, PyTorch, Python, scikit-learn, Scrum, SQL.",
+  "label": "data_ml"
+ },
+ {
+  "text": "QA Engineer with 2 years of experience. Performed load testing with jmeter; built API test frameworks. Skills: JMeter, Airflow, Manual Testing, Selenium, Agile, Docker, Python, Regression Testing, Java, Cypress, Performance Testing.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Engineer with 6 years of experience. Maintained test plans and test cases; built API test frameworks; wrote automated regression suites. Skills: Selenium, Playwright, Linux, MVVM, SQL, Postman, Python, Cucumber, Jira.",
+  "label": "qa"
+ },
+ {
+  "text": "Quality Analyst with 5 years of experience. Wrote automated regression suites; set up tests in the CI pipeline. Skills: Performance Testing, Jira, Git, JUnit, Appium, Regression Testing, Selenium, Docker, Django.",
+  "label": "qa"
+ },
+ {
+  "text": "Data Scientist with 1 years of experience. Fine-tuned transformer models; created dashboards for business teams; improved model accuracy with feature engineering. Skills: Airflow, dbt, Pandas, Python, Apache Spark, Terraform, REST APIs, XGBoost, Git, Hugging Face, PyTorch, Scrum.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Machine Learning Engineer with 6 years of experience. Improved model accuracy with feature engineering; built a RAG prototype with LLMs. Skills: MLflow, Docker, REST APIs, Airflow, LLMs, PyTorch, Linux, Statistics, Apache Spark, NLP.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Cloud Engineer with 1 years of experience. Managed kubernetes clusters in production; improved deployment reliability. Skills: Ansible, Pandas, Argo CD, Python, Linux, Helm, Jenkins, REST APIs, Docker, Linux.",
+  "label": "devops"
+ },
+ {
+  "text": "Mobile App Developer with 2 years of experience. Reduced app crash rate; optimised app startup time; published apps on the Play Store and App Store. Skills: Jetpack Compose, UIKit, Docker, Appium, Gradle, Code Review, Retrofit, Scrum.",
+  "label": "mobile"
+ },
+ {
+  "text": "Android Developer with 2 years of experience. Reduced app crash rate; implemented push notifications; published apps on the Play Store and App Store. Skills: Kotlin Coroutines, Dart, MVVM, Android, JUnit, Docker, Git, Core Data.",
+  "label": "mobile"
+ },
+ {
+  "text": "Full-Stack Engineer with 5 years of experience. Developed dashboards and the apis behind them; deployed full stack apps on AWS and Vercel. Skills: PostgreSQL, UIKit, MongoDB, SQL, GraphQL, REST APIs, Next.js, FastAPI, Scrum, Tailwind CSS, Django.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Full-Stack Engineer with 8 years of experience. Built mern stack applications; deployed full stack apps on AWS and Vercel. Skills: Prisma, JavaScript, Git, Redux, Cucumber, Docker, PostgreSQL, Node.js, Tailwind CSS, SQL.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Java Developer with 3 years of experience. Owned payment and ledger apis; reduced API p95 latency. Skills: Spring Boot, API Testing, Git, Microservices, Flask, Scrum, System Design, Java, Node.js.",
+  "label": "backend"
+ },
+ {
+  "text": "QA Engineer with 8 years of experience. Reported and tracked defects in jira; automated mobile tests with Appium. Skills: SQL, AWS, Cypress, Selenium, Playwright, Linux, Python.",
+  "label": "qa"
+ },
+ {
+  "text": "Angular Developer with 1 years of experience. Built accessible forms and tables; managed client state with Redux; worked closely with designers on UI. Skills: SQL, Angular, Storybook, Code Review, NLP, JavaScript, Git, Tailwind CSS.",
+  "label": "frontend"
+ },
+ {
+  "text": "Site Reliability Engineer with 8 years of experience. Handled on-call and incident response; built CI/CD pipelines. Skills: Docker, Prisma, CI/CD, Python, Linux, Git, Datadog, Grafana.",
+  "label": "devops"
+ },
+ {
+  "text": "QA Engineer with 3 years of experience. Built api test frameworks; performed load testing with JMeter; maintained test plans and test cases. Skills: Java, Performance Testing, Scrum, Cypress, Appium, Test Automation, Node.js.",
+  "label": "qa"
+ },
+ {
+  "text": "Golang Engineer with 6 years of experience. Implemented caching with redis; owned payment and ledger APIs; built event-driven microservices. Skills: REST APIs, RabbitMQ, Microservices, Nginx, Scrum, Hibernate, Docker, Celery.",
+  "label": "backend"
+ },
+ {
+  "text": "NLP Engineer with 1 years of experience. Built etl pipelines and data warehouses; trained and deployed classification models; built feature pipelines in Spark. Skills: Statistics, MLflow, Hugging Face, Python, scikit-learn, NumPy, Linux, Redis.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Software Engineer - Backend with 2 years of experience. Wrote background workers and job queues; reduced API p95 latency. Skills: Microservices, REST APIs, PostgreSQL, Python, GraphQL, MySQL, Agile, Bash, Flask, MongoDB.",
+  "label": "backend"
+ },
+ {
+  "text": "Software Engineer - Web UI with 6 years of experience. Built accessible forms and tables; migrated a large codebase to TypeScript. Skills: Agile, React, Jest, Web Accessibility, Dart, REST APIs, Vite, Redux, CSS, Code Review.",
+  "label": "frontend"
+ },
+ {
+  "text": "Product Engineer with 4 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend. Skills: Scrum, Tailwind CSS, Vue.js, React, JavaScript, Swift, Django, Node.js, Code Review.",
+  "label": "fullstack"
+ },
+ {
+  "text": "SRE with 3 years of experience. Set up monitoring and alerting with prometheus; improved deployment reliability; built CI/CD pipelines. Skills: Helm, Prometheus, Git, Python, MongoDB, SQL, AWS, Docker, Docker, Azure, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "Frontend Developer with 3 years of experience. Migrated a large codebase to typescript; built a component library and design system; implemented pixel-perfect responsive layouts from Figma. Skills: SQL, Git, Web Accessibility, Next.js, Python, Material UI, React, Code Review, JavaScript, Vue.js.",
+  "label": "frontend"
+ },
+ {
+  "text": "Software Engineer - Backend with 1 years of experience. Optimised slow sql queries and added indexes; designed and scaled REST and gRPC services. Skills: Spring Boot, Hibernate, Python, Celery, PostgreSQL, Kafka, Next.js, FastAPI, Microservices, Jira.",
+  "label": "backend"
+ },
+ {
+  "text": "AI Engineer with 5 years of experience. Built feature pipelines in spark; trained and deployed classification models. Skills: Docker, Git, Pandas, Jetpack Compose, dbt, Hugging Face, Tableau, PyTorch, Airflow.",
+  "label": "data_ml"
+ },
+ {
+  "text": "API Developer with 8 years of experience. Designed database schemas and migrations; reduced API p95 latency. Skills: Manual Testing, MySQL, FastAPI, Code Review, MongoDB, Jira, Redis.",
+  "label": "backend"
+ },
+ {
+  "text": "DevOps Engineer with 3 years of experience. Handled on-call and incident response; built CI/CD pipelines; managed Kubernetes clusters in production. Skills: Jira, Ansible, Kubernetes, Tailwind CSS, Prometheus, Jenkins, SQL, Code Review, Nginx.",
+  "label": "devops"
+ },
+ {
+  "text": "Mobile App Developer with 3 years of experience. Built screens in jetpack compose; reduced app crash rate. Skills: Kotlin, Dart, Kubernetes, Xcode, Android, MVVM, Agile, Jira.",
+  "label": "mobile"
+ },
+ {
+  "text": "Software Engineer - Web UI with 6 years of experience. Managed client state with redux; built a component library and design system; worked closely with designers on UI. Skills: Material UI, HTML, Sass, Docker, Next.js, Git, Jira, Storybook, Google Cloud, JavaScript.",
+  "label": "frontend"
+ },
+ {
+  "text": "Data Scientist with 8 years of experience. Built etl pipelines and data warehouses; created dashboards for business teams. Skills: Pandas, Python, LLMs, Linux, Tableau, Agile, Hugging Face, Figma, Airflow, Machine Learning, Code Review.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Software Test Engineer with 3 years of experience. Wrote automated regression suites; set up tests in the CI pipeline; built API test frameworks. Skills: Java, API Testing, Python, REST APIs, JUnit, Hibernate, Jira, Performance Testing, Linux, Agile.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Automation Engineer with 1 years of experience. Maintained test plans and test cases; set up tests in the CI pipeline; built API test frameworks. Skills: Google Cloud, Java, Docker, Test Automation, Code Review, JMeter, Scrum, TestNG, Appium.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Engineer with 4 years of experience. Maintained test plans and test cases; performed load testing with JMeter; built API test frameworks. Skills: Performance Testing, Git, Cucumber, SQL, Datadog, JMeter, Appium, Test Automation, Python.",
+  "label": "qa"
+ },
+ {
+  "text": "Quality Analyst with 3 years of experience. Performed load testing with jmeter; maintained test plans and test cases. Skills: Playwright, TypeScript, Regression Testing, Jira, Docker, Cucumber, SQL, Python, Test Automation, Selenium, REST APIs, Java.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Automation Engineer with 4 years of experience. Automated mobile tests with appium; performed load testing with JMeter. Skills: Java, Regression Testing, Scrum, MongoDB, Manual Testing, JMeter, TestNG, Playwright, JUnit, Python, Jira, SQL.",
+  "label": "qa"
+ },
+ {
+  "text": "UI Developer with 3 years of experience. Improved core web vitals; worked closely with designers on UI. Skills: Redux, Material UI, REST APIs, Terraform, Web Accessibility, React.",
+  "label": "frontend"
+ },
+ {
+  "text": "UI Developer with 1 years of experience. Migrated a large codebase to typescript; managed client state with Redux; built a component library and design system. Skills: Figma, REST APIs, Responsive Design, Material UI, React, Storybook, Linux, Sass, React Native, Agile.",
+  "label": "frontend"
+ },
+ {
+  "text": "Flutter Developer with 1 years of experience. Implemented push notifications; published apps on the Play Store and App Store. Skills: Swift, Gradle, AWS, Code Review, Agile, Jetpack Compose, Firebase.",
+  "label": "mobile"
+ },
+ {
+  "text": "Quality Analyst with 5 years of experience. Performed load testing with jmeter; wrote automated regression suites. Skills: Postman, REST APIs, Docker, Selenium, JMeter, Performance Testing, React, Manual Testing, Jira, Java.",
+  "label": "qa"
+ },
+ {
+  "text": "SDET with 8 years of experience. Built api test frameworks; automated mobile tests with Appium. Skills: Java, JMeter, Manual Testing, Appium, API Testing, scikit-learn, Cucumber, Test Automation, REST APIs, Cypress.",
+  "label": "qa"
+ },
+ {
+  "text": "Mobile App Developer with 4 years of experience. Reduced app crash rate; built offline-first mobile apps; optimised app startup time. Skills: Dart, REST APIs, Retrofit, SQL, Xcode, Android, SwiftUI, iOS, AWS.",
+  "label": "mobile"
+ },
+ {
+  "text": "Frontend Engineer with 2 years of experience. Implemented pixel-perfect responsive layouts from figma; worked closely with designers on UI; improved Core Web Vitals. Skills: Storybook, Git, Next.js, JavaScript, Docker, Tailwind CSS, TypeScript, Webpack, Responsive Design, Figma, Redux.",
+  "label": "frontend"
+ },
+ {
+  "text": "Backend Engineer with 5 years of experience. Implemented caching with redis; reduced API p95 latency; designed database schemas and migrations. Skills: REST APIs, Django, Kafka, Python, System Design, Grafana.",
+  "label": "backend"
+ },
+ {
+  "text": "Product Engineer with 2 years of experience. Built mern stack applications; deployed full stack apps on AWS and Vercel. Skills: Prisma, Jira, JavaScript, NLP, Express, Django, Docker, React, Vue.js, Scrum, PostgreSQL, TypeScript.",
+  "label": "fullstack"
+ },
+ {
+  "text": "NLP Engineer with 8 years of experience. Built feature pipelines in spark; fine-tuned transformer models; created dashboards for business teams. Skills: TensorFlow, scikit-learn, Power BI, Deep Learning, SQL, Sass.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Android Developer with 6 years of experience. Published apps on the play store and app store; optimised app startup time. Skills: Jetpack Compose, TensorFlow, iOS, React Native, Git, Gradle, Core Data, MVVM, UIKit.",
+  "label": "mobile"
+ },
+ {
+  "text": "Data Analyst with 1 years of experience. Built a rag prototype with llms; built feature pipelines in Spark; created dashboards for business teams. Skills: Airflow, BigQuery, Power BI, Code Review, Xcode, NLP, TensorFlow, Deep Learning, Scrum, scikit-learn.",
+  "label": "data_ml"
+ },
+ {
+  "text": "NLP Engineer with 2 years of experience. Ran a/b tests and statistical analysis; improved model accuracy with feature engineering; created dashboards for business teams. Skills: Git, Airflow, Hugging Face, Next.js, scikit-learn, dbt, MLflow.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 4 years of experience. Implemented caching with redis; reduced API p95 latency. Skills: Node.js, Agile, Retrofit, SQL, gRPC, Microservices, Redis, MySQL, Scrum.",
+  "label": "backend"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 3 years of experience. Wrote background workers and job queues; owned payment and ledger APIs; built event-driven microservices. Skills: Celery, System Design, Hibernate, GraphQL, RabbitMQ, Scrum, PostgreSQL, Django, MLflow, Spring Boot.",
+  "label": "backend"
+ },
+ {
+  "text": "DevOps Engineer with 2 years of experience. Managed kubernetes clusters in production; improved deployment reliability. Skills: Python, Kafka, Docker, Terraform, Linux, AWS, Grafana, Jenkins, SQL.",
+  "label": "devops"
+ },
+ {
+  "text": "Python Developer with 3 years of experience. Built event-driven microservices; owned payment and ledger APIs; implemented caching with Redis. Skills: Spring Boot, Code Review, System Design, Celery, Redis, TensorFlow, Scrum, Hibernate.",
+  "label": "backend"
+ },
+ {
+  "text": "Product Engineer with 1 years of experience. Built mern stack applications; deployed full stack apps on AWS and Vercel; developed dashboards and the APIs behind them. Skills: AWS, TypeScript, FastAPI, Node.js, Jira, PostgreSQL, Scrum, PostgreSQL, React.",
+  "label": "fullstack"
+ },
+ {
+  "text": "ML Engineer with 3 years of experience. Ran a/b tests and statistical analysis; built feature pipelines in Spark. Skills: Tableau, BigQuery, TensorFlow, Jira, REST APIs, Pandas, Code Review, Prometheus.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Android Developer with 2 years of experience. Published apps on the play store and app store; built screens in Jetpack Compose. Skills: Flutter, JavaScript, Linux, SQL, Dart, Kotlin, UIKit, Jira, Gradle, Kotlin Coroutines.",
+  "label": "mobile"
+ },
+ {
+  "text": "DevOps Engineer with 2 years of experience. Improved deployment reliability; managed Kubernetes clusters in production. Skills: Jenkins, Prometheus, Terraform, Git, CI/CD, Helm, Agile, GraphQL, Jira, Google Cloud, AWS.",
+  "label": "devops"
+ },
+ {
+  "text": "MERN Stack Developer with 3 years of experience. Owned features from database schema to ui; built both the React client and the Node.js API; built MERN stack applications. Skills: Code Review, React, GitHub Actions, Jira, Vue.js, JavaScript, GraphQL.",
+  "label": "fullstack"
+ },
+ {
+  "text": "React Developer with 6 years of experience. Implemented pixel-perfect responsive layouts from figma; built accessible forms and tables. Skills: REST APIs, Agile, Storybook, Web Accessibility, Vue.js, Test Automation, Webpack, JavaScript, Vite.",
+  "label": "frontend"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Managed kubernetes clusters in production; handled on-call and incident response; built CI/CD pipelines. Skills: Ansible, Datadog, Docker, Kubernetes, Argo CD, Terraform, Manual Testing, Grafana, Git, Jenkins.",
+  "label": "devops"
+ },
+ {
+  "text": "Full Stack Developer with 3 years of experience. Owned features from database schema to ui; built MERN stack applications; developed dashboards and the APIs behind them. Skills: AWS, TypeScript, MongoDB, Scrum, GraphQL, PostgreSQL, Git, Next.js, Storybook.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Frontend Developer with 4 years of experience. Improved core web vitals; migrated a large codebase to TypeScript. Skills: TypeScript, React, Jira, Next.js, Code Review, Redux, HTML, Vite, Sass, Python, Storybook.",
+  "label": "frontend"
+ },
+ {
+  "text": "QA Engineer with 6 years of experience. Reported and tracked defects in jira; maintained test plans and test cases; performed load testing with JMeter. Skills: Cucumber, Code Review, Python, AWS, Cypress, Jira, TestNG, Performance Testing, API Testing, Playwright.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Engineer with 5 years of experience. Performed load testing with jmeter; automated mobile tests with Appium. Skills: TestNG, Postman, Java, API Testing, Git, Regression Testing, Apache Spark.",
+  "label": "qa"
+ },
+ {
+  "text": "Golang Engineer with 2 years of experience. Implemented caching with redis; reduced API p95 latency. Skills: Celery, Git, Python, Flask, MongoDB, RabbitMQ, System Design, GraphQL, TensorFlow.",
+  "label": "backend"
+ },
+ {
+  "text": "Site Reliability Engineer with 4 years of experience. Set up monitoring and alerting with prometheus; reduced cloud costs. Skills: AWS, Datadog, Jenkins, Argo CD, Jira, REST APIs, Bash, Grafana, Kotlin Coroutines, Google Cloud, CI/CD.",
+  "label": "devops"
+ },
+ {
+  "text": "QA Engineer with 2 years of experience. Maintained test plans and test cases; built API test frameworks; performed load testing with JMeter. Skills: API Testing, Selenium, Scrum, Jira, Regression Testing, Appium, System Design, Jira.",
+  "label": "qa"
+ },
+ {
+  "text": "Software Engineer (Full Stack) with 4 years of experience. Owned features from database schema to ui; built MERN stack applications. Skills: Ansible, React, Vue.js, JavaScript, REST APIs, GraphQL, TypeScript, FastAPI, PostgreSQL, Next.js, Git.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Site Reliability Engineer with 8 years of experience. Automated server configuration with ansible; built CI/CD pipelines; set up monitoring and alerting with Prometheus. Skills: Agile, Helm, CI/CD, Nginx, Webpack, Azure, Jenkins, GitHub Actions, AWS.",
+  "label": "devops"
+ },
+ {
+  "text": "Mobile Engineer with 2 years of experience. Published apps on the play store and app store; built offline-first mobile apps; built screens in Jetpack Compose. Skills: Jetpack Compose, scikit-learn, Dart, Kotlin, Xcode, Swift, Android, Git, Firebase, UIKit.",
+  "label": "mobile"
+ },
+ {
+  "text": "Software Engineer - Backend with 5 years of experience. Optimised slow sql queries and added indexes; reduced API p95 latency. Skills: SQL, Java, Spring Boot, MongoDB, Jira, Python, React, RabbitMQ.",
+  "label": "backend"
+ },
+ {
+  "text": "Platform Engineer with 1 years of experience. Wrote terraform modules for aws; handled on-call and incident response. Skills: SQL, Azure, Linux, Swift, Datadog, Python, Kubernetes, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "Data Analyst with 2 years of experience. Ran a/b tests and statistical analysis; built a RAG prototype with LLMs. Skills: PyTorch, REST APIs, Git, BigQuery, Airflow, Python, Grafana.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Full Stack Developer with 3 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend; built MERN stack applications. Skills: FastAPI, PostgreSQL, Next.js, MongoDB, REST APIs, TypeScript, Argo CD, Node.js, Express.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Set up monitoring and alerting with prometheus; automated server configuration with Ansible. Skills: Grafana, Helm, Git, Ansible, Jira, Python, NLP, Nginx.",
+  "label": "devops"
+ },
+ {
+  "text": "ML Engineer with 1 years of experience. Trained and deployed classification models; built a RAG prototype with LLMs; improved model accuracy with feature engineering. Skills: Docker, Apache Spark, Machine Learning, SQL, Jira, Tableau, XGBoost, JavaScript, NumPy, LLMs.",
+  "label": "data_ml"
+ },
+ {
+  "text": "SDET with 2 years of experience. Reported and tracked defects in jira; automated mobile tests with Appium; built API test frameworks. Skills: Code Review, Playwright, Test Automation, Cucumber, Scrum, Appium, Tableau, TestNG, Python.",
+  "label": "qa"
+ },
+ {
+  "text": "Frontend Engineer with 2 years of experience. Built a component library and design system; built accessible forms and tables; managed client state with Redux. Skills: Tailwind CSS, TypeScript, Storybook, CSS, Vue.js, Agile, Figma, Next.js, Webpack, Statistics, Docker.",
+  "label": "frontend"
+ },
+ {
+  "text": "React Developer with 8 years of experience. Worked closely with designers on ui; built accessible forms and tables. Skills: Next.js, CSS, SQL, Vite, TensorFlow, JavaScript, Jest, Redux, Webpack, Responsive Design.",
+  "label": "frontend"
+ },
+ {
+  "text": "Mobile App Developer with 3 years of experience. Implemented push notifications; optimised app startup time. Skills: Flutter, Agile, Django, Firebase, Xcode, Linux, iOS, Core Data, Swift, MVVM.",
+  "label": "mobile"
+ },
+ {
+  "text": "AI Engineer with 5 years of experience. Built feature pipelines in spark; trained and deployed classification models; improved model accuracy with feature engineering. Skills: NumPy, MLflow, Deep Learning, Airflow, Statistics, REST APIs, Linux, dbt, scikit-learn, Kotlin Coroutines.",
+  "label": "data_ml"
+ },
+ {
+  "text": "UI Developer with 3 years of experience. Managed client state with redux; worked closely with designers on UI. Skills: Sass, HTML, Redux, Linux, JavaScript, Scrum, Vite, Pandas, Next.js, Angular, Material UI.",
+  "label": "frontend"
+ },
+ {
+  "text": "Site Reliability Engineer with 3 years of experience. Reduced cloud costs; built CI/CD pipelines; set up monitoring and alerting with Prometheus. Skills: AWS, Terraform, Azure, Agile, GitHub Actions, Linux, Manual Testing, Grafana.",
+  "label": "devops"
+ },
+ {
+  "text": "Android Developer with 1 years of experience. Built offline-first mobile apps; built screens in Jetpack Compose. Skills: FastAPI, Firebase, Android, UIKit, Jetpack Compose, iOS, SwiftUI, Gradle, Xcode, Agile, Git.",
+  "label": "mobile"
+ },
+ {
+  "text": "SDET with 5 years of experience. Performed load testing with jmeter; maintained test plans and test cases; reported and tracked defects in Jira. Skills: Python, Agile, Java, Jira, Cypress, Jira, API Testing, Performance Testing, TestNG, FastAPI, Git.",
+  "label": "qa"
+ },
+ {
+  "text": "ML Engineer with 3 years of experience. Trained and deployed classification models; improved model accuracy with feature engineering; fine-tuned transformer models. Skills: Git, Airflow, Pandas, NumPy, Computer Vision, Node.js, scikit-learn, Power BI.",
+  "label": "data_ml"
+ },
+ {
+  "text": "MERN Stack Developer with 5 years of experience. Developed dashboards and the apis behind them; built both the React client and the Node.js API. Skills: Material UI, Vue.js, MongoDB, Agile, Prisma, Node.js, Express, GraphQL, JavaScript, Django.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Mobile Engineer with 3 years of experience. Published apps on the play store and app store; shipped a cross-platform Flutter app; implemented push notifications. Skills: Swift, Gradle, Redux, Retrofit, Firebase, Linux, Xcode, Kotlin, UIKit, React Native.",
+  "label": "mobile"
+ },
+ {
+  "text": "Cloud Engineer with 3 years of experience. Built ci/cd pipelines; wrote Terraform modules for AWS. Skills: Azure, Code Review, Google Cloud, Nginx, Jenkins, Ansible, Apache Spark.",
+  "label": "devops"
+ },
+ {
+  "text": "React Developer with 2 years of experience. Improved core web vitals; migrated a large codebase to TypeScript. Skills: Redux, Agile, Scrum, TypeScript, React, Jira, Angular, JavaScript, Gradle, Material UI, HTML, CSS.",
+  "label": "frontend"
+ },
+ {
+  "text": "Backend Engineer with 8 years of experience. Built event-driven microservices; optimised slow SQL queries and added indexes; designed database schemas and migrations. Skills: Redis, Code Review, Python, Hibernate, HTML, Django, MongoDB, GraphQL.",
+  "label": "backend"
+ },
+ {
+  "text": "DevOps Engineer with 3 years of experience. Improved deployment reliability; built CI/CD pipelines. Skills: Terraform, Nginx, CSS, Linux, CI/CD, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "ML Engineer with 3 years of experience. Built a rag prototype with llms; built ETL pipelines and data warehouses; fine-tuned transformer models. Skills: Python, Apache Spark, BigQuery, Agile, NLP, Scrum, dbt, Power BI, NumPy, XGBoost, PyTorch.",
+  "label": "data_ml"
+ },
+ {
+  "text": "AI Engineer with 4 years of experience. Built feature pipelines in spark; trained and deployed classification models; built a RAG prototype with LLMs. Skills: Jira, Code Review, Docker, API Testing, NumPy, dbt, Statistics, scikit-learn, PyTorch, Computer Vision.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Machine Learning Engineer with 3 years of experience. Built feature pipelines in spark; built ETL pipelines and data warehouses; trained and deployed classification models. Skills: Apache Spark, NumPy, Git, BigQuery, Computer Vision, Code Review, PostgreSQL, scikit-learn, REST APIs.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Mobile Engineer with 2 years of experience. Built screens in jetpack compose; shipped a cross-platform Flutter app; optimised app startup time. Skills: Dart, Docker, UIKit, Core Data, Jetpack Compose, Agile, iOS, Android, JMeter, Swift, Retrofit.",
+  "label": "mobile"
+ },
+ {
+  "text": "React Developer with 8 years of experience. Built accessible forms and tables; built a component library and design system; improved Core Web Vitals. Skills: CSS, HTML, React, Docker, JavaScript, SwiftUI, Angular, TypeScript.",
+  "label": "frontend"
+ },
+ {
+  "text": "Data Engineer with 6 years of experience. Trained and deployed classification models; ran A/B tests and statistical analysis; built feature pipelines in Spark. Skills: PyTorch, dbt, Sass, Jira, Deep Learning, Computer Vision, BigQuery, Airflow.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Test Automation Engineer with 2 years of experience. Performed load testing with jmeter; set up tests in the CI pipeline. Skills: JUnit, Jira, Redis, SQL, Postman, Manual Testing, Test Automation, Java.",
+  "label": "qa"
+ },
+ {
+  "text": "Angular Developer with 1 years of experience. Worked closely with designers on ui; improved Core Web Vitals; built a component library and design system. Skills: Material UI, Figma, Next.js, Vue.js, XGBoost, HTML, Responsive Design, Storybook, Scrum.",
+  "label": "frontend"
+ },
+ {
+  "text": "SRE with 3 years of experience. Wrote terraform modules for aws; handled on-call and incident response. Skills: GitHub Actions, React, Linux, Linux, Scrum, Argo CD, Ansible, CI/CD, AWS.",
+  "label": "devops"
+ },
+ {
+  "text": "React Native Developer with 4 years of experience. Built screens in jetpack compose; built offline-first mobile apps; published apps on the Play Store and App Store. Skills: Gradle, Xcode, Git, Docker, Java, Android, Jetpack Compose, Kotlin Coroutines, Scrum, SwiftUI, Dart.",
+  "label": "mobile"
+ },
+ {
+  "text": "API Developer with 2 years of experience. Designed database schemas and migrations; designed and scaled REST and gRPC services; reduced API p95 latency. Skills: Jira, Redis, React Native, gRPC, Docker, PostgreSQL, GraphQL, Flask, Celery, System Design.",
+  "label": "backend"
+ },
+ {
+  "text": "UI Developer with 2 years of experience. Built a component library and design system; migrated a large codebase to TypeScript. Skills: Next.js, JavaScript, Code Review, Kotlin, TypeScript, Vite.",
+  "label": "frontend"
+ },
+ {
+  "text": "SRE with 8 years of experience. Set up monitoring and alerting with prometheus; handled on-call and incident response; wrote Terraform modules for AWS. Skills: Cucumber, Prometheus, Code Review, Bash, Python, Azure, Jira, Ansible.",
+  "label": "devops"
+ },
+ {
+  "text": "Quality Analyst with 1 years of experience. Wrote automated regression suites; maintained test plans and test cases; reported and tracked defects in Jira. Skills: JMeter, Argo CD, Regression Testing, Linux, JUnit, Postman.",
+  "label": "qa"
+ },
+ {
+  "text": "Data Analyst with 3 years of experience. Built feature pipelines in spark; trained and deployed classification models. Skills: Git, Tableau, Linux, PyTorch, HTML, Apache Spark, Hugging Face.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Mobile Engineer with 4 years of experience. Optimised app startup time; built offline-first mobile apps. Skills: Retrofit, Kotlin Coroutines, Kotlin, Android, React Native, Xcode, UIKit, REST APIs, Performance Testing, Flutter.",
+  "label": "mobile"
+ },
+ {
+  "text": "iOS Developer with 3 years of experience. Built screens in jetpack compose; optimised app startup time; implemented push notifications. Skills: Code Review, iOS, UIKit, SwiftUI, Core Data, Kotlin, MongoDB, Dart, Agile.",
+  "label": "mobile"
+ },
+ {
+  "text": "MERN Stack Developer with 2 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend; owned features from database schema to UI. Skills: JavaScript, Redux, Scrum, Prisma, PostgreSQL, Tailwind CSS, TypeScript, SQL, Git.",
+  "label": "fullstack"
+ },
+ {
+  "text": "API Developer with 2 years of experience. Owned payment and ledger apis; reduced API p95 latency; built event-driven microservices. Skills: PostgreSQL, MySQL, JMeter, gRPC, Linux, Go, Agile, Python, Redis, Docker.",
+  "label": "backend"
+ },
+ {
+  "text": "API Developer with 8 years of experience. Designed and scaled rest and grpc services; built event-driven microservices. Skills: Hibernate, Java, REST APIs, MongoDB, SQL, Flask, Python, PostgreSQL, FastAPI, Code Review, API Testing, Go.",
+  "label": "backend"
+ },
+ {
+  "text": "Software Test Engineer with 3 years of experience. Reported and tracked defects in jira; set up tests in the CI pipeline; performed load testing with JMeter. Skills: JMeter, Nginx, JUnit, Selenium, TestNG, Cucumber, Cypress, Docker, Appium.",
+  "label": "qa"
+ },
+ {
+  "text": "QA Automation Engineer with 8 years of experience. Performed load testing with jmeter; wrote automated regression suites. Skills: Jira, Java, Scrum, Test Automation, TestNG, Jira, Figma, Git, Cucumber.",
+  "label": "qa"
+ },
+ {
+  "text": "Infrastructure Engineer with 6 years of experience. Improved deployment reliability; automated server configuration with Ansible; wrote Terraform modules for AWS. Skills: Python, Argo CD, CI/CD, Jira, Ansible, SQL, Agile, Google Cloud, Datadog, Python.",
+  "label": "devops"
+ },
+ {
+  "text": "Site Reliability Engineer with 5 years of experience. Wrote terraform modules for aws; automated server configuration with Ansible. Skills: Prometheus, JUnit, Google Cloud, Terraform, Azure, Helm, Python, Kubernetes, Git.",
+  "label": "devops"
+ },
+ {
+  "text": "Platform Engineer with 5 years of experience. Built ci/cd pipelines; improved deployment reliability. Skills: Grafana, Prometheus, Google Cloud, Jira, Jenkins, GitHub Actions, Regression Testing.",
+  "label": "devops"
+ },
+ {
+  "text": "Android Developer with 2 years of experience. Optimised app startup time; implemented push notifications; published apps on the Play Store and App Store. Skills: React Native, Django, Dart, MVVM, Git, Agile, Jetpack Compose, Kotlin, Code Review, Firebase.",
+  "label": "mobile"
+ },
+ {
+  "text": "DevOps Engineer with 3 years of experience. Set up monitoring and alerting with prometheus; built CI/CD pipelines; handled on-call and incident response. Skills: AWS, Code Review, Datadog, Helm, Python, Argo CD, Prometheus, Nginx, CI/CD.",
+  "label": "devops"
+ },
+ {
+  "text": "Test Automation Engineer with 2 years of experience. Set up tests in the ci pipeline; built API test frameworks; automated mobile tests with Appium. Skills: Cypress, Linux, Playwright, Regression Testing, Jira, Python, API Testing, Material UI, Appium, Performance Testing.",
+  "label": "qa"
+ },
+ {
+  "text": "Data Engineer with 3 years of experience. Built feature pipelines in spark; built a RAG prototype with LLMs; created dashboards for business teams. Skills: Git, Helm, Hugging Face, Airflow, Python, PyTorch, MLflow, Agile, Jira.",
+  "label": "data_ml"
+ },
+ {
+  "text": "UI Developer with 4 years of experience. Migrated a large codebase to typescript; implemented pixel-perfect responsive layouts from Figma. Skills: Redux, Code Review, MLflow, Storybook, Figma, Vite, SQL.",
+  "label": "frontend"
+ },
+ {
+  "text": "Platform Engineer with 3 years of experience. Automated server configuration with ansible; improved deployment reliability; wrote Terraform modules for AWS. Skills: Linux, Helm, Grafana, REST APIs, JavaScript, Argo CD.",
+  "label": "devops"
+ },
+ {
+  "text": "Mobile Engineer with 2 years of experience. Built screens in jetpack compose; implemented push notifications. Skills: SQL, Gradle, Dart, MVVM, Flutter, Celery, Docker, Core Data.",
+  "label": "mobile"
+ },
+ {
+  "text": "React Native Developer with 8 years of experience. Optimised app startup time; shipped a cross-platform Flutter app; implemented push notifications. Skills: Kotlin Coroutines, SQL, UIKit, Firebase, MVVM, Jetpack Compose, PyTorch.",
+  "label": "mobile"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 3 years of experience. Wrote background workers and job queues; implemented caching with Redis; owned payment and ledger APIs. Skills: Python, MongoDB, Scrum, REST APIs, FastAPI, Spring Boot, Hibernate, Django, SQL, Go.",
+  "label": "backend"
+ },
+ {
+  "text": "Golang Engineer with 2 years of experience. Designed database schemas and migrations; reduced API p95 latency; implemented caching with Redis. Skills: SQL, Python, Hibernate, Flask, REST APIs, GraphQL, Go, RabbitMQ, Nginx.",
+  "label": "backend"
+ },
+ {
+  "text": "Full Stack Developer with 4 years of experience. Owned features from database schema to ui; deployed full stack apps on AWS and Vercel; developed dashboards and the APIs behind them. Skills: AWS, Next.js, TypeScript, NumPy, Git, Linux, Tailwind CSS, GraphQL.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Flutter Developer with 3 years of experience. Shipped a cross-platform flutter app; published apps on the Play Store and App Store. Skills: Retrofit, Git, Dart, React Native, UIKit, Xcode, Kotlin Coroutines, Swift, Next.js, SQL.",
+  "label": "mobile"
+ },
+ {
+  "text": "Frontend Developer with 8 years of experience. Worked closely with designers on ui; built a component library and design system. Skills: JavaScript, Git, TypeScript, Responsive Design, React, API Testing.",
+  "label": "frontend"
+ },
+ {
+  "text": "MERN Stack Developer with 6 years of experience. Shipped end-to-end features across frontend and backend; built both the React client and the Node.js API. Skills: Prisma, Code Review, FastAPI, Next.js, Scrum, MongoDB, AWS, Node.js, TypeScript, Vue.js, Azure.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Full-Stack Engineer with 5 years of experience. Built mern stack applications; shipped end-to-end features across frontend and backend. Skills: React, Node.js, REST APIs, SQL, Scrum, Performance Testing, PostgreSQL, JavaScript, Vue.js, Django, Next.js, FastAPI.",
+  "label": "fullstack"
+ },
+ {
+  "text": "SRE with 8 years of experience. Improved deployment reliability; reduced cloud costs. Skills: Google Cloud, Microservices, Prometheus, Terraform, Agile, Jira, SQL, Jenkins, Kubernetes, Grafana.",
+  "label": "devops"
+ },
+ {
+  "text": "React Native Developer with 2 years of experience. Published apps on the play store and app store; built screens in Jetpack Compose; shipped a cross-platform Flutter app. Skills: SwiftUI, Core Data, SQL, Android, Prisma, MVVM, React Native, Firebase, Scrum, Code Review.",
+  "label": "mobile"
+ },
+ {
+  "text": "QA Automation Engineer with 2 years of experience. Automated mobile tests with appium; wrote automated regression suites; maintained test plans and test cases. Skills: Python, Jira, Playwright, Jira, API Testing, TypeScript, Manual Testing, Docker.",
+  "label": "qa"
+ },
+ {
+  "text": "Mobile App Developer with 5 years of experience. Shipped a cross-platform flutter app; built offline-first mobile apps. Skills: PostgreSQL, SwiftUI, Core Data, Linux, React Native, Docker, Gradle, Swift, Kotlin, Scrum.",
+  "label": "mobile"
+ },
+ {
+  "text": "Frontend Developer with 2 years of experience. Built a component library and design system; implemented pixel-perfect responsive layouts from Figma; improved Core Web Vitals. Skills: TypeScript, Sass, Argo CD, JavaScript, Code Review, React, Git, Angular, Storybook, Redux, HTML.",
+  "label": "frontend"
+ },
+ {
+  "text": "iOS Developer with 6 years of experience. Published apps on the play store and app store; built offline-first mobile apps. Skills: Android, Core Data, Gradle, MVVM, Jetpack Compose, Xcode, UIKit, Retrofit, Docker, Regression Testing.",
+  "label": "mobile"
+ },
+ {
+  "text": "Mobile Engineer with 6 years of experience. Built offline-first mobile apps; built screens in Jetpack Compose. Skills: MVVM, Jira, Agile, Gradle, Core Data, Dart, Java, SwiftUI, Android, Xcode.",
+  "label": "mobile"
+ },
+ {
+  "text": "Product Engineer with 1 years of experience. Developed dashboards and the apis behind them; built both the React client and the Node.js API; deployed full stack apps on AWS and Vercel. Skills: Next.js, FastAPI, MongoDB, SQL, Django, GraphQL, MLflow, Linux, Tailwind CSS, Express.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Infrastructure Engineer with 5 years of experience. Wrote terraform modules for aws; handled on-call and incident response. Skills: CI/CD, JMeter, Prometheus, Grafana, Helm, Terraform, Scrum, Linux, Bash.",
+  "label": "devops"
+ },
+ {
+  "text": "Full Stack Developer with 4 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend; owned features from database schema to UI. Skills: CI/CD, Jira, Docker, Vue.js, Prisma, Scrum, MongoDB, Tailwind CSS, Django, JavaScript, AWS.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Mobile Engineer with 1 years of experience. Shipped a cross-platform flutter app; reduced app crash rate. Skills: Kotlin, Kotlin Coroutines, Jira, Code Review, Retrofit, Jira, MVVM, Core Data, Android, SQL, iOS.",
+  "label": "mobile"
+ },
+ {
+  "text": "Cloud Engineer with 4 years of experience. Handled on-call and incident response; managed Kubernetes clusters in production. Skills: Helm, Java, Docker, Linux, Python, Argo CD.",
+  "label": "devops"
+ },
+ {
+  "text": "Full Stack Developer with 3 years of experience. Owned features from database schema to ui; deployed full stack apps on AWS and Vercel; built MERN stack applications. Skills: JavaScript, Python, Django, Agile, Linux, Scrum, PostgreSQL, FastAPI.",
+  "label": "fullstack"
+ },
+ {
+  "text": "SRE with 8 years of experience. Handled on-call and incident response; set up monitoring and alerting with Prometheus. Skills: Datadog, Linux, Terraform, Ansible, RabbitMQ, Agile, Google Cloud, Docker, REST APIs, Grafana.",
+  "label": "devops"
+ },
+ {
+  "text": "Frontend Developer with 1 years of experience. Worked closely with designers on ui; improved Core Web Vitals; migrated a large codebase to TypeScript. Skills: Responsive Design, scikit-learn, Vite, Jest, Git, Code Review, Figma, Webpack, REST APIs, CSS, TypeScript, Sass.",
+  "label": "frontend"
+ },
+ {
+  "text": "MERN Stack Developer with 2 years of experience. Shipped end-to-end features across frontend and backend; built MERN stack applications. Skills: Python, GraphQL, React, Scrum, Vue.js, Code Review, Linux, Tailwind CSS.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Mobile App Developer with 5 years of experience. Published apps on the play store and app store; reduced app crash rate. Skills: Git, SQL, SwiftUI, Firebase, Core Data, Express, Swift, Gradle, MVVM, Retrofit.",
+  "label": "mobile"
+ },
+ {
+  "text": "NLP Engineer with 8 years of experience. Improved model accuracy with feature engineering; created dashboards for business teams. Skills: scikit-learn, LLMs, Linux, Tableau, TensorFlow, Docker, gRPC, Power BI, Airflow, Statistics.",
+  "label": "data_ml"
+ },
+ {
+  "text": "MERN Stack Developer with 8 years of experience. Developed dashboards and the apis behind them; shipped end-to-end features across frontend and backend; built MERN stack applications. Skills: Code Review, Prisma, TypeScript, PostgreSQL, FastAPI, Power BI, Redux.",
+  "label": "fullstack"
+ },
+ {
+  "text": "Full Stack Developer with 6 years of experience. Built both the react client and the node.js api; shipped end-to-end features across frontend and backend; built MERN stack applications. Skills: Prisma, JavaScript, FastAPI, Git, Tailwind CSS, Cucumber, Django, Redux, Scrum, Next.js, AWS.",
+  "label": "fullstack"
+ },
+ {
+  "text": "NLP Engineer with 6 years of experience. Built etl pipelines and data warehouses; trained and deployed classification models; built a RAG prototype with LLMs. Skills: Airflow, Xcode, Apache Spark, Pandas, Docker, scikit-learn, XGBoost, BigQuery, Scrum, LLMs, Statistics.",
+  "label": "data_ml"
+ },
+ {
+  "text": "Software Engineer - Web UI with 6 years of experience. Worked closely with designers on ui; improved Core Web Vitals; built accessible forms and tables. Skills: Tailwind CSS, Redux, Docker, Vue.js, Vite, Angular, Webpack, Prometheus, Jira.",
+  "label": "frontend"
+ },
+ {
+  "text": "Platform Engineer (APIs) with 4 years of experience. Wrote background workers and job queues; owned payment and ledger APIs; designed and scaled REST and gRPC services. Skills: Java, Git, Go, Kafka, gRPC, Terraform, PostgreSQL, RabbitMQ.",
+  "label": "backend"
+ },
+ {
+  "text": "Full-Stack Engineer with 8 years of experience. Developed dashboards and the apis behind them; deployed full stack apps on AWS and Vercel; built MERN stack applications. Skills: React, Express, Vue.js, Linux, Next.js, Redux, JavaScript, Regression Testing.",
+  "label": "fullstack"
+ }
+]

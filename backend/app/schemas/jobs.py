@@ -17,6 +17,7 @@ class MatchBreakdown(BaseModel):
     experience_years: float | None
     location_ok: bool
     semantic: float
+    cosine: float | None = None
     skill_overlap: float
     experience_fit: float
     location_fit: float
