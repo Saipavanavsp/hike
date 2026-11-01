@@ -84,7 +84,7 @@ MONTHS = {
 _MONTH = r"(?:(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+)?"
 RANGE_RE = re.compile(
     _MONTH
-    + r"((?:19|20)\d{2})\s*(?:-|â€“|â€”|to)\s*"
+    + r"((?:19|20)\d{2})\s*(?:-|–|—|to)\s*"
     + _MONTH
     + r"((?:19|20)\d{2}|Present|Current|Now)",
     re.IGNORECASE,

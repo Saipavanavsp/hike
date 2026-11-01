@@ -70,6 +70,12 @@ def test_overlapping_ranges_are_merged():
     assert years_from_ranges(text, TODAY) == 3.0
 
 
+def test_en_dash_em_dash_and_to_separators():
+    assert years_from_ranges("Jan 2024 – Dec 2024", TODAY) == 1.0
+    assert years_from_ranges("Jan 2024 — Dec 2024", TODAY) == 1.0
+    assert years_from_ranges("January 2024 to December 2024", TODAY) == 1.0
+
+
 def test_ranges_with_years_only_and_bad_ranges():
     assert years_from_ranges("2019 - 2020", TODAY) == 2.0
     assert years_from_ranges("2030 - 2031", TODAY) is None
