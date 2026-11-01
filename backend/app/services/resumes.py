@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.ml.skills import get_taxonomy
-from app.models import Resume, SeekerProfile, User
+from app.models import Application, Job, Resume, SeekerProfile, User
 from app.models.enums import UserRole
 from app.services.matching import ensure_resume_derived
 from app.services.resume_parser import (
@@ -108,4 +108,17 @@ def on_resume_confirmed(db: Session, resume: Resume) -> None:
 
 
 def can_view_resume_file(db: Session, viewer: User, resume: Resume) -> bool:
-    return viewer.role == UserRole.admin or viewer.id == resume.user_id
+    """Owner, admin, or a recruiter who received an application made with this resume."""
+    if viewer.role == UserRole.admin or viewer.id == resume.user_id:
+        return True
+    if viewer.role != UserRole.recruiter:
+        return False
+    return (
+        db.scalar(
+            select(Application.id)
+            .join(Job, Job.id == Application.job_id)
+            .where(Application.resume_id == resume.id, Job.recruiter_id == viewer.id)
+            .limit(1)
+        )
+        is not None
+    )

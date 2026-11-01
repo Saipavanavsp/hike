@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.deps import get_optional_user, require_role
 from app.db.session import get_db
-from app.models import Job, SavedJob, User
+from app.models import Application, Job, SavedJob, User
 from app.models.enums import RemoteType, RoleCategory, UserRole
 from app.schemas.jobs import (
     JobDetail,
@@ -43,6 +43,12 @@ def job_detail_extras(db: Session, user: User | None, job: Job, detail: JobDetai
     """Fill per-user fields (match breakdown, application status) on a job detail."""
     if user is None or user.role != UserRole.seeker:
         return
+    app = db.scalar(
+        select(Application).where(Application.job_id == job.id, Application.seeker_id == user.id)
+    )
+    if app is not None:
+        detail.application_id = app.id
+        detail.application_status = app.status.value
     resume = current_resume(db, user.id)
     if resume is not None:
         breakdown = match_one(db, resume, job.id)
