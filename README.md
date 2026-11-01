@@ -2,7 +2,7 @@
 
 A job portal and recruitment platform. Job seekers search and filter jobs, upload a resume that is parsed into skills and experience, and see a match score for every job with the reasons behind it. Recruiters post jobs, see candidates ranked by match score, and move them through a hiring pipeline on a drag-and-drop board. Admins manage users and jobs.
 
-Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, sentence-transformers / ONNX Runtime, scikit-learn, React 18 and TypeScript.
+Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sentence-transformers / ONNX Runtime, scikit-learn, React 18 and TypeScript. Resumes are uploaded only with consent, screened for malware, parsed in a sandboxed process, encrypted at rest and deletable at any time. The service exports Prometheus metrics and structured logs.
 
 ![Seeker dashboard](docs/screenshots/seeker-dashboard.png)
 
@@ -17,6 +17,9 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, sentence-tr
 - [Architecture](#architecture)
 - [Matching algorithm](#matching-algorithm)
 - [Search ranking](#search-ranking)
+- [Background jobs](#background-jobs)
+- [Resume privacy and security](#resume-privacy-and-security)
+- [Observability](#observability)
 - [Evaluation](#evaluation)
 - [Run locally](#run-locally)
 - [Demo accounts](#demo-accounts)
@@ -28,23 +31,27 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, sentence-tr
 
 **Job seekers**
 - Search with PostgreSQL full-text search (title, company, skills, description), title/skill autocomplete from an in-memory Trie, filters (location, role, experience, remote) and sorting (relevance, newest, salary, match %). 20 results per page; filters live in the URL.
-- Resume upload (PDF or DOCX, max 5 MB) with extension, MIME and magic-byte checks. Text extraction with pdfplumber / python-docx; skills, years of experience, education, email and phone are parsed. The seeker reviews and edits the parsed skills before saving.
+- Resume upload (PDF or DOCX, max 5 MB) after an explicit consent checkbox. Extension, MIME and magic-byte checks and a malware screen run at upload; text extraction (pdfplumber / python-docx) runs in a background task inside a resource-limited subprocess. Skills, years of experience, education, email and phone are parsed, and the seeker reviews and corrects them before saving.
+- Delete any resume, or the whole account, permanently (files, extracted text, embeddings, cached scores).
 - Match score (0-100) on every job, with a text breakdown: skills matched (e.g. 7/9) plus the missing skills, experience fit and location fit.
 - Apply with an optional note; track status and a timeline of every change; save jobs; in-app notifications.
 
 **Recruiters**
 - Post, edit, close and reopen jobs (markdown descriptions).
 - Kanban pipeline per job: Applied / Shortlisted / Interview / Offer / Rejected, built with dnd-kit. Usable with keyboard (Space to pick up, arrows to move) and through each card's menu. Invalid moves (e.g. Applied to Offer) are blocked on the client and the server.
-- Ranked list of candidates by match score with a skill-gap column; resume download; "Applications this week" line chart.
+- Ranked list of candidates by match score with a skill-gap column; resumes open through short-lived signed links; "Applications this week" line chart. The score is decision support: nothing is rejected automatically.
 
 **Admins**
 - Users, jobs and applications tables with search, column sorting, pagination, checkbox bulk actions (deactivate/activate users, close jobs) and a confirmation dialog.
+- System page: Postgres/Redis/worker/ClamAV health, queue depth, background task counts, recent failures, security and retention settings, and a "run retention now" button.
 
 **Platform**
 - JWT access tokens (15 min, in memory only) and rotating refresh tokens (7 days, httpOnly cookie, stored hashed; reuse of a rotated token revokes the whole token family).
 - Role guards return 401 for unknown callers and 403 for authenticated users without permission.
 - Login rate limit in Redis: 5 failed attempts per email + IP per 15 minutes.
 - Search results cached in Redis for 60 s; one version counter invalidates every cached search when any job changes.
+- Celery worker for resume parsing, embeddings, bulk re-scoring, email delivery and the retention sweep, with retries and a status row per task.
+- JSON logs with request IDs, Prometheus `/metrics`, optional Sentry, alert rules and a Grafana dashboard.
 
 ## Screenshots
 
@@ -74,13 +81,21 @@ flowchart LR
 
     subgraph API["FastAPI (Python 3.11)"]
         Routers["Routers: auth, jobs, resumes,<br/>applications, recruiter, admin, stats"]
-        Services["Services: search, ranking, Trie,<br/>parser, matching, pipeline"]
+        Services["Services: search, ranking, Trie,<br/>matching, pipeline, privacy"]
         ML["ML: MiniLM embeddings (ONNX),<br/>TF-IDF, LogReg classifier, eval"]
+        Obs["Request IDs, JSON logs,<br/>/metrics"]
+    end
+
+    subgraph Worker["Celery worker + beat"]
+        Tasks["parse resume, embed, re-score,<br/>email, retention sweep"]
+        Sandbox["Sandboxed parser<br/>subprocess, rlimits"]
     end
 
     PG[("PostgreSQL 16<br/>tsvector + GIN, pgvector")]
-    Redis[("Redis 7<br/>rate limit, search cache")]
-    Store[("File storage<br/>local disk or S3")]
+    Redis[("Redis 7<br/>broker, rate limit, cache")]
+    Store[("Encrypted file storage<br/>local disk or S3")]
+    ClamAV[["ClamAV (optional)"]]
+    Prom[["Prometheus + Grafana<br/>(optional)"]]
 
     SPA --> Static
     SPA --> Proxy --> Routers
@@ -88,11 +103,16 @@ flowchart LR
     Services --> PG
     Services --> Redis
     Services --> Store
+    Services -. scan .-> ClamAV
+    Redis --> Tasks --> Sandbox
+    Tasks --> PG
+    Tasks --> Store
+    Prom -. scrape .-> Obs
 ```
 
 The SPA calls the API on the same origin (`/api/...`): the Vite dev server, nginx in Docker and a Render rewrite rule all proxy it. That keeps the refresh-token cookie first-party (`SameSite=Lax`, `HttpOnly`, `Secure` in production) without third-party cookie problems.
 
-**Database schema (main tables):** `users`, `refresh_tokens`, `seeker_profiles`, `recruiter_profiles`, `companies`, `jobs` (with `search_vector tsvector` maintained by a trigger and `embedding vector(384)`), `saved_jobs`, `resumes` (parsed JSON, confirmed skills, embedding, predicted category; partial unique index for one current resume per seeker), `match_scores` (cached breakdowns keyed by resume and job signatures), `applications` (unique on job + seeker), `application_status_history`, `notifications`, `eval_runs`. Migrations are in `backend/alembic/versions`.
+**Database schema (main tables):** `users`, `refresh_tokens`, `seeker_profiles`, `recruiter_profiles`, `companies`, `jobs` (with `search_vector tsvector` maintained by a trigger and `embedding vector(384)`), `saved_jobs`, `resumes` (processing status, consent time and version, file hash, scan result, parsed JSON, confirmed skills, embedding, predicted category; partial unique index for one current resume per seeker), `match_scores` (cached breakdowns keyed by resume and job signatures), `applications` (unique on job + seeker; `resume_id` is set to NULL if the seeker deletes that resume), `application_status_history`, `notifications` (with `emailed_at`), `background_tasks`, `eval_runs`. Migrations are in `backend/alembic/versions`.
 
 ## Matching algorithm
 
@@ -140,31 +160,100 @@ When a signal is unavailable (no search text, no resume), its weight is dropped 
 
 **Autocomplete Trie** (`services/trie.py`). Each job title and skill is inserted under every word start, so "back" finds "Senior Backend Engineer". Terminal nodes store how many open jobs use the term. A query walks the prefix in O(P), collects the M terms below it, and picks the top k by frequency in O(M log k). Each API worker keeps its own Trie and rebuilds it lazily when the shared jobs version counter in Redis changes.
 
+## Background jobs
+
+`backend/app/worker.py`, `backend/app/tasks/`
+
+Slow or failure-prone work runs in a Celery worker, with Redis as the broker:
+
+| Task | Triggered by |
+|---|---|
+| `process_resume`: sandboxed text extraction + field parsing | every upload (the API answers `202 Accepted`; the UI polls until the resume is `ready` or `failed`) |
+| `derive_resume`: MiniLM embedding + role classification | the seeker confirming a resume |
+| `embed_job`, `score_job_candidates` (bulk matching) | a job being created or edited |
+| `deliver_email` | every notification (written to the `hike.email` log; no mail provider is configured) |
+| `retention_sweep` | daily at 03:00 UTC (Celery beat), or an admin button |
+
+Each task gets a row in `background_tasks` (queued → running → retrying → succeeded / rejected / failed, attempts, error, timestamps). `GET /api/tasks/{id}` shows its status to its owner. Any exception is retried 3 times with exponential backoff and jitter. A `PermanentError` ends the task at once as `rejected` instead: an unreadable file is the user's input problem, not an outage. When retries run out, the task is marked `failed`, logged at ERROR with `alert=true`, sent to Sentry if configured, and reported to admins in the app (at most once per task type per hour). The resume being processed is also flagged so the seeker sees an error. If Redis is unreachable when a task is queued, the API runs it inline instead of losing it.
+
+With `TASKS_EAGER=true` there is no worker at all: tasks run inline in the API process. Tests use this mode, and so does the Render free plan, which has no background workers.
+
+## Resume privacy and security
+
+| Control | Where |
+|---|---|
+| **Consent.** Upload requires an explicit checkbox; the time and policy version are stored on the resume. The API refuses uploads without `consent=true`. | `services/resumes.py`, `ResumePage.tsx` |
+| **Malware screening** before anything is stored. Built-in checks always run: PDF JavaScript, launch actions, embedded files (including `#xx`-escaped names and names inside compressed object streams), DOCX macros, ActiveX, embedded OLE objects, remote templates, zip bombs, and the EICAR test signature. With `MALWARE_SCAN=clamav` the file is also streamed to a ClamAV daemon; if ClamAV is unreachable the upload fails with 503 rather than skipping the scan. | `services/file_scan.py` |
+| **Isolated parsing.** PDF/DOCX parsing runs in a separate `python -I` process with no secrets in its environment, a wall-clock timeout, and (on Linux) address-space, CPU and core-dump limits. A crafted file that hangs or exhausts memory is reported as unreadable instead of taking the worker down. | `services/doc_extract.py` |
+| **Encryption at rest.** Files are encrypted with Fernet (AES-128-CBC + HMAC-SHA256) before they reach local disk or S3. | `services/storage.py` |
+| **Signed, expiring downloads.** The app requests a link (`POST /api/resumes/{id}/link`) that names the resume, the viewer and an expiry time, signed with HMAC-SHA256 (5 minutes by default). Access is re-checked when the link is used, so a deactivated recruiter's links stop working. Responses are `no-store` and `nosniff`. | `core/signing.py`, `api/resumes.py` |
+| **Deletion.** `DELETE /api/resumes/{id}` and `POST /api/account/delete` (password required) remove the files, extracted text, embeddings and cached scores. Applications made with a deleted resume stay for the recruiter but no longer link to any resume data. | `services/resumes.py` |
+| **Retention.** Unsaved or failed uploads are removed after 7 days and superseded resumes after 365 days; inactive seeker accounts can be removed after N days (off by default). | `services/retention.py` |
+| **Decision support only.** Recruiters see every candidate with the score breakdown; nothing is filtered out or rejected automatically. | `RankedTable.tsx`, `KanbanBoard.tsx` |
+
+Limits: the built-in checks are heuristics, not an antivirus engine; turn on ClamAV for real signature scanning. On Windows only the parser's timeout applies (resource limits are POSIX).
+
+## Observability
+
+- **Logs:** one JSON object per line (`LOG_FORMAT=json`) with `request_id`, plus `method`, `route`, `status` and `duration_ms` on every access line. Worker log lines carry the task ID.
+- **Request IDs:** every response has `X-Request-ID` (the caller's, if it looks safe, else a new one). Unhandled errors return `{"detail": "Internal server error", "request_id": ...}` with no internals, and the stack trace is logged under the same ID.
+- **Metrics:** `GET /metrics` (Prometheus; set `METRICS_TOKEN` to require a bearer token):
+  - `hike_http_requests_total{method,route,status}` and `hike_http_request_duration_seconds` (by route template, so cardinality stays bounded)
+  - `hike_dependency_up{name}` and `hike_dependency_latency_ms{name}` for Postgres and Redis
+  - `hike_worker_up` (from the worker's heartbeat), `hike_queue_depth`, and `hike_background_tasks_last_hour{status}`
+- **Health:** `/health` returns 503 if Postgres or Redis is down, and reports the worker, queue depth and latencies.
+- **Alerts and dashboard:** `docker compose --profile monitoring up` adds Prometheus (http://localhost:9090) with seven alert rules (`ops/prometheus/alerts.yml`): API down, dependency down, worker down, failed background tasks, queue backlog, 5xx rate above 5%, p95 latency above 1 s. It also adds Grafana (http://localhost:3000) with a provisioned dashboard.
+- **Errors:** set `SENTRY_DSN` to send exceptions and failed tasks to Sentry (no personal data is sent).
+
 ## Evaluation
 
-Run it yourself (it also runs during seeding, and the latest result is stored in `eval_runs`, which feeds the landing-page stats):
+Full report: **[docs/evaluation.md](docs/evaluation.md)**. It is generated from the result files, and a test fails if it goes stale.
+
+There are two evaluations:
+
+1. **Holdout set** (`backend/eval/holdout`): 24 resumes and 34 jobs written by hand, separate from the seed data and including 6 non-software distractor jobs.
+   - Every resume is rendered in one of four document layouts and read by the production parser.
+   - Labels are graded: 2 = strong fit, 1 = partial fit.
+2. **Synthetic seed set**: 20 resumes × 50 jobs from the seed generator, with labels from a rule. The system was developed against this set.
 
 ```powershell
 cd backend
-.\.venv\Scripts\python -m app.ml.eval          # or: docker compose exec backend python -m app.ml.eval
+.\.venv\Scripts\python -m app.ml.eval                   # synthetic set (also runs during seeding)
+.\.venv\Scripts\python -m app.ml.eval_holdout --report  # holdout set + docs/evaluation.md
 ```
 
-**Data.** 20 seed resumes, parsed from their PDFs with the real parser, against 50 seed jobs. That gives 1,000 pairs, 119 of them labelled relevant. The labels come from a rule written in `seed/build_seed_data.py` and saved in `seed/data/eval_pairs.json`: a job is relevant if it is in the candidate's role family and the candidate's experience is at most 1 year under the job's minimum or 2 years over its maximum. All jobs and resumes are synthetic and written for this project.
+**Holdout results** (mean over resumes, with 95% bootstrap intervals):
 
-**Matching** (numbers produced by `python -m app.ml.eval`, identical on Windows and in the Linux container):
-
-| Method | Precision@5 | Recall@5 | MRR | Accuracy* |
+| Method | P@5 | R@5 | MRR | NDCG@5 |
 |---|---|---|---|---|
-| TF-IDF cosine (baseline) | **0.760** | **0.669** | 1.000 | **0.933** |
-| MiniLM embeddings cosine only | 0.690 | 0.593 | 0.975 | 0.919 |
-| Hike match score (full formula) | 0.740 | 0.651 | 1.000 | 0.929 |
-
-\* Accuracy of the decision "the top-5 jobs per resume are relevant, the rest are not" over all 1,000 pairs.
+| TF-IDF cosine (baseline) | 0.517 (0.44–0.60) | 0.926 | 1.000 | 0.961 (0.93–0.98) |
+| MiniLM embeddings only | 0.467 (0.41–0.53) | 0.855 | 1.000 | 0.927 (0.90–0.96) |
+| Hike hybrid score | 0.525 (0.45–0.60) | 0.938 | 1.000 | 0.966 (0.94–0.99) |
 
 What this shows, honestly:
-- On this dataset the TF-IDF baseline beats the embedding model. The seed job descriptions are keyword-dense and share boilerplate within each role family, which favours exact term overlap. On free-form text (different words for the same skill) the semantic signal should matter more, but this dataset does not prove that.
-- The full Hike score improves on embeddings alone (P@5 0.69 → 0.74) because of the skill-overlap and experience signals. The experience rule is part of how the labels were defined, which flatters the full score somewhat.
-- 20 resumes is a small sample. Treat these numbers as a reproducible sanity check, not a benchmark.
+- **Hike vs MiniLM alone:** the hybrid score is clearly better. NDCG@5 is +0.039 (paired 95% CI +0.015 to +0.065).
+- **Hike vs TF-IDF:** there is no clear difference (+0.006, CI −0.014 to +0.027). On the synthetic set TF-IDF is ahead.
+- **P@5 ceiling:** the best possible P@5 here is 0.575, because most resumes have fewer than five acceptable jobs. MRR is 1.0 for every method, so this set is too easy at rank 1.
+- **Two-column PDFs are the weak spot:**
+  - The parser never finds the name.
+  - It misses total experience by about a year.
+  - The same resume in four layouts moves its scores by 3.3 points out of 100 on average.
+  - Seekers confirm or correct the parsed years and skills before matching, which mitigates this.
+- **Caveats:**
+  - The data is fictional and small.
+  - The labels were drafted with AI assistance under a written rubric and have not been reviewed by an independent labeller.
+  - The rubric partly rewards skill overlap, which flatters Hike.
+  - The report lists these limits and what a real-world evaluation would need (consented anonymised resumes, two labellers, Cohen's kappa). The harness can export and import labels for that review.
+
+**Synthetic set:**
+
+| Method | Precision@5 | Recall@5 | MRR | NDCG@5 | Accuracy* |
+|---|---|---|---|---|---|
+| TF-IDF cosine (baseline) | **0.760** | **0.669** | 1.000 | **0.838** | **0.933** |
+| MiniLM embeddings cosine only | 0.690 | 0.593 | 0.975 | 0.790 | 0.919 |
+| Hike match score (full formula) | 0.740 | 0.651 | 1.000 | 0.834 | 0.929 |
+
+\* Accuracy of the decision "the top-5 jobs per resume are relevant, the rest are not" over all 1,000 pairs (119 relevant). The synthetic jobs and resumes come from the same templates and share vocabulary, which favours exact term overlap.
 
 **Role classifier**
 
@@ -197,11 +286,20 @@ cd hike
 docker compose up --build
 ```
 
-The first build takes a few minutes (it downloads the ONNX model). On first start the backend runs migrations, seeds the demo data and runs the evaluation (about 30 s), then serves:
+The first build takes a few minutes (it downloads the ONNX model). On first start the backend runs migrations, seeds the demo data and runs the evaluation (about 30 s). The `worker` container then starts processing background tasks, and the stack serves:
 
 - App: http://localhost:8080
 - API docs: http://localhost:8080/api/docs
-- API directly: http://localhost:8000
+- API directly: http://localhost:8000 (`/health`, `/metrics`)
+
+Optional profiles:
+
+```powershell
+# ClamAV malware scanning (first start downloads signatures: ~2 minutes, ~1.2 GB RAM)
+$env:MALWARE_SCAN = "clamav"; docker compose --profile security up --build
+# Prometheus (:9090) with alert rules + Grafana (:3000) with a dashboard
+docker compose --profile monitoring up --build
+```
 
 To start over with fresh data: `docker compose down -v`, then `docker compose up --build`.
 
@@ -245,11 +343,14 @@ The other 15 seeded seekers use `<firstname>@example.com` with the same password
 
 | Suite | Command | What it covers |
 |---|---|---|
-| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 137 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing on 3 fixture resumes (2 PDF, 1 DOCX), skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, eval harness, applications pipeline and permissions, admin, seed. Needs Postgres and Redis (`docker compose up -d postgres redis`). |
-| Frontend (Vitest + RTL) | `cd frontend; npm test` | 26 tests: MatchPill thresholds, filter chips, login/register validation, kanban moves and allowed transitions, formatting. |
-| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | Against the running stack on :8080: a seeker logs in, searches, opens a job, checks the match breakdown and applies; the recruiter moves them to Shortlisted; the seeker sees the new status and timeline. |
+| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 192 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing, skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, both eval harnesses (including a check that the committed numbers and report reproduce), applications pipeline, admin, seed. Background tasks: retries, permanent failures, alerts, queue-down fallback, email delivery, bulk re-scoring. Security: malware heuristics, a fake clamd server (clean, infected, unreachable = 503), sandboxed parsing (timeout, memory limit, no secrets in the child), encryption at rest, signed URL tampering, expiry and revocation. Privacy: resume and account deletion, retention rules. Observability: request IDs, JSON 500s, metrics, health. Needs Postgres and Redis (`docker compose up -d postgres redis`). One test (parser memory limit) runs on Linux only. |
+| Frontend (Vitest + RTL) | `cd frontend; npm test` | 30 tests: MatchPill thresholds, filter chips, login/register validation, kanban moves and allowed transitions, a candidate whose resume was deleted, resume upload consent and the processing/failed states, formatting. |
+| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | 15 tests against the running stack on :8080, with the real worker. Covered: the hiring flow (search, match breakdown, apply, recruiter shortlists, seeker sees the status); invalid login; role-based redirects; 401/403 across the API and a forged token; refresh-token reuse revoking the session; sign-out revoking the refresh token; deactivation ending a live session; upload failures (wrong type, oversize, fake PDF, EICAR, unreadable PDF processed by the worker); upload without consent; duplicate applications; invalid pipeline moves and cross-recruiter access; signed file links; resume deletion; account deletion; a recruiter's view after a resume is deleted. |
 
-Backend coverage is 96% overall. Every module in `app/services` and `app/ml` is above 80%; the lowest are `services/cache.py` (68%, Redis-down fallbacks) and `services/storage.py` (76%, S3 backend).
+Backend coverage is 95% overall. Every module in `app/services`, `app/tasks` and `app/ml` is above 80% except three:
+- `services/cache.py` (68%): Redis-down fallbacks.
+- `services/doc_extract.py` (69%): its main path runs in the sandbox subprocess, which coverage does not measure, though the tests exercise it.
+- `services/storage.py` (88%) covers everything except the S3 backend.
 
 Lint: `ruff check . ; black --check .` (backend) and `npm run lint` (ESLint + Prettier, frontend).
 
@@ -259,7 +360,15 @@ Lint: `ruff check . ; black --check .` (backend) and `npm run lint` (ESLint + Pr
 - `.github/workflows/ci.yml` runs on every pull request and push to `main`: ruff, black, PyTest with coverage (Postgres + pgvector and Redis service containers), then ESLint, Prettier, Vitest and the production build.
 - `.github/workflows/deploy.yml` runs on push to `main`: it brings up the whole stack with `docker compose`, runs the Playwright E2E test against it, and only if that passes calls the Render deploy hooks.
 
-**Render** (`render.yaml` blueprint): `hike-api` (Docker web service, health check `/health`), `hike-web` (static site with a `/api/*` rewrite to the API and an SPA fallback), `hike-db` (Postgres 16, pgvector is created by the first migration) and `hike-redis` (Key Value). The API seeds itself on first start.
+**Render** (`render.yaml` blueprint):
+- `hike-api`: Docker web service, health check `/health`.
+- `hike-web`: static site with a `/api/*` rewrite to the API and an SPA fallback.
+- `hike-db`: Postgres 16; the first migration creates pgvector.
+- `hike-redis`: Key Value.
+
+The API seeds itself on first start. Render generates `JWT_SECRET`, `FILE_ENCRYPTION_KEY` (keep it: changing it makes stored resumes unreadable) and `METRICS_TOKEN`.
+
+The free plan has no background workers, so the blueprint sets `TASKS_EAGER=true`: tasks run inline, and the retention policy runs on every start. On a paid plan, add a worker service that runs `celery -A app.worker worker --beat --concurrency=2` with the same environment, and set `TASKS_EAGER=false`. ClamAV needs about 1.2 GB of RAM, so the free deployment uses the built-in heuristic scan only.
 
 One-time setup:
 1. Push this repo to GitHub.
@@ -276,17 +385,21 @@ hike/
 ├── backend/
 │   ├── app/
 │   │   ├── api/        # routers: auth, jobs, resumes, applications, recruiter, admin, profile, stats, health
-│   │   ├── core/       # settings, JWT/bcrypt, role guards, Redis, rate limiter
+│   │   ├── core/       # settings, JWT/bcrypt, role guards, Redis, rate limiter, logging/metrics, URL signing
 │   │   ├── models/     # SQLAlchemy 2.0 models
 │   │   ├── schemas/    # Pydantic v2 schemas
-│   │   ├── services/   # search, ranking, Trie, cache, parser, storage, matching, applications
-│   │   └── ml/         # embeddings, TF-IDF, classifier, skills taxonomy, eval harness
+│   │   ├── services/   # search, ranking, Trie, cache, parser, sandbox, malware scan, storage, matching, retention
+│   │   ├── tasks/      # Celery task definitions and the tracking/retry layer
+│   │   ├── worker.py   # Celery app and beat schedule
+│   │   └── ml/         # embeddings, TF-IDF, classifier, skills taxonomy, eval harnesses, report
 │   ├── alembic/        # migrations (incl. FTS trigger, pgvector)
+│   ├── eval/holdout/   # holdout evaluation data: 34 jobs, 24 resumes in 4 layouts, graded labels
 │   ├── seed/           # seed script, dataset builders, 20 resume PDFs, JSON data
 │   └── tests/          # PyTest suites + fixture resumes
 ├── frontend/           # React + Vite + Tailwind (design tokens in tailwind.config.ts)
 ├── e2e/                # Playwright E2E + screenshot capture
-├── docs/screenshots/
+├── ops/                # Prometheus config + alert rules, Grafana dashboard
+├── docs/               # evaluation report, screenshots
 ├── docker-compose.yml
 ├── render.yaml
 └── .github/workflows/

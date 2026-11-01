@@ -29,6 +29,23 @@ services:
           property: connectionString
       - key: JWT_SECRET
         generateValue: true
+      # Resume files are encrypted with this key. Keep it: changing it makes old files unreadable.
+      - key: FILE_ENCRYPTION_KEY
+        generateValue: true
+      # /metrics requires "Authorization: Bearer <METRICS_TOKEN>" (copy it from the dashboard).
+      - key: METRICS_TOKEN
+        generateValue: true
+      # The free plan has no background workers: tasks run inline in the API process.
+      # On a paid plan, add a "worker" service running
+      #   celery -A app.worker worker --beat --concurrency=2
+      # with the same environment, and set TASKS_EAGER to "false".
+      - key: TASKS_EAGER
+        value: "true"
+      - key: PARSER_MEMORY_MB
+        value: "256"
+      - key: LOG_FORMAT
+        value: json
+      # Optional error tracking: add SENTRY_DSN in the dashboard (needs a Sentry account).
       - key: COOKIE_SECURE
         value: "true"
       - key: CORS_ORIGINS

@@ -81,3 +81,12 @@ def run_retention(db: Session, now: datetime | None = None) -> dict:
 
     log.info("retention sweep finished", extra=out)
     return out
+
+
+if __name__ == "__main__":  # pragma: no cover - used by scripts/start.sh without a worker
+    from app.core.observability import configure_logging
+    from app.db.session import SessionLocal
+
+    configure_logging()
+    with SessionLocal() as session:
+        print(run_retention(session))
