@@ -7,7 +7,7 @@ import pytest
 from app.models import Application
 from app.models.enums import JobStatus
 from app.services.resume_parser import PDF_MIME
-from tests.factories import auth_headers, login, make_user
+from tests.factories import auth_headers, fetch_resume_file, login, make_user, post_resume
 from tests.test_jobs_api import make_job
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -15,9 +15,7 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 def give_resume(client, h, name="priya_sharma_backend.pdf"):
     data = (FIXTURES / name).read_bytes()
-    rid = client.post("/api/resumes", files={"file": (name, data, PDF_MIME)}, headers=h).json()[
-        "id"
-    ]
+    rid = post_resume(client, h, name, data, PDF_MIME).json()["id"]
     client.put(f"/api/resumes/{rid}", json={"skills": ["Python", "Django"]}, headers=h)
     return rid
 
@@ -168,8 +166,8 @@ def test_recruiter_can_open_applicant_resume_but_not_others(client, db, setup):
     apply(client, s["sh"], s["job"].id)
     rows = client.get(f"/api/recruiter/jobs/{s['job'].id}/applications", headers=s["rh"]).json()
     rid = rows[0]["resume"]["id"]
-    assert client.get(f"/api/resumes/{rid}/file", headers=s["rh"]).status_code == 200
-    assert client.get(f"/api/resumes/{rid}/file", headers=s["orh"]).status_code == 404
+    assert fetch_resume_file(client, s["rh"], rid).status_code == 200
+    assert fetch_resume_file(client, s["orh"], rid).status_code == 404
 
 
 def test_phone_never_exposed_to_other_seekers(client, db, setup):

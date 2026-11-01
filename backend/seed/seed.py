@@ -10,6 +10,7 @@ harness and stores its metrics so the landing page can show them.
 """
 
 import argparse
+import hashlib
 import json
 import logging
 import random
@@ -21,6 +22,7 @@ from pathlib import Path
 from sqlalchemy import func, select, text
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.security import hash_password
 from app.db.session import Base, SessionLocal
 from app.models import (
@@ -162,6 +164,11 @@ def seed(db: Session, rng: random.Random, run_eval: bool = True) -> dict:
             mime_type=PDF_MIME,
             size_bytes=len(pdf),
             raw_text=text_,
+            status="ready",
+            consent_at=now - timedelta(days=30),
+            consent_version=settings.consent_version,
+            file_sha256=hashlib.sha256(pdf).hexdigest(),
+            scan_result="seed:trusted",
             parsed=parsed.to_dict(),
             skills=parsed.skills,
             years_experience=Decimal(str(years)) if years is not None else None,

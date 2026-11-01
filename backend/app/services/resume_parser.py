@@ -6,18 +6,14 @@ import zipfile
 from dataclasses import asdict, dataclass, field
 from datetime import date
 
-import docx
-import pdfplumber
-
 from app.ml.skills import get_taxonomy
+from app.services.doc_extract import InvalidResumeFile, extract_text, extract_text_isolated
+
+__all__ = ["InvalidResumeFile", "extract_text", "extract_text_safely", "parse_resume"]
 
 PDF_MIME = "application/pdf"
 DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ALLOWED = {".pdf": PDF_MIME, ".docx": DOCX_MIME}
-
-
-class InvalidResumeFile(ValueError):
-    pass
 
 
 # ---------- file validation & text extraction ----------
@@ -43,27 +39,15 @@ def detect_kind(filename: str, content_type: str | None, data: bytes) -> str:
     return "docx"
 
 
-def extract_text(data: bytes, kind: str) -> str:
-    try:
-        if kind == "pdf":
-            with pdfplumber.open(io.BytesIO(data)) as pdf:
-                pages = [p.extract_text() or "" for p in pdf.pages[:10]]
-            text = "\n".join(pages)
-        else:
-            d = docx.Document(io.BytesIO(data))
-            parts = [p.text for p in d.paragraphs]
-            for table in d.tables:
-                for row in table.rows:
-                    parts.append(" | ".join(c.text for c in row.cells))
-            text = "\n".join(parts)
-    except Exception as e:
-        raise InvalidResumeFile("Could not read text from this file") from e
-    text = text.replace("\x00", "").strip()
-    if len(text) < 30:
-        raise InvalidResumeFile(
-            "No readable text found. Scanned resumes are not supported; export a text PDF."
-        )
-    return text
+def extract_text_safely(data: bytes, kind: str) -> str:
+    """Extract text from an uploaded file, in a sandboxed subprocess unless configured off."""
+    from app.core.config import settings
+
+    if settings.parser_isolation == "inline":
+        return extract_text(data, kind)
+    return extract_text_isolated(
+        data, kind, settings.parser_timeout_seconds, settings.parser_memory_mb
+    )
 
 
 # ---------- field parsing ----------

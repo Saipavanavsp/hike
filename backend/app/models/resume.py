@@ -6,6 +6,7 @@ from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     BigInteger,
     Boolean,
+    CheckConstraint,
     DateTime,
     Float,
     ForeignKey,
@@ -33,7 +34,15 @@ class Resume(Base):
     original_filename: Mapped[str] = mapped_column(String(255))
     mime_type: Mapped[str] = mapped_column(String(120))
     size_bytes: Mapped[int] = mapped_column(Integer)
-    raw_text: Mapped[str] = deferred(mapped_column(Text))
+    # processing -> ready | failed. Text extraction runs in a background task.
+    status: Mapped[str] = mapped_column(String(20), default="processing", server_default="ready")
+    parse_error: Mapped[str | None] = mapped_column(String(300))
+    # Explicit consent to parse and process this file, and which policy text was agreed to.
+    consent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    consent_version: Mapped[str | None] = mapped_column(String(20))
+    file_sha256: Mapped[str | None] = mapped_column(String(64))
+    scan_result: Mapped[str | None] = mapped_column(String(60))
+    raw_text: Mapped[str | None] = deferred(mapped_column(Text))
     # Raw parser output: name, email, phone, location, education, years, skills.
     parsed: Mapped[dict] = mapped_column(JSONB, default=dict)
     # Seeker-confirmed values (editable after parsing).
@@ -55,6 +64,8 @@ class Resume(Base):
     __table_args__ = (
         Index("ix_resumes_user_id", "user_id"),
         Index("ix_resumes_skills", "skills", postgresql_using="gin"),
+        Index("ix_resumes_status_created", "status", "created_at"),
+        CheckConstraint("status IN ('processing', 'ready', 'failed')", name="ck_resumes_status"),
         # At most one current resume per seeker.
         Index(
             "uq_resumes_one_current",

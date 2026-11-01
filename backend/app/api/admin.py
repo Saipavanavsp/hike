@@ -8,11 +8,22 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, or_, select, update
 from sqlalchemy.orm import Session, aliased
 
+from app.core.config import settings
 from app.core.deps import require_role
+from app.core.health import check_db, check_redis, queue_depth, task_counts, worker_status
 from app.db.session import get_db
-from app.models import Application, Company, Job, RecruiterProfile, RefreshToken, User
+from app.models import (
+    Application,
+    BackgroundTask,
+    Company,
+    Job,
+    RecruiterProfile,
+    RefreshToken,
+    User,
+)
 from app.models.enums import ApplicationStatus, JobStatus, UserRole
 from app.services.cache import bump_jobs_version
+from app.services.file_scan import clamav_ping
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 admin_only = require_role("admin")
@@ -238,6 +249,81 @@ def close_jobs(data: BulkIds, db: Session = Depends(get_db), _: User = Depends(a
     db.commit()
     bump_jobs_version()
     return BulkResult(updated=res.rowcount)
+
+
+# ---------- system: health, background tasks, retention ----------
+
+
+class AdminTask(BaseModel):
+    id: str
+    kind: str
+    status: str
+    attempts: int
+    error: str | None
+    ref_type: str | None
+    ref_id: int | None
+    created_at: datetime
+    finished_at: datetime | None
+
+
+@router.get("/system")
+def system_overview(db: Session = Depends(get_db), _: User = Depends(admin_only)):
+    db_ok, db_ms = check_db()
+    redis_ok, redis_ms = check_redis()
+    recent_failures = db.scalars(
+        select(BackgroundTask)
+        .where(BackgroundTask.status == "failed")
+        .order_by(BackgroundTask.created_at.desc())
+        .limit(20)
+    )
+    return {
+        "dependencies": {
+            "postgres": {"ok": db_ok, "latency_ms": db_ms},
+            "redis": {"ok": redis_ok, "latency_ms": redis_ms},
+            "clamav": (
+                {"ok": clamav_ping(settings.clamav_host, settings.clamav_port)}
+                if settings.malware_scan == "clamav"
+                else None
+            ),
+        },
+        "worker": worker_status(),
+        "queue_depth": queue_depth(),
+        "tasks_last_24h": task_counts(24),
+        "recent_failures": [_task_out(t) for t in recent_failures],
+        "security": {
+            "malware_scan": settings.malware_scan,
+            "parser_isolation": settings.parser_isolation,
+            "files_encrypted": True,
+            "signed_url_ttl_seconds": settings.signed_url_ttl_seconds,
+        },
+        "retention": {
+            "unconfirmed_days": settings.retention_unconfirmed_days,
+            "old_resume_days": settings.retention_old_resume_days,
+            "inactive_seeker_days": settings.retention_inactive_seeker_days,
+        },
+    }
+
+
+def _task_out(t: BackgroundTask) -> AdminTask:
+    return AdminTask(
+        id=t.id,
+        kind=t.kind,
+        status=t.status,
+        attempts=t.attempts,
+        error=t.error,
+        ref_type=t.ref_type,
+        ref_id=t.ref_id,
+        created_at=t.created_at,
+        finished_at=t.finished_at,
+    )
+
+
+@router.post("/retention/run")
+def run_retention_now(admin: User = Depends(admin_only)):
+    from app.tasks.definitions import retention_sweep
+    from app.tasks.tracking import enqueue
+
+    return {"task_id": enqueue(retention_sweep, user_id=admin.id)}
 
 
 # ---------- applications ----------

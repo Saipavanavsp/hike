@@ -22,6 +22,9 @@ class ResumeOut(BaseModel):
     original_filename: str
     mime_type: str
     size_bytes: int
+    status: str
+    parse_error: str | None = None
+    consent_at: datetime | None = None
     parsed: ParsedFields
     skills: list[str]
     years_experience: float | None
@@ -30,6 +33,23 @@ class ResumeOut(BaseModel):
     created_at: datetime
     predicted_category: str | None = None
     category_confidence: float | None = None
+
+
+class SignedLink(BaseModel):
+    url: str
+    expires_at: int  # unix seconds
+
+
+class TaskOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    kind: str
+    status: str
+    attempts: int
+    error: str | None
+    created_at: datetime
+    finished_at: datetime | None
 
 
 class ResumeConfirm(BaseModel):

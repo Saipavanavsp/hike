@@ -1,0 +1,53 @@
+groups:
+  - name: hike
+    rules:
+      - alert: HikeApiDown
+        expr: up{job="hike-api"} == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: The Hike API is not answering /metrics
+
+      - alert: HikeDependencyDown
+        expr: hike_dependency_up == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: "{{ $labels.name }} is failing health checks"
+
+      - alert: HikeWorkerDown
+        expr: hike_worker_up == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: No background worker heartbeat; resumes will stay in "processing"
+
+      - alert: HikeBackgroundTasksFailing
+        expr: hike_background_tasks_last_hour{status="failed"} > 0
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $value }} background task(s) failed in the last hour (see Admin > System)"
+
+      - alert: HikeQueueBacklog
+        expr: hike_queue_depth > 50
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $value }} tasks waiting; the worker is not keeping up"
+
+      - alert: HikeHighErrorRate
+        expr: |
+          sum(rate(hike_http_requests_total{status=~"5.."}[5m]))
+            / clamp_min(sum(rate(hike_http_requests_total[5m])), 1e-9) > 0.05
+        for: 5m
+        labels: { severity: critical }
+        annotations:
+          summary: More than 5% of API requests are failing with 5xx
+
+      - alert: HikeSlowRequests
+        expr: |
+          histogram_quantile(0.95, sum by (le) (rate(hike_http_request_duration_seconds_bucket[5m]))) > 1
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: API p95 latency above 1s for 10 minutes

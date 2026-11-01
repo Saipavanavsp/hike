@@ -83,7 +83,7 @@ def job_applications(
     views = [recruiter_view(db, a) for a in apps]
     if category:
         wanted = {c.value for c in category}
-        views = [v for v in views if v.resume.predicted_category in wanted]
+        views = [v for v in views if v.resume and v.resume.predicted_category in wanted]
     views.sort(key=lambda v: (-(v.match.score if v.match else -1), v.applied_at))
     return views
 

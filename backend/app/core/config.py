@@ -41,6 +41,32 @@ class Settings(BaseSettings):
     search_cache_ttl_seconds: int = 60
     seed_on_start: bool = False
 
+    # Background jobs. With tasks_eager=true tasks run inline in the API process
+    # (tests, and hosts without a worker such as Render's free plan).
+    tasks_eager: bool = False
+    task_max_retries: int = 3
+
+    # Observability
+    log_format: str = "json"  # "json" or "text"
+    log_level: str = "INFO"
+    sentry_dsn: str = ""
+    metrics_token: str = ""  # if set, /metrics requires "Authorization: Bearer <token>"
+
+    # Resume privacy and security
+    file_encryption_key: str = ""  # any secret string; empty = derived from jwt_secret
+    signed_url_ttl_seconds: int = 300
+    malware_scan: str = "heuristic"  # "heuristic" or "clamav" (heuristic checks + ClamAV)
+    clamav_host: str = "clamav"
+    clamav_port: int = 3310
+    parser_isolation: str = "subprocess"  # "subprocess" or "inline"
+    parser_timeout_seconds: int = 20
+    parser_memory_mb: int = 512
+    consent_version: str = "2026-11"
+    # Retention: 0 disables a rule.
+    retention_unconfirmed_days: int = 7
+    retention_old_resume_days: int = 365
+    retention_inactive_seeker_days: int = 0
+
     @field_validator("database_url")
     @classmethod
     def _normalise_db_url(cls, v: str) -> str:
@@ -65,6 +91,8 @@ def get_settings() -> Settings:
     settings = Settings()
     if settings.is_production and settings.jwt_secret.startswith("dev-only"):
         raise RuntimeError("JWT_SECRET must be set in production")
+    if settings.malware_scan not in ("heuristic", "clamav"):
+        raise RuntimeError("MALWARE_SCAN must be 'heuristic' or 'clamav'")
     return settings
 
 

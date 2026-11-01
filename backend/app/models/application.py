@@ -26,8 +26,8 @@ class Application(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     job_id: Mapped[int] = mapped_column(ForeignKey("jobs.id", ondelete="CASCADE"))
     seeker_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    # The resume version the seeker applied with.
-    resume_id: Mapped[int] = mapped_column(ForeignKey("resumes.id"))
+    # The resume version the seeker applied with. NULL once the seeker deletes that resume.
+    resume_id: Mapped[int | None] = mapped_column(ForeignKey("resumes.id", ondelete="SET NULL"))
     note: Mapped[str | None] = mapped_column(String(500))
     status: Mapped[ApplicationStatus] = mapped_column(
         pg_enum(ApplicationStatus, "application_status"),
@@ -41,7 +41,7 @@ class Application(Base):
 
     job: Mapped[Job] = relationship(lazy="joined")
     seeker: Mapped[User] = relationship(lazy="joined")
-    resume: Mapped[Resume] = relationship()
+    resume: Mapped[Resume | None] = relationship()
     history: Mapped[list["ApplicationStatusHistory"]] = relationship(
         order_by="(ApplicationStatusHistory.changed_at, ApplicationStatusHistory.id)",
         cascade="all, delete-orphan",
@@ -85,6 +85,7 @@ class Notification(Base):
     link: Mapped[str | None] = mapped_column(String(300))
     payload: Mapped[dict] = mapped_column(JSONB, default=dict, server_default="{}")
     read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    emailed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (

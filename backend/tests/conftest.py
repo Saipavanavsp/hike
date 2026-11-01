@@ -9,6 +9,11 @@ os.environ["REDIS_URL"] = os.environ.get("TEST_REDIS_URL", "redis://localhost:63
 os.environ["STORAGE_DIR"] = tempfile.mkdtemp(prefix="hike-test-storage-")
 os.environ["APP_ENV"] = "test"
 os.environ["COOKIE_SECURE"] = "false"
+# Background tasks run inline; the sandboxed parser has its own tests (test_security.py).
+os.environ["TASKS_EAGER"] = "true"
+os.environ["PARSER_ISOLATION"] = "inline"
+os.environ["MALWARE_SCAN"] = "heuristic"
+os.environ["LOG_FORMAT"] = "text"
 
 import pytest  # noqa: E402
 from alembic import command  # noqa: E402

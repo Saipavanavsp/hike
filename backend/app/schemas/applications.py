@@ -69,7 +69,7 @@ class RecruiterApplication(BaseModel):
     applied_at: datetime
     updated_at: datetime
     candidate: CandidateInfo
-    resume: CandidateResume
+    resume: CandidateResume | None  # None if the candidate deleted the resume
     match: CandidateMatch | None
 
 

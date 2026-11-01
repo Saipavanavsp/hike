@@ -17,7 +17,7 @@ from app.services.matching import (
     skill_overlap,
 )
 from app.services.resume_parser import PDF_MIME
-from tests.factories import auth_headers, make_user
+from tests.factories import auth_headers, make_user, post_resume
 from tests.test_jobs_api import make_job
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -119,9 +119,7 @@ def test_weights_sum_to_one():
 def seeker_with_resume(client, db, email="priya@example.com"):
     user, h = auth_headers(db, client, email)
     data = (FIXTURES / "priya_sharma_backend.pdf").read_bytes()
-    rid = client.post("/api/resumes", files={"file": ("cv.pdf", data, PDF_MIME)}, headers=h).json()[
-        "id"
-    ]
+    rid = post_resume(client, h, "cv.pdf", data, PDF_MIME).json()["id"]
     res = client.put(
         f"/api/resumes/{rid}",
         json={

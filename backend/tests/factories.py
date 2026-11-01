@@ -36,3 +36,20 @@ def login(client, email: str, password: str = PASSWORD) -> dict:
 def auth_headers(db, client, email: str, role: str = "seeker", **kw) -> tuple[User, dict]:
     user = make_user(db, email, role, **kw)
     return user, login(client, email)
+
+
+def post_resume(client, headers, name: str, data: bytes, mime: str, consent: bool = True):
+    return client.post(
+        "/api/resumes",
+        files={"file": (name, data, mime)},
+        data={"consent": "true" if consent else "false"},
+        headers=headers,
+    )
+
+
+def fetch_resume_file(client, headers, resume_id: int):
+    """Request a signed link (authorised), then download through it (no bearer token)."""
+    link = client.post(f"/api/resumes/{resume_id}/link", headers=headers)
+    if link.status_code != 200:
+        return link
+    return client.get(link.json()["url"])

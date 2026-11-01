@@ -1,15 +1,17 @@
 import re
 from decimal import Decimal
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.orm import Session
 
-from app.core.deps import require_role
+from app.core.deps import get_current_user, require_role
 from app.db.session import get_db
 from app.models import SeekerProfile, User
+from app.services import resumes as resume_service
 
 router = APIRouter(prefix="/api/profile", tags=["profile"])
+account_router = APIRouter(prefix="/api/account", tags=["account"])
 seeker_only = require_role("seeker")
 
 PHONE_RE = re.compile(r"^\+?[0-9][0-9 -]{7,15}$")
@@ -82,6 +84,24 @@ def _profile(db: Session, user: User) -> SeekerProfile:
 @router.get("", response_model=ProfileOut)
 def get_profile(db: Session = Depends(get_db), user: User = Depends(seeker_only)):
     return _out(user, _profile(db, user))
+
+
+class DeleteAccountIn(BaseModel):
+    password: str = Field(min_length=1, max_length=128)
+
+
+@account_router.post("/delete", status_code=204)
+def delete_account(
+    data: DeleteAccountIn,
+    response: Response,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Permanently erase a seeker's account and all of their data. Requires the password."""
+    resume_service.delete_account(db, user, data.password)
+    response.delete_cookie("hike_refresh", path="/api/auth")
+    response.status_code = 204
+    return None
 
 
 @router.put("", response_model=ProfileOut)

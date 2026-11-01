@@ -1,15 +1,21 @@
-import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_client import REGISTRY
 
 from app.api import admin, applications, auth, health, jobs, profile, recruiter, resumes, stats
 from app.core.config import settings
+from app.core.health import DependencyCollector
+from app.core.observability import ObservabilityMiddleware, configure_logging, init_sentry
 from app.ml.classifier import get_classifier
 from app.ml.embeddings import get_embedder
+from app.tasks import definitions as _tasks  # noqa: F401  registers the Celery tasks
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+configure_logging()
+init_sentry()
+_collector = DependencyCollector()
+REGISTRY.register(_collector)
 
 
 @asynccontextmanager
@@ -23,7 +29,7 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     app = FastAPI(
         title="Hike API",
-        version="1.0.0",
+        version="1.1.0",
         description="Job portal and recruitment platform with resume parsing and AI matching.",
         lifespan=lifespan,
         docs_url="/api/docs",
@@ -35,9 +41,13 @@ def create_app() -> FastAPI:
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["X-Request-ID"],
     )
+    # Added last = outermost: request ids and timings cover CORS handling too.
+    app.add_middleware(ObservabilityMiddleware)
     app.include_router(health.router)
     app.include_router(health.router, prefix="/api")
+    app.include_router(health.metrics_router)
     app.include_router(auth.router)
     app.include_router(jobs.router)
     app.include_router(recruiter.router)
@@ -45,6 +55,7 @@ def create_app() -> FastAPI:
     app.include_router(stats.router)
     app.include_router(applications.router)
     app.include_router(profile.router)
+    app.include_router(profile.account_router)
     app.include_router(admin.router)
     return app
 

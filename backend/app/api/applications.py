@@ -56,9 +56,10 @@ def seeker_view(app: Application) -> SeekerApplication:
 
 def recruiter_view(db: Session, app: Application, with_match: bool = True) -> RecruiterApplication:
     profile = db.get(SeekerProfile, app.seeker_id)
+    # resume is None when the candidate deleted it: the application stays, its data does not.
     resume = app.resume
-    breakdown = match_one(db, resume, app.job_id) if with_match else None
-    years = resume.years_experience if resume.years_experience is not None else None
+    breakdown = match_one(db, resume, app.job_id) if with_match and resume else None
+    years = resume.years_experience if resume is not None else None
     return RecruiterApplication(
         id=app.id,
         job_id=app.job_id,
@@ -74,13 +75,17 @@ def recruiter_view(db: Session, app: Application, with_match: bool = True) -> Re
             location=profile.current_location if profile else None,
             years_experience=float(years) if years is not None else None,
         ),
-        resume=CandidateResume(
-            id=resume.id,
-            filename=resume.original_filename,
-            skills=list(resume.skills or []),
-            predicted_category=(
-                resume.predicted_category.value if resume.predicted_category else None
-            ),
+        resume=(
+            CandidateResume(
+                id=resume.id,
+                filename=resume.original_filename,
+                skills=list(resume.skills or []),
+                predicted_category=(
+                    resume.predicted_category.value if resume.predicted_category else None
+                ),
+            )
+            if resume is not None
+            else None
         ),
         match=CandidateMatch(**breakdown) if breakdown else None,
     )
