@@ -9,8 +9,11 @@ in seed/data/eval_pairs.json:
   - tfidf:      TF-IDF cosine, resume text vs job text (lexical baseline)
   - embeddings: all-MiniLM-L6-v2 cosine only
   - hike:       the full match score (semantic + skills + experience + location)
-Metrics: precision@5, recall@5, MRR, and accuracy of the "top-5 = relevant" decision over
-all 1,000 pairs.
+Metrics: precision@5, recall@5, MRR, NDCG@5 (binary gains), and accuracy of the
+"top-5 = relevant" decision over all 1,000 pairs.
+
+See app/ml/eval_holdout.py for the separate holdout evaluation (hand-written data in
+varied document layouts, graded labels, confidence intervals).
 
 Classifier: 5-fold stratified cross-validation on the synthetic training set, plus accuracy
 on the 20 seed resumes, which the model never sees during training.
@@ -65,7 +68,9 @@ def parse_seed_resumes(resumes: list[dict]) -> list[dict]:
 
 def ranking_metrics(scores: np.ndarray, job_keys: list[int], relevant: list[set[int]]) -> dict:
     """scores: (n_resumes, n_jobs). Higher = better."""
-    p_at_k, r_at_k, rr = [], [], []
+    from app.ml.eval_holdout import ndcg_at_k
+
+    p_at_k, r_at_k, rr, ndcg = [], [], [], []
     correct = total = 0
     for i, rel in enumerate(relevant):
         order = np.argsort(-scores[i], kind="stable")
@@ -76,6 +81,7 @@ def ranking_metrics(scores: np.ndarray, job_keys: list[int], relevant: list[set[
         r_at_k.append(hits / len(rel))
         first = next((pos for pos, key in enumerate(ranked, 1) if key in rel), None)
         rr.append(1 / first if first else 0.0)
+        ndcg.append(ndcg_at_k(ranked, {key: 1 for key in rel}, K))
         for key in job_keys:
             correct += (key in top) == (key in rel)
             total += 1
@@ -83,6 +89,7 @@ def ranking_metrics(scores: np.ndarray, job_keys: list[int], relevant: list[set[
         "precision_at_5": round(float(np.mean(p_at_k)), 4),
         "recall_at_5": round(float(np.mean(r_at_k)), 4),
         "mrr": round(float(np.mean(rr)), 4),
+        "ndcg_at_5": round(float(np.mean(ndcg)), 4),
         "accuracy": round(correct / total, 4),
     }
 
@@ -214,11 +221,11 @@ def print_report(m: dict) -> None:
         f"\nMatching: {mt['n_resumes']} resumes x {mt['n_jobs']} jobs, "
         f"{mt['n_relevant_pairs']} relevant pairs"
     )
-    print(f"{'method':<12}{'P@5':>8}{'R@5':>8}{'MRR':>8}{'Acc':>8}")
+    print(f"{'method':<12}{'P@5':>8}{'R@5':>8}{'MRR':>8}{'NDCG@5':>8}{'Acc':>8}")
     for name, r in mt["methods"].items():
         print(
             f"{name:<12}{r['precision_at_5']:>8.3f}{r['recall_at_5']:>8.3f}"
-            f"{r['mrr']:>8.3f}{r['accuracy']:>8.3f}"
+            f"{r['mrr']:>8.3f}{r['ndcg_at_5']:>8.3f}{r['accuracy']:>8.3f}"
         )
     cd = mt["cosine_distribution"]
     print(f"MiniLM cosine  relevant {cd['relevant']}  not relevant {cd['not_relevant']}")

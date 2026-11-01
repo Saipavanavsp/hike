@@ -1,0 +1,35 @@
+{
+ "rubric": {
+  "2": "Strong fit: same role family, has the role's primary language/specialisation, covers at least ~60% of the listed skills, and experience is within the range (+/- 1 year).",
+  "1": "Partial fit: same family sharing at least 1/3 of the listed skills, or an adjacent family sharing at least half; or a strong skills match with experience more than a year outside the range. Judgement is used for career changers.",
+  "0": "Not a fit (every pair not listed).",
+  "adjacent_families": "fullstack-backend, fullstack-frontend, backend-devops, frontend-mobile"
+ },
+ "provenance": "Drafted with AI assistance (Claude) by applying the rubric to each resume and every job; not yet reviewed by an independent human labeller. Export them for review with: python -m app.ml.eval_holdout --export-labels labels.csv",
+ "labels": {
+  "r01": {"j01": 2, "j02": 1, "j03": 1},
+  "r02": {"j02": 2, "j01": 1, "j10": 1},
+  "r03": {"j03": 2, "j01": 1, "j02": 1, "j10": 1, "j18": 1},
+  "r04": {"j04": 2, "j09": 1},
+  "r05": {"j05": 2, "j06": 1, "j07": 1, "j24": 1},
+  "r06": {"j06": 2, "j05": 1, "j08": 1},
+  "r07": {"j07": 2, "j05": 1, "j24": 1},
+  "r08": {"j08": 2, "j06": 1},
+  "r09": {"j09": 2, "j04": 1, "j08": 1, "j10": 1},
+  "r10": {"j10": 2, "j02": 1, "j09": 1, "j11": 1},
+  "r11": {"j11": 2, "j07": 1, "j09": 1, "j10": 1},
+  "r12": {"j12": 2},
+  "r13": {"j13": 2, "j14": 1, "j15": 1, "j16": 1},
+  "r14": {"j14": 2, "j13": 1, "j15": 1, "j30": 1},
+  "r15": {"j15": 2, "j13": 1, "j14": 1},
+  "r16": {"j16": 2, "j13": 1},
+  "r17": {"j17": 2, "j20": 2, "j18": 1, "j19": 1},
+  "r18": {"j18": 2, "j17": 1, "j20": 1},
+  "r19": {"j21": 2, "j23": 1},
+  "r20": {"j22": 2},
+  "r21": {"j23": 2, "j21": 1},
+  "r22": {"j25": 2, "j26": 1, "j27": 1},
+  "r23": {"j26": 1, "j27": 1},
+  "r24": {"j31": 2}
+ }
+}

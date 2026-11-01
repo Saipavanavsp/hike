@@ -1,0 +1,240 @@
+[
+  {
+    "key": "j01", "category": "backend", "title": "Backend Engineer - Payments",
+    "company": "Riverbend Fintech", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Java", "Spring Boot", "PostgreSQL", "Apache Kafka", "REST APIs", "Docker"],
+    "description_md": "We move money for 1,200 lending partners. You will own the services that settle UPI and card payments: idempotent REST APIs, Kafka consumers that reconcile ledger entries, and PostgreSQL schemas that survive month-end load.\n\n**You have**\n- 3+ years building Java services (Spring Boot)\n- Comfort with event-driven design and at-least-once delivery\n- Containers in production (Docker)\n\nNice to have: payments or banking domain, observability tooling."
+  },
+  {
+    "key": "j02", "category": "backend", "title": "Software Engineer II (Python Services)",
+    "company": "Indus Metrics", "location": "Hyderabad", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Python", "Django", "PostgreSQL", "Celery", "Redis", "AWS"],
+    "description_md": "Indus Metrics builds survey and field-data software for public-health programmes. The platform team runs a Django monolith plus Celery workers that crunch submissions from 40,000 field agents.\n\nWhat you'll do: design Django REST endpoints, move slow work into Celery with Redis, tune PostgreSQL queries, and deploy on AWS (ECS, RDS, S3). We review each other's code and write tests first."
+  },
+  {
+    "key": "j03", "category": "backend", "title": "Senior Go Developer",
+    "company": "Deltawave", "location": "Remote", "remote_type": "remote",
+    "experience_min": 5, "experience_max": 9,
+    "skills": ["Go", "gRPC", "Kubernetes", "PostgreSQL", "Microservices"],
+    "description_md": "Deltawave runs a telematics platform for 90,000 trucks. We are rewriting our ingestion tier as Go microservices talking gRPC, deployed on Kubernetes.\n\nLooking for someone senior who has shipped and operated Go in production, can reason about back-pressure and retries, and has designed PostgreSQL schemas for high write volume. Fully remote within India."
+  },
+  {
+    "key": "j04", "category": "backend", "title": "Node.js API Developer",
+    "company": "Marigold Commerce", "location": "Pune", "remote_type": "onsite",
+    "experience_min": 1, "experience_max": 3,
+    "skills": ["Node.js", "Express", "MongoDB", "TypeScript", "REST APIs"],
+    "description_md": "Join a small team building the order and catalogue APIs behind 300 D2C brands. Stack: Node.js + Express in TypeScript, MongoDB, deployed with Docker.\n\nGood fit if you have 1-3 years writing REST APIs, understand MongoDB indexes and aggregation, and like owning features end to end. Office in Baner, Pune, five days a week."
+  },
+  {
+    "key": "j05", "category": "frontend", "title": "Frontend Engineer (React)",
+    "company": "Paperkite", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 4,
+    "skills": ["React", "TypeScript", "Redux", "CSS", "Jest"],
+    "description_md": "Paperkite makes invoicing software for freelancers. You'll build product screens in React + TypeScript, manage state with Redux Toolkit, and keep the test suite (Jest, React Testing Library) honest.\n\nWe care about fast, accessible UI and clean CSS. 2-4 years of professional React experience expected."
+  },
+  {
+    "key": "j06", "category": "frontend", "title": "UI Developer",
+    "company": "Copperleaf Retail", "location": "Chennai", "remote_type": "onsite",
+    "experience_min": 1, "experience_max": 3,
+    "skills": ["HTML", "CSS", "JavaScript", "Angular", "Bootstrap"],
+    "description_md": "Copperleaf Retail runs 140 stores and an online shop. The digital team needs a UI developer to build responsive Angular screens for the store-ops portal using Bootstrap, and to turn Figma designs into pixel-accurate HTML/CSS.\n\n1-3 years of experience. Work from our T. Nagar office."
+  },
+  {
+    "key": "j07", "category": "frontend", "title": "Senior Frontend Engineer - Design Systems",
+    "company": "Bluefin Learning", "location": "Remote", "remote_type": "remote",
+    "experience_min": 5, "experience_max": 8,
+    "skills": ["React", "TypeScript", "Storybook", "Web Accessibility", "Next.js"],
+    "description_md": "Bluefin Learning serves 2 million students. We need a senior engineer to own our component library: React + TypeScript components documented in Storybook, WCAG 2.1 AA accessibility, and the Next.js apps that consume them.\n\nYou'll partner with designers, set front-end standards and mentor four engineers."
+  },
+  {
+    "key": "j08", "category": "frontend", "title": "Vue.js Developer",
+    "company": "Orbitly", "location": "Noida", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Vue.js", "JavaScript", "Tailwind CSS", "REST APIs"],
+    "description_md": "Orbitly builds travel-booking tools for corporate admins. Our web app is Vue 3 with Pinia and Tailwind CSS, talking to REST APIs.\n\nYou will ship features weekly, improve page performance and pair with backend engineers on API contracts. 2-5 years with Vue or a similar framework."
+  },
+  {
+    "key": "j09", "category": "fullstack", "title": "Full Stack Developer (MERN)",
+    "company": "Sprocket Works", "location": "Pune", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 4,
+    "skills": ["MongoDB", "Express", "React", "Node.js", "JavaScript"],
+    "description_md": "Sprocket Works is a product studio. You will build client products on the MERN stack: React front ends, Node/Express services and MongoDB data models, from first commit to launch.\n\n2-4 years of full-stack JavaScript. Hybrid, two days a week in Kharadi."
+  },
+  {
+    "key": "j10", "category": "fullstack", "title": "Full Stack Engineer - Django + React",
+    "company": "Vantra Health", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Python", "Django", "React", "PostgreSQL", "Docker"],
+    "description_md": "Vantra Health connects 600 clinics to diagnostic labs. Our product is a Django + DRF API with a React front end on PostgreSQL, shipped in Docker containers.\n\nWe want a full-stack engineer who is equally happy writing a migration and a form, with 3-6 years of experience."
+  },
+  {
+    "key": "j11", "category": "fullstack", "title": "Product Engineer",
+    "company": "Inkwell Software", "location": "Remote", "remote_type": "remote",
+    "experience_min": 1, "experience_max": 4,
+    "skills": ["TypeScript", "Next.js", "Node.js", "PostgreSQL", "GraphQL"],
+    "description_md": "Inkwell is a 12-person startup building contract-review software. Product engineers own whole features: Next.js pages, a GraphQL API in Node.js, and PostgreSQL. TypeScript everywhere.\n\nRemote, async-first. 1-4 years of experience and a portfolio of things you've shipped."
+  },
+  {
+    "key": "j12", "category": "fullstack", "title": "Full Stack .NET Developer",
+    "company": "Lumen Freight", "location": "Hyderabad", "remote_type": "onsite",
+    "experience_min": 3, "experience_max": 7,
+    "skills": ["C#", ".NET", "Angular", "SQL Server", "Azure"],
+    "description_md": "Lumen Freight's shipment-tracking portal is built on ASP.NET Core Web APIs, an Angular front end and SQL Server, hosted on Azure.\n\nWe need a full-stack .NET developer with 3-7 years of experience to build new carrier integrations and modernise legacy MVC screens. Office in HITEC City."
+  },
+  {
+    "key": "j13", "category": "data_ml", "title": "Machine Learning Engineer",
+    "company": "Indus Metrics", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Python", "PyTorch", "scikit-learn", "MLOps", "Docker", "SQL"],
+    "description_md": "Build and ship the models that flag anomalous survey data. You'll train models in PyTorch and scikit-learn, package them in Docker, and set up MLOps (experiment tracking, model registry, monitoring).\n\n2-5 years taking ML models to production. Strong SQL and Python."
+  },
+  {
+    "key": "j14", "category": "data_ml", "title": "Data Scientist - Forecasting",
+    "company": "Ledgerline Capital", "location": "Mumbai", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Python", "Pandas", "scikit-learn", "Statistics", "SQL", "Time Series"],
+    "description_md": "Ledgerline lends to small manufacturers. The risk team needs a data scientist to forecast repayment cash flows: time series models, solid statistics, and clear communication of uncertainty to credit officers.\n\nTools: Python, Pandas, scikit-learn, SQL. 2-5 years of experience."
+  },
+  {
+    "key": "j15", "category": "data_ml", "title": "Data Engineer",
+    "company": "Indigo Grid", "location": "Pune", "remote_type": "hybrid",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Python", "Apache Spark", "Airflow", "SQL", "AWS", "Apache Kafka"],
+    "description_md": "Indigo Grid analyses smart-meter data for electricity distributors. You will build Spark pipelines on AWS, orchestrate them with Airflow, stream readings in through Kafka and model warehouse tables in SQL.\n\n3-6 years in data engineering."
+  },
+  {
+    "key": "j16", "category": "data_ml", "title": "NLP Engineer",
+    "company": "Bluefin Learning", "location": "Remote", "remote_type": "remote",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Python", "NLP", "PyTorch", "Hugging Face"],
+    "description_md": "Help 2 million students get answers in their own language. You will fine-tune transformer models (Hugging Face, PyTorch) for question answering and grading in English and Indian languages, and build evaluation sets with teachers.\n\n3-6 years in NLP."
+  },
+  {
+    "key": "j17", "category": "devops", "title": "DevOps Engineer",
+    "company": "Tealpine Systems", "location": "Hyderabad", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["AWS", "Terraform", "Docker", "Kubernetes", "Jenkins", "Linux"],
+    "description_md": "Tealpine Systems runs HR software for 900 companies on AWS. You will manage infrastructure as code with Terraform, run our EKS (Kubernetes) clusters, maintain Jenkins pipelines and keep Linux hosts patched.\n\n2-5 years of hands-on DevOps."
+  },
+  {
+    "key": "j18", "category": "devops", "title": "Site Reliability Engineer",
+    "company": "Deltawave", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 4, "experience_max": 8,
+    "skills": ["Kubernetes", "Prometheus", "Grafana", "Go", "Linux", "Terraform"],
+    "description_md": "Keep 90,000 trucks reporting. SREs at Deltawave own SLOs, Prometheus alerting and Grafana dashboards, Kubernetes capacity, and write Go tooling to automate toil. Terraform for everything.\n\n4-8 years, including on-call for production systems."
+  },
+  {
+    "key": "j19", "category": "devops", "title": "Cloud Engineer (Azure)",
+    "company": "Lumen Freight", "location": "Chennai", "remote_type": "onsite",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Azure", "Terraform", "PowerShell", "CI/CD", "Docker"],
+    "description_md": "Lumen Freight is moving from VMs to Azure PaaS and containers. You will write Terraform for Azure resources, automate with PowerShell, and build CI/CD pipelines for 30 services.\n\n2-5 years in cloud engineering. Chennai office."
+  },
+  {
+    "key": "j20", "category": "devops", "title": "Platform Engineer",
+    "company": "Inkwell Software", "location": "Remote", "remote_type": "remote",
+    "experience_min": 3, "experience_max": 7,
+    "skills": ["Kubernetes", "Helm", "GitHub Actions", "AWS", "Python"],
+    "description_md": "Build the paved road for our engineers: Kubernetes on AWS, Helm charts, GitHub Actions workflows, and Python tooling for preview environments.\n\n3-7 years of platform or DevOps work. Remote."
+  },
+  {
+    "key": "j21", "category": "mobile", "title": "Android Developer",
+    "company": "Rainfall Mobility", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Kotlin", "Android", "Jetpack Compose", "REST APIs", "Firebase"],
+    "description_md": "Rainfall Mobility's app books 50,000 auto rides a day. Build Android features in Kotlin with Jetpack Compose, integrate REST APIs, and use Firebase for analytics and crash reporting.\n\n2-5 years of Android development."
+  },
+  {
+    "key": "j22", "category": "mobile", "title": "iOS Engineer",
+    "company": "Paperkite", "location": "Mumbai", "remote_type": "hybrid",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Swift", "iOS", "SwiftUI", "Xcode"],
+    "description_md": "Own Paperkite's iOS app: SwiftUI screens, offline sync, and a clean Xcode project with tests. 3-6 years of native iOS development in Swift."
+  },
+  {
+    "key": "j23", "category": "mobile", "title": "Flutter Developer",
+    "company": "Marigold Commerce", "location": "Kochi", "remote_type": "onsite",
+    "experience_min": 1, "experience_max": 3,
+    "skills": ["Flutter", "Dart", "Firebase", "REST APIs"],
+    "description_md": "Build the shopping apps for our D2C brands in Flutter and Dart, with Firebase auth and push notifications and REST APIs for catalogue and orders. 1-3 years of Flutter. Infopark, Kochi."
+  },
+  {
+    "key": "j24", "category": "mobile", "title": "React Native Developer",
+    "company": "Orbitly", "location": "Remote", "remote_type": "remote",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["React Native", "JavaScript", "TypeScript", "Redux"],
+    "description_md": "Orbitly's traveller app is React Native with TypeScript and Redux. Ship features to iOS and Android from one codebase, and improve startup time. 2-5 years with React Native."
+  },
+  {
+    "key": "j25", "category": "qa", "title": "QA Automation Engineer",
+    "company": "Riverbend Fintech", "location": "Pune", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Selenium", "Java", "TestNG", "API Testing", "Jenkins"],
+    "description_md": "Grow our automation framework: Selenium WebDriver with Java and TestNG, API testing for payment flows, and nightly suites in Jenkins. 2-5 years in test automation."
+  },
+  {
+    "key": "j26", "category": "qa", "title": "SDET (Python)",
+    "company": "Vantra Health", "location": "Hyderabad", "remote_type": "hybrid",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["Python", "Pytest", "Playwright", "CI/CD", "REST APIs"],
+    "description_md": "Write the tests that let us release daily: Pytest for REST APIs, Playwright for the clinic web app, all running in CI/CD. You will also review developers' tests. 3-6 years as an SDET."
+  },
+  {
+    "key": "j27", "category": "qa", "title": "Manual QA Analyst",
+    "company": "Copperleaf Retail", "location": "Coimbatore", "remote_type": "onsite",
+    "experience_min": 0, "experience_max": 2,
+    "skills": ["Manual Testing", "Test Planning", "Jira", "SQL"],
+    "description_md": "Test our point-of-sale and inventory apps before every store rollout. Write test cases, log defects in Jira, run SQL checks on the data. Freshers with a testing course are welcome; up to 2 years of experience."
+  },
+  {
+    "key": "j28", "category": "qa", "title": "Performance Test Engineer",
+    "company": "Tealpine Systems", "location": "Bengaluru", "remote_type": "onsite",
+    "experience_min": 3, "experience_max": 6,
+    "skills": ["JMeter", "Performance Testing", "Linux", "Grafana"],
+    "description_md": "Load-test payroll runs for 900 companies. Build JMeter scenarios, run them from Linux load generators, and read Grafana dashboards to find bottlenecks. 3-6 years of performance testing."
+  },
+  {
+    "key": "j29", "category": "other", "title": "Sales Engineer - Developer Tools",
+    "company": "Inkwell Software", "location": "Bengaluru", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Presales", "REST APIs", "Product Demos"],
+    "description_md": "Run product demos for legal teams, answer technical questions in presales calls and help customers connect our REST APIs. Some coding background helps; quota-carrying sales experience required."
+  },
+  {
+    "key": "j30", "category": "other", "title": "Business Analyst",
+    "company": "Ledgerline Capital", "location": "Mumbai", "remote_type": "onsite",
+    "experience_min": 2, "experience_max": 4,
+    "skills": ["Requirements Gathering", "SQL", "Excel", "Jira"],
+    "description_md": "Translate what credit officers need into clear requirements, write user stories in Jira, and answer data questions with SQL and Excel. 2-4 years as a business analyst in lending or banking."
+  },
+  {
+    "key": "j31", "category": "other", "title": "Embedded Firmware Engineer",
+    "company": "Rainfall Mobility", "location": "Pune", "remote_type": "onsite",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["C", "Embedded C", "RTOS", "Microcontrollers"],
+    "description_md": "Write firmware for our EV battery-swap stations: Embedded C on ARM microcontrollers, an RTOS, CAN and Modbus drivers. 2-5 years of embedded development."
+  },
+  {
+    "key": "j32", "category": "other", "title": "Salesforce Developer",
+    "company": "Ember CRM Partners", "location": "Hyderabad", "remote_type": "hybrid",
+    "experience_min": 2, "experience_max": 5,
+    "skills": ["Salesforce", "Apex", "SOQL", "Lightning"],
+    "description_md": "Build Salesforce solutions for our clients: Apex triggers and classes, SOQL, Lightning Web Components, and integrations. Salesforce Platform Developer I certification preferred."
+  },
+  {
+    "key": "j33", "category": "other", "title": "Technical Writer",
+    "company": "Bluefin Learning", "location": "Remote", "remote_type": "remote",
+    "experience_min": 1, "experience_max": 4,
+    "skills": ["Technical Writing", "Markdown", "Git"],
+    "description_md": "Write and maintain developer documentation and API guides in Markdown, reviewed through Git pull requests. 1-4 years of technical writing."
+  },
+  {
+    "key": "j34", "category": "other", "title": "Data Entry Operator",
+    "company": "Copperleaf Retail", "location": "Chennai", "remote_type": "onsite",
+    "experience_min": 0, "experience_max": 1,
+    "skills": ["Excel", "Typing"],
+    "description_md": "Enter supplier invoices and stock counts into our ERP accurately. Good typing speed and basic Excel. Freshers welcome."
+  }
+]

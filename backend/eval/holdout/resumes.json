@@ -1,0 +1,1084 @@
+[
+ {
+  "key": "r01",
+  "format": "pdf_classic",
+  "category": "backend",
+  "name": "Rakesh Venkatesan",
+  "email": "rakesh.v@example.com",
+  "phone": "+91 98450 11203",
+  "location": "Bengaluru",
+  "summary": "Backend engineer, 5 years in Java. Built payment reconciliation and lending services that process millions of events a day.",
+  "experience": [
+   {
+    "title": "Senior Software Engineer",
+    "company": "Brightforge Labs",
+    "dates": "Jun 2023 - Present",
+    "bullets": [
+     "Owns 6 payment reconciliation microservices in Java 17 and Spring Boot",
+     "Kafka consumers handling ~2M ledger events/day with exactly-once semantics on top of PostgreSQL",
+     "Cut month-end settlement time from 4 hours to 35 minutes by partitioning Postgres tables"
+    ]
+   },
+   {
+    "title": "Software Engineer",
+    "company": "Tealwood Technologies",
+    "dates": "Jul 2021 - May 2023",
+    "bullets": [
+     "REST APIs for a loan origination system (Spring, Hibernate)",
+     "Dockerised services and moved them to AWS ECS",
+     "JUnit + Testcontainers test suites"
+    ]
+   }
+  ],
+  "skills_text": "Java, Spring Boot, Hibernate, Kafka, Postgres, Redis, Docker, AWS, Microservices, JUnit, Git",
+  "education": [
+   "B.E. Computer Science, Vidyagiri Institute of Engineering, 2021"
+  ],
+  "gold_skills": [
+   "Java",
+   "Spring Boot",
+   "Hibernate",
+   "Apache Kafka",
+   "PostgreSQL",
+   "Redis",
+   "Docker",
+   "AWS",
+   "Microservices",
+   "JUnit",
+   "Git",
+   "REST APIs"
+  ]
+ },
+ {
+  "key": "r02",
+  "format": "docx_table",
+  "category": "backend",
+  "name": "Fatima Sheikh",
+  "email": "fatima.sheikh@example.com",
+  "phone": "+91 99080 44712",
+  "location": "Hyderabad",
+  "summary": "Python developer focused on Django APIs and background processing.",
+  "experience": [
+   {
+    "title": "Software Engineer",
+    "company": "Juniper Loop",
+    "dates": "Apr 2023 - Present",
+    "bullets": [
+     "Django REST Framework APIs for insurance claims (120 endpoints)",
+     "Moved document OCR and payouts to Celery workers with Redis",
+     "Query tuning on PostgreSQL; AWS S3, RDS and Lambda"
+    ]
+   },
+   {
+    "title": "Associate Engineer",
+    "company": "Ashoka Softworks",
+    "dates": "May 2022 - Mar 2023",
+    "bullets": [
+     "Flask microservices backed by MySQL",
+     "Containerised the services with Docker"
+    ]
+   }
+  ],
+  "skills_text": "Python | Django | DRF | Flask | Celery | Redis | PostgreSQL | MySQL | Docker | AWS | Git",
+  "education": [
+   "B.Tech Information Technology, Charminar College of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "Python",
+   "Django",
+   "Flask",
+   "Celery",
+   "Redis",
+   "PostgreSQL",
+   "MySQL",
+   "Docker",
+   "AWS",
+   "Git",
+   "REST APIs"
+  ]
+ },
+ {
+  "key": "r03",
+  "format": "pdf_two_column",
+  "category": "backend",
+  "name": "Arvind Nambiar",
+  "email": "arvind.nambiar@example.com",
+  "phone": "+91 94470 23981",
+  "location": "Kochi",
+  "summary": "Senior backend engineer. Go and gRPC microservices on Kubernetes; open to remote roles.",
+  "experience": [
+   {
+    "title": "Staff Engineer",
+    "company": "Lattice Ninefold",
+    "dates": "Jan 2022 - Present",
+    "bullets": [
+     "Designed the Go + gRPC service mesh for a logistics platform (40 services)",
+     "Wrote two Kubernetes operators for tenant provisioning",
+     "PostgreSQL schema design for 15k writes/sec; Prometheus metrics for every service"
+    ]
+   },
+   {
+    "title": "Senior Backend Engineer",
+    "company": "Pebblebay Tech",
+    "dates": "Aug 2019 - Dec 2021",
+    "bullets": [
+     "Python and Go microservices, Kafka event pipelines",
+     "Led the Docker migration from bare VMs"
+    ]
+   }
+  ],
+  "skills_text": "golang, gRPC, k8s, Docker, Postgres, Kafka, Prometheus, Python, microservices, Linux",
+  "education": [
+   "M.Tech Computer Science, Malabar Institute of Technology, 2019"
+  ],
+  "gold_skills": [
+   "Go",
+   "gRPC",
+   "Kubernetes",
+   "Docker",
+   "PostgreSQL",
+   "Apache Kafka",
+   "Prometheus",
+   "Python",
+   "Microservices",
+   "Linux"
+  ]
+ },
+ {
+  "key": "r04",
+  "format": "docx_caps",
+  "category": "backend",
+  "name": "Neha Bansal",
+  "email": "neha.bansal@example.com",
+  "phone": "+91 98220 67431",
+  "location": "Pune",
+  "summary": "Junior backend developer working with Node.js and MongoDB.",
+  "experience": [
+   {
+    "title": "Junior Backend Developer",
+    "company": "Brightforge Labs",
+    "dates": "Mar 2025 - Present",
+    "bullets": [
+     "Express + TypeScript REST APIs for a ticketing product",
+     "MongoDB aggregation pipelines for reports",
+     "JWT auth and rate limiting"
+    ]
+   },
+   {
+    "title": "Backend Intern",
+    "company": "Ashoka Softworks",
+    "dates": "Jun 2024 - Feb 2025",
+    "bullets": [
+     "NodeJS scripts to migrate customer data into MongoDB"
+    ]
+   }
+  ],
+  "skills_text": "NodeJS, Express, TypeScript, JS, MongoDB, RESTful APIs, Git, Postman",
+  "education": [
+   "BCA, Sahyadri Institute of Computer Studies, 2024"
+  ],
+  "gold_skills": [
+   "Node.js",
+   "Express",
+   "TypeScript",
+   "JavaScript",
+   "MongoDB",
+   "REST APIs",
+   "Git",
+   "Postman",
+   "JWT"
+  ]
+ },
+ {
+  "key": "r05",
+  "format": "pdf_classic",
+  "category": "frontend",
+  "name": "Priyanka Das",
+  "email": "priyanka.das@example.com",
+  "phone": "+91 90080 33127",
+  "location": "Bengaluru",
+  "summary": "Frontend engineer who builds data-heavy dashboards in React and TypeScript.",
+  "experience": [
+   {
+    "title": "Frontend Engineer",
+    "company": "Lattice Ninefold",
+    "dates": "Aug 2023 - Present",
+    "bullets": [
+     "React + TypeScript analytics dashboard used by 3,000 dispatchers",
+     "State management with Redux Toolkit; 600 Jest / React Testing Library tests",
+     "Cut bundle size 38% with route-level code splitting"
+    ]
+   },
+   {
+    "title": "UI Engineer",
+    "company": "Pebblebay Tech",
+    "dates": "Sep 2022 - Jul 2023",
+    "bullets": [
+     "HTML, Sass and JavaScript marketing pages",
+     "First React components for the customer portal"
+    ]
+   }
+  ],
+  "skills_text": "ReactJS, TypeScript, JavaScript, Redux, Jest, React Testing Library, HTML5, CSS3, Sass, Webpack, Git",
+  "education": [
+   "B.Tech Electronics, Konark Institute of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "React",
+   "TypeScript",
+   "JavaScript",
+   "Redux",
+   "Jest",
+   "React Testing Library",
+   "HTML",
+   "CSS",
+   "Sass",
+   "Webpack",
+   "Git"
+  ]
+ },
+ {
+  "key": "r06",
+  "format": "docx_table",
+  "category": "frontend",
+  "name": "Mohit Arora",
+  "email": "mohit.arora@example.com",
+  "phone": "+91 98410 70265",
+  "location": "Chennai",
+  "summary": "UI developer building Angular applications.",
+  "experience": [
+   {
+    "title": "UI Developer",
+    "company": "Saranya Infotech",
+    "dates": "Jan 2025 - Present",
+    "bullets": [
+     "Angular 17 components with Bootstrap and SCSS",
+     "Integrated REST services for an HR portal",
+     "RxJS for form and search state"
+    ]
+   },
+   {
+    "title": "Trainee Web Developer",
+    "company": "Vellore Digital",
+    "dates": "Jul 2024 - Dec 2024",
+    "bullets": [
+     "Responsive landing pages in HTML, CSS and vanilla JavaScript"
+    ]
+   }
+  ],
+  "skills_text": "Angular | TypeScript | JavaScript | HTML | CSS | Bootstrap | RxJS | Git",
+  "education": [
+   "B.Sc Computer Science, Marina Arts and Science College, 2024"
+  ],
+  "gold_skills": [
+   "Angular",
+   "TypeScript",
+   "JavaScript",
+   "HTML",
+   "CSS",
+   "Bootstrap",
+   "RxJS",
+   "Git",
+   "REST APIs",
+   "Sass"
+  ]
+ },
+ {
+  "key": "r07",
+  "format": "docx_caps",
+  "category": "frontend",
+  "name": "Sanjana Rao",
+  "email": "sanjana.rao@example.com",
+  "phone": "+91 99000 51846",
+  "location": "Bengaluru",
+  "summary": "Lead frontend engineer; builds design systems and cares about accessibility.",
+  "experience": [
+   {
+    "title": "Lead Frontend Engineer",
+    "company": "Lattice Ninefold",
+    "dates": "Feb 2022 - Present",
+    "bullets": [
+     "Built the Storybook design system used by 9 product teams",
+     "Took the main app to WCAG 2.1 AA (screen-reader audits, keyboard support)",
+     "Next.js marketing site; React + TypeScript throughout"
+    ]
+   },
+   {
+    "title": "Senior Frontend Developer",
+    "company": "Pebblebay Tech",
+    "dates": "Mar 2019 - Jan 2022",
+    "bullets": [
+     "React and Redux single-page apps, Jest tests, CSS-in-JS"
+    ]
+   }
+  ],
+  "skills_text": "React, TypeScript, Next.js, Storybook, Web Accessibility (WCAG), Jest, Redux, CSS, Figma",
+  "education": [
+   "B.E. Information Science, Nandi Hills Institute of Engineering, 2019"
+  ],
+  "gold_skills": [
+   "React",
+   "TypeScript",
+   "Next.js",
+   "Storybook",
+   "Web Accessibility",
+   "Jest",
+   "Redux",
+   "CSS",
+   "Figma"
+  ]
+ },
+ {
+  "key": "r08",
+  "format": "pdf_two_column",
+  "category": "frontend",
+  "name": "Harsh Vardhan",
+  "email": "harsh.vardhan@example.com",
+  "phone": "+91 98110 92374",
+  "location": "Noida",
+  "summary": "Frontend developer working mostly in Vue.",
+  "experience": [
+   {
+    "title": "Frontend Developer",
+    "company": "Saranya Infotech",
+    "dates": "Oct 2023 - Present",
+    "bullets": [
+     "Vue 3 + Pinia single-page app for warehouse staff",
+     "Tailwind CSS component library",
+     "Consumed REST APIs and wrote API mocks for testing"
+    ]
+   },
+   {
+    "title": "Web Developer",
+    "company": "Vellore Digital",
+    "dates": "Jun 2022 - Sep 2023",
+    "bullets": [
+     "jQuery and JavaScript front ends on Laravel blade templates",
+     "Some PHP backend fixes"
+    ]
+   }
+  ],
+  "skills_text": "Vue.js, JavaScript, Tailwind CSS, HTML, CSS, REST APIs, PHP, Laravel, Git",
+  "education": [
+   "B.Tech Computer Science, Yamuna Institute of Technology, 2022"
+  ],
+  "gold_skills": [
+   "Vue.js",
+   "JavaScript",
+   "Tailwind CSS",
+   "HTML",
+   "CSS",
+   "REST APIs",
+   "PHP",
+   "Laravel",
+   "Git",
+   "jQuery"
+  ]
+ },
+ {
+  "key": "r09",
+  "format": "pdf_classic",
+  "category": "fullstack",
+  "name": "Kiran Gowda",
+  "email": "kiran.gowda@example.com",
+  "phone": "+91 97400 18852",
+  "location": "Pune",
+  "summary": "Full-stack JavaScript developer (MERN).",
+  "experience": [
+   {
+    "title": "Full Stack Developer",
+    "company": "Ashoka Softworks",
+    "dates": "Jan 2024 - Present",
+    "bullets": [
+     "MERN app for clinic bookings: React hooks front end, Node/Express APIs, MongoDB",
+     "Redux for booking state; Docker for local dev"
+    ]
+   },
+   {
+    "title": "Junior Developer",
+    "company": "Brightforge Labs",
+    "dates": "Jul 2022 - Dec 2023",
+    "bullets": [
+     "Express REST endpoints and React components for an admin console"
+    ]
+   }
+  ],
+  "skills_text": "MongoDB, Express.js, React, Node.js, JavaScript, Redux, REST APIs, Git, Docker",
+  "education": [
+   "B.E. Computer Engineering, Deccan Plateau College of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "MongoDB",
+   "Express",
+   "React",
+   "Node.js",
+   "JavaScript",
+   "Redux",
+   "REST APIs",
+   "Git",
+   "Docker"
+  ]
+ },
+ {
+  "key": "r10",
+  "format": "docx_table",
+  "category": "fullstack",
+  "name": "Divya Menon",
+  "email": "divya.menon@example.com",
+  "phone": "+91 99459 26610",
+  "location": "Bengaluru",
+  "summary": "Full-stack engineer: Django and React, mostly in healthcare products.",
+  "experience": [
+   {
+    "title": "Senior Software Engineer",
+    "company": "Juniper Loop",
+    "dates": "May 2023 - Present",
+    "bullets": [
+     "Django + DRF backend and React front end for a telehealth product",
+     "PostgreSQL, Docker, GitHub Actions pipelines"
+    ]
+   },
+   {
+    "title": "Software Engineer",
+    "company": "Pebblebay Tech",
+    "dates": "Jun 2021 - Apr 2023",
+    "bullets": [
+     "Python Flask APIs on MySQL",
+     "React screens for the operations team"
+    ]
+   }
+  ],
+  "skills_text": "Python | Django | React | PostgreSQL | Docker | JavaScript | TypeScript | Flask | MySQL | GitHub Actions",
+  "education": [
+   "B.Tech Computer Science, Periyar Valley Institute of Technology, 2021"
+  ],
+  "gold_skills": [
+   "Python",
+   "Django",
+   "React",
+   "PostgreSQL",
+   "Docker",
+   "JavaScript",
+   "TypeScript",
+   "Flask",
+   "MySQL",
+   "GitHub Actions"
+  ]
+ },
+ {
+  "key": "r11",
+  "format": "docx_caps",
+  "category": "fullstack",
+  "name": "Aakash Jain",
+  "email": "aakash.jain@example.com",
+  "phone": "+91 94140 77215",
+  "location": "Jaipur",
+  "summary": "Product-minded TypeScript engineer. Ships whole features, front to back. Remote.",
+  "experience": [
+   {
+    "title": "Software Engineer",
+    "company": "Lattice Ninefold",
+    "dates": "Apr 2024 - Present",
+    "bullets": [
+     "Next.js (app router) product with a GraphQL API in Node.js",
+     "PostgreSQL via Prisma; Tailwind CSS UI"
+    ]
+   },
+   {
+    "title": "Freelance Web Developer",
+    "company": "Self-employed",
+    "dates": "May 2023 - Mar 2024",
+    "bullets": [
+     "React and Node projects for six small businesses"
+    ]
+   }
+  ],
+  "skills_text": "TypeScript, Next.js, React, Node.js, GraphQL, PostgreSQL, Prisma, Tailwind CSS, Vercel",
+  "education": [
+   "B.Tech Computer Science, Aravalli Institute of Technology, 2023"
+  ],
+  "gold_skills": [
+   "TypeScript",
+   "Next.js",
+   "React",
+   "Node.js",
+   "GraphQL",
+   "PostgreSQL",
+   "Prisma",
+   "Tailwind CSS"
+  ]
+ },
+ {
+  "key": "r12",
+  "format": "pdf_two_column",
+  "category": "fullstack",
+  "name": "Suresh Babu",
+  "email": "suresh.babu@example.com",
+  "phone": "+91 98490 31508",
+  "location": "Hyderabad",
+  "summary": "Senior .NET developer building web portals end to end.",
+  "experience": [
+   {
+    "title": "Senior .NET Developer",
+    "company": "Saranya Infotech",
+    "dates": "Feb 2022 - Present",
+    "bullets": [
+     "ASP.NET Core Web APIs with an Angular front end",
+     "SQL Server and Entity Framework; Azure App Service",
+     "Azure DevOps CI/CD pipelines"
+    ]
+   },
+   {
+    "title": ".NET Developer",
+    "company": "Vellore Digital",
+    "dates": "Aug 2020 - Jan 2022",
+    "bullets": [
+     "C# MVC applications, jQuery, SQL Server stored procedures"
+    ]
+   }
+  ],
+  "skills_text": "C#, .NET Core, ASP.NET, Angular, SQL Server, Azure, Azure DevOps, Entity Framework, TypeScript",
+  "education": [
+   "MCA, Golconda College of Computer Applications, 2020"
+  ],
+  "gold_skills": [
+   "C#",
+   ".NET",
+   "Angular",
+   "SQL Server",
+   "Azure",
+   "Entity Framework",
+   "TypeScript",
+   "CI/CD",
+   "jQuery"
+  ]
+ },
+ {
+  "key": "r13",
+  "format": "pdf_classic",
+  "category": "data_ml",
+  "name": "Ananya Krishnan",
+  "email": "ananya.k@example.com",
+  "phone": "+91 90360 48821",
+  "location": "Bengaluru",
+  "summary": "ML engineer who takes models from notebook to production.",
+  "experience": [
+   {
+    "title": "ML Engineer",
+    "company": "Kaveri AI Labs",
+    "dates": "Mar 2024 - Present",
+    "bullets": [
+     "PyTorch document-classification models served with FastAPI in Docker",
+     "MLflow experiment tracking and model registry; drift monitoring",
+     "SQL feature pipelines on the warehouse"
+    ]
+   },
+   {
+    "title": "Data Analyst",
+    "company": "Brightforge Labs",
+    "dates": "Jul 2022 - Feb 2024",
+    "bullets": [
+     "scikit-learn churn models; Pandas and NumPy analysis",
+     "Weekly SQL reporting for the growth team"
+    ]
+   }
+  ],
+  "skills_text": "Python, PyTorch, scikit-learn, Pandas, NumPy, MLflow, MLOps, Docker, FastAPI, SQL",
+  "education": [
+   "B.Tech Computer Science, Coromandel Institute of Technology, 2022"
+  ],
+  "gold_skills": [
+   "Python",
+   "PyTorch",
+   "scikit-learn",
+   "Pandas",
+   "NumPy",
+   "MLflow",
+   "MLOps",
+   "Docker",
+   "FastAPI",
+   "SQL"
+  ]
+ },
+ {
+  "key": "r14",
+  "format": "docx_table",
+  "category": "data_ml",
+  "name": "Rohit Saxena",
+  "email": "rohit.saxena@example.com",
+  "phone": "+91 98200 64419",
+  "location": "Mumbai",
+  "summary": "Data scientist specialising in demand forecasting and experimentation.",
+  "experience": [
+   {
+    "title": "Data Scientist",
+    "company": "Gulmohar Analytics",
+    "dates": "Jan 2023 - Present",
+    "bullets": [
+     "Demand forecasting for 4,000 SKUs with ARIMA and gradient boosting (time series)",
+     "Designed A/B tests; statistics reviews for the product team",
+     "SQL on Snowflake; Pandas; scikit-learn"
+    ]
+   },
+   {
+    "title": "Business Analyst",
+    "company": "Vellore Digital",
+    "dates": "Jun 2021 - Dec 2022",
+    "bullets": [
+     "Requirements gathering with operations; Excel models; Power BI dashboards"
+    ]
+   }
+  ],
+  "skills_text": "Python | Pandas | Statistics | Time Series | scikit-learn | SQL | Snowflake | Power BI | Excel | A/B Testing",
+  "education": [
+   "M.Sc Statistics, Konkan Institute of Statistics, 2021"
+  ],
+  "gold_skills": [
+   "Python",
+   "Pandas",
+   "Statistics",
+   "Time Series",
+   "scikit-learn",
+   "SQL",
+   "Snowflake",
+   "Power BI",
+   "Excel",
+   "A/B Testing"
+  ]
+ },
+ {
+  "key": "r15",
+  "format": "docx_caps",
+  "category": "data_ml",
+  "name": "Meghana Iyer",
+  "email": "meghana.iyer@example.com",
+  "phone": "+91 99230 17748",
+  "location": "Pune",
+  "summary": "Data engineer building batch and streaming pipelines.",
+  "experience": [
+   {
+    "title": "Data Engineer",
+    "company": "Gulmohar Analytics",
+    "dates": "Aug 2022 - Present",
+    "bullets": [
+     "PySpark batch jobs on AWS EMR",
+     "Airflow DAGs for 70 daily pipelines",
+     "Kafka ingestion; dbt models in Snowflake"
+    ]
+   },
+   {
+    "title": "ETL Developer",
+    "company": "Ashoka Softworks",
+    "dates": "Jul 2021 - Jul 2022",
+    "bullets": [
+     "SQL Server SSIS packages and Python scripts"
+    ]
+   }
+  ],
+  "skills_text": "Python, Spark (PySpark), Airflow, Kafka, SQL, AWS, dbt, Snowflake",
+  "education": [
+   "B.E. Computer Engineering, Sahyadri College of Engineering, 2021"
+  ],
+  "gold_skills": [
+   "Python",
+   "Apache Spark",
+   "Airflow",
+   "Apache Kafka",
+   "SQL",
+   "AWS",
+   "dbt",
+   "Snowflake",
+   "SQL Server"
+  ]
+ },
+ {
+  "key": "r16",
+  "format": "pdf_two_column",
+  "category": "data_ml",
+  "name": "Zoya Mirza",
+  "email": "zoya.mirza@example.com",
+  "phone": "+91 94150 82036",
+  "location": "Lucknow",
+  "summary": "NLP engineer working on multilingual language models. Open to remote.",
+  "experience": [
+   {
+    "title": "NLP Engineer",
+    "company": "Kaveri AI Labs",
+    "dates": "Sep 2023 - Present",
+    "bullets": [
+     "Fine-tuned Hugging Face transformer models for Hindi/English intent detection",
+     "PyTorch training and evaluation pipelines",
+     "Retrieval-augmented LLM prototype for support answers"
+    ]
+   },
+   {
+    "title": "Research Assistant",
+    "company": "Gomti Institute of Technology",
+    "dates": "Jun 2021 - Aug 2023",
+    "bullets": [
+     "NLP research on code-mixed text using spaCy and Python"
+    ]
+   }
+  ],
+  "skills_text": "Python, NLP, PyTorch, Hugging Face Transformers, spaCy, LLMs, Docker",
+  "education": [
+   "M.Tech Artificial Intelligence, Gomti Institute of Technology, 2021"
+  ],
+  "gold_skills": [
+   "Python",
+   "NLP",
+   "PyTorch",
+   "Hugging Face",
+   "spaCy",
+   "LLM",
+   "Docker"
+  ]
+ },
+ {
+  "key": "r17",
+  "format": "pdf_classic",
+  "category": "devops",
+  "name": "Venkatesh Reddy",
+  "email": "venkatesh.reddy@example.com",
+  "phone": "+91 99490 55163",
+  "location": "Hyderabad",
+  "summary": "DevOps engineer on AWS. Infrastructure as code and CI/CD.",
+  "experience": [
+   {
+    "title": "DevOps Engineer",
+    "company": "Pebblebay Tech",
+    "dates": "Mar 2023 - Present",
+    "bullets": [
+     "Terraform for AWS (VPC, EKS, RDS) across 3 accounts",
+     "Jenkins and GitHub Actions pipelines for 25 services",
+     "Docker image hardening; Kubernetes deployments with rolling updates"
+    ]
+   },
+   {
+    "title": "System Administrator",
+    "company": "Vellore Digital",
+    "dates": "Jun 2021 - Feb 2023",
+    "bullets": [
+     "Linux servers, Bash automation, Nginx, Ansible playbooks"
+    ]
+   }
+  ],
+  "skills_text": "AWS, Terraform, Docker, Kubernetes (EKS), Jenkins, GitHub Actions, Linux, Bash, Ansible, Nginx",
+  "education": [
+   "B.Tech Electrical Engineering, Musi Valley Institute of Technology, 2021"
+  ],
+  "gold_skills": [
+   "AWS",
+   "Terraform",
+   "Docker",
+   "Kubernetes",
+   "Jenkins",
+   "GitHub Actions",
+   "Linux",
+   "Bash",
+   "Ansible",
+   "Nginx",
+   "CI/CD"
+  ]
+ },
+ {
+  "key": "r18",
+  "format": "docx_table",
+  "category": "devops",
+  "name": "Lalitha Subramaniam",
+  "email": "lalitha.s@example.com",
+  "phone": "+91 98860 40397",
+  "location": "Bengaluru",
+  "summary": "Site reliability engineer. Observability, Kubernetes and on-call.",
+  "experience": [
+   {
+    "title": "Site Reliability Engineer",
+    "company": "Lattice Ninefold",
+    "dates": "Jan 2022 - Present",
+    "bullets": [
+     "Runs 6 production Kubernetes clusters; Helm charts for all services",
+     "Prometheus + Grafana alerting and SLO dashboards",
+     "Go tools for automated failover; Terraform"
+    ]
+   },
+   {
+    "title": "Linux Systems Engineer",
+    "company": "Ashoka Softworks",
+    "dates": "Jul 2020 - Dec 2021",
+    "bullets": [
+     "Linux fleet management with Bash and Ansible"
+    ]
+   }
+  ],
+  "skills_text": "Kubernetes | Prometheus | Grafana | Go | Terraform | Linux | Bash | Ansible | Helm",
+  "education": [
+   "B.E. Computer Science, Nilgiri Institute of Engineering, 2020"
+  ],
+  "gold_skills": [
+   "Kubernetes",
+   "Prometheus",
+   "Grafana",
+   "Go",
+   "Terraform",
+   "Linux",
+   "Bash",
+   "Ansible",
+   "Helm"
+  ]
+ },
+ {
+  "key": "r19",
+  "format": "docx_caps",
+  "category": "mobile",
+  "name": "Gaurav Malhotra",
+  "email": "gaurav.malhotra@example.com",
+  "phone": "+91 99160 83542",
+  "location": "Bengaluru",
+  "summary": "Android engineer, Kotlin and Jetpack Compose.",
+  "experience": [
+   {
+    "title": "Android Engineer",
+    "company": "Pebblebay Tech",
+    "dates": "Jun 2023 - Present",
+    "bullets": [
+     "Rebuilt checkout in Jetpack Compose; coroutines and Retrofit for REST APIs",
+     "Firebase Crashlytics and analytics; crash-free sessions up to 99.6%"
+    ]
+   },
+   {
+    "title": "Android Developer",
+    "company": "Vellore Digital",
+    "dates": "Jan 2022 - May 2023",
+    "bullets": [
+     "Java and Kotlin apps with XML layouts"
+    ]
+   }
+  ],
+  "skills_text": "Kotlin, Android SDK, Jetpack Compose, Java, Firebase, REST APIs, Git",
+  "education": [
+   "B.Tech Computer Science, Sutlej Institute of Technology, 2021"
+  ],
+  "gold_skills": [
+   "Kotlin",
+   "Android",
+   "Jetpack Compose",
+   "Java",
+   "Firebase",
+   "REST APIs",
+   "Git"
+  ]
+ },
+ {
+  "key": "r20",
+  "format": "pdf_two_column",
+  "category": "mobile",
+  "name": "Shreya Pillai",
+  "email": "shreya.pillai@example.com",
+  "phone": "+91 98190 22675",
+  "location": "Mumbai",
+  "summary": "iOS developer shipping consumer apps in Swift and SwiftUI.",
+  "experience": [
+   {
+    "title": "iOS Developer",
+    "company": "Tarini Apps",
+    "dates": "Apr 2022 - Present",
+    "bullets": [
+     "SwiftUI app with 500k installs; Combine and Core Data",
+     "Xcode Cloud CI with UI tests"
+    ]
+   },
+   {
+    "title": "Mobile Developer",
+    "company": "Ashoka Softworks",
+    "dates": "Jun 2021 - Mar 2022",
+    "bullets": [
+     "Swift / UIKit features and Objective-C maintenance"
+    ]
+   }
+  ],
+  "skills_text": "Swift, iOS, SwiftUI, Xcode, Objective-C, Core Data, Firebase",
+  "education": [
+   "B.E. Information Technology, Arabian Sea College of Engineering, 2021"
+  ],
+  "gold_skills": [
+   "Swift",
+   "iOS",
+   "SwiftUI",
+   "Xcode",
+   "Objective-C",
+   "Firebase"
+  ]
+ },
+ {
+  "key": "r21",
+  "format": "pdf_classic",
+  "category": "mobile",
+  "name": "Tushar Patil",
+  "email": "tushar.patil@example.com",
+  "phone": "+91 97450 60318",
+  "location": "Kochi",
+  "summary": "Flutter developer, early in my career.",
+  "experience": [
+   {
+    "title": "Flutter Developer",
+    "company": "Tarini Apps",
+    "dates": "Apr 2025 - Present",
+    "bullets": [
+     "Flutter + Dart e-commerce app; Firebase auth and push notifications",
+     "REST API integration; Provider for state"
+    ]
+   }
+  ],
+  "projects": [
+   "Expense tracker app in Flutter, published on the Play Store (1k installs)"
+  ],
+  "skills_text": "Flutter, Dart, Firebase, REST APIs, Git, Android",
+  "education": [
+   "B.Sc Computer Science, Vembanad College of Science, 2025"
+  ],
+  "gold_skills": [
+   "Flutter",
+   "Dart",
+   "Firebase",
+   "REST APIs",
+   "Git",
+   "Android"
+  ]
+ },
+ {
+  "key": "r22",
+  "format": "docx_table",
+  "category": "qa",
+  "name": "Pallavi Joshi",
+  "email": "pallavi.joshi@example.com",
+  "phone": "+91 98230 47109",
+  "location": "Pune",
+  "summary": "QA automation engineer for web and API testing.",
+  "experience": [
+   {
+    "title": "QA Automation Engineer",
+    "company": "Brightforge Labs",
+    "dates": "Feb 2024 - Present",
+    "bullets": [
+     "Selenium WebDriver + Java + TestNG framework (1,400 tests)",
+     "REST Assured API testing for payment flows",
+     "Nightly Jenkins runs with Allure reports"
+    ]
+   },
+   {
+    "title": "QA Analyst",
+    "company": "Vellore Digital",
+    "dates": "Jul 2022 - Jan 2024",
+    "bullets": [
+     "Manual testing, test case design, Jira defect tracking, SQL data checks"
+    ]
+   }
+  ],
+  "skills_text": "Selenium | Java | TestNG | API Testing | REST Assured | Jenkins | Manual Testing | Jira | SQL | Postman",
+  "education": [
+   "B.E. Computer Engineering, Deccan Plateau College of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "Selenium",
+   "Java",
+   "TestNG",
+   "API Testing",
+   "Jenkins",
+   "Manual Testing",
+   "Jira",
+   "SQL",
+   "Postman",
+   "Test Planning"
+  ]
+ },
+ {
+  "key": "r23",
+  "format": "pdf_two_column",
+  "category": "qa",
+  "name": "Nikhil Kulkarni",
+  "email": "nikhil.kulkarni@example.com",
+  "phone": "+91 94220 13856",
+  "location": "Coimbatore",
+  "summary": "Mechanical engineer moving into software testing. Self-taught Python test automation.",
+  "experience": [
+   {
+    "title": "Graduate Engineer Trainee (Quality)",
+    "company": "Shakti Auto Components",
+    "dates": "Jul 2022 - Jun 2024",
+    "bullets": [
+     "Quality inspection and root-cause analysis on a gearbox line",
+     "Excel dashboards for defect trends"
+    ]
+   },
+   {
+    "title": "QA Intern",
+    "company": "Brightforge Labs",
+    "dates": "Jan 2025 - Jun 2025",
+    "bullets": [
+     "Wrote Pytest and Playwright tests for a web app",
+     "API checks in Postman"
+    ]
+   }
+  ],
+  "projects": [
+   "Automated test suite for an open-source to-do app: Python, Pytest, Playwright, GitHub Actions"
+  ],
+  "skills_text": "Python, Pytest, Playwright, Postman, Manual Testing, Excel, Git",
+  "education": [
+   "B.E. Mechanical Engineering, Bhavani Institute of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "Python",
+   "Pytest",
+   "Playwright",
+   "Postman",
+   "Manual Testing",
+   "Excel",
+   "Git",
+   "GitHub Actions"
+  ]
+ },
+ {
+  "key": "r24",
+  "format": "docx_caps",
+  "category": "other",
+  "name": "Deepak Choudhary",
+  "email": "deepak.choudhary@example.com",
+  "phone": "+91 98600 38241",
+  "location": "Pune",
+  "summary": "Embedded firmware engineer for automotive electronics.",
+  "experience": [
+   {
+    "title": "Firmware Engineer",
+    "company": "Shakti Auto Components",
+    "dates": "Aug 2023 - Present",
+    "bullets": [
+     "Embedded C on STM32 microcontrollers with FreeRTOS",
+     "CAN bus drivers and bootloader",
+     "Unit tests in C; Python test scripts on Linux"
+    ]
+   },
+   {
+    "title": "Embedded Intern",
+    "company": "Volt Circuits",
+    "dates": "Jan 2023 - Jul 2023",
+    "bullets": [
+     "Sensor drivers for an 8-bit microcontroller"
+    ]
+   }
+  ],
+  "skills_text": "C, Embedded C, RTOS (FreeRTOS), Microcontrollers (STM32), Python, Git, Linux",
+  "education": [
+   "B.E. Electronics and Telecommunication, Mula-Mutha College of Engineering, 2022"
+  ],
+  "gold_skills": [
+   "C",
+   "Embedded C",
+   "RTOS",
+   "Microcontrollers",
+   "Python",
+   "Git",
+   "Linux"
+  ]
+ }
+]

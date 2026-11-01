@@ -8,18 +8,21 @@
     "precision_at_5": 0.76,
     "recall_at_5": 0.6687,
     "mrr": 1.0,
+    "ndcg_at_5": 0.8384,
     "accuracy": 0.933
    },
    "embeddings": {
     "precision_at_5": 0.69,
     "recall_at_5": 0.5926,
     "mrr": 0.975,
+    "ndcg_at_5": 0.7896,
     "accuracy": 0.919
    },
    "hike": {
     "precision_at_5": 0.74,
     "recall_at_5": 0.6505,
     "mrr": 1.0,
+    "ndcg_at_5": 0.8335,
     "accuracy": 0.929
    }
   },
