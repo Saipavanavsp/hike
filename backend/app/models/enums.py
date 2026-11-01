@@ -3,24 +3,24 @@ import enum
 from sqlalchemy import Enum
 
 
-class UserRole(str, enum.Enum):
+class UserRole(enum.StrEnum):
     seeker = "seeker"
     recruiter = "recruiter"
     admin = "admin"
 
 
-class RemoteType(str, enum.Enum):
+class RemoteType(enum.StrEnum):
     onsite = "onsite"
     hybrid = "hybrid"
     remote = "remote"
 
 
-class JobStatus(str, enum.Enum):
+class JobStatus(enum.StrEnum):
     open = "open"
     closed = "closed"
 
 
-class RoleCategory(str, enum.Enum):
+class RoleCategory(enum.StrEnum):
     backend = "backend"
     frontend = "frontend"
     fullstack = "fullstack"
@@ -30,7 +30,7 @@ class RoleCategory(str, enum.Enum):
     qa = "qa"
 
 
-class ApplicationStatus(str, enum.Enum):
+class ApplicationStatus(enum.StrEnum):
     applied = "applied"
     shortlisted = "shortlisted"
     interview = "interview"
