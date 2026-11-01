@@ -86,6 +86,24 @@ describe("KanbanBoard", () => {
     expect(within(shortlisted).getByText("Priya Sharma")).toBeInTheDocument();
   });
 
+  it("shows a candidate whose resume was deleted, without resume actions", async () => {
+    const user = userEvent.setup();
+    const deleted = { ...app(3, "Kavya Iyer", "applied", 0), resume: null, match: null };
+    render(
+      <KanbanBoard
+        applications={[deleted]}
+        onOpenResume={() => {}}
+        onInvalidMove={() => {}}
+        onMove={() => {}}
+      />,
+    );
+    expect(screen.getByText("Resume deleted by the candidate")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Resume" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Actions for Kavya Iyer" }));
+    expect(screen.queryByRole("menuitem", { name: "Open resume" })).not.toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Move to Shortlisted" })).toBeInTheDocument();
+  });
+
   it("exposes cards to keyboard users as draggable", () => {
     render(<Board onMove={() => {}} />);
     const handle = screen.getByRole("button", { name: "Priya Sharma" });

@@ -1,4 +1,5 @@
 import {
+  Activity,
   Bookmark,
   Briefcase,
   ClipboardList,
@@ -38,6 +39,7 @@ export const NAV: Record<Role, NavItem[]> = {
     { to: "/admin/users", label: "Users", short: "Users", icon: Users },
     { to: "/admin/jobs", label: "Jobs", short: "Jobs", icon: Briefcase },
     { to: "/admin/applications", label: "Applications", short: "Apps", icon: Send },
+    { to: "/admin/system", label: "System", short: "System", icon: Activity },
   ],
 };
 

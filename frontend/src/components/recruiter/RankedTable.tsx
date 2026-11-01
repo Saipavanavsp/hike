@@ -62,7 +62,7 @@ export function RankedTable({
               {a.candidate.years_experience ?? "--"}
             </TD>
             <TD className="hidden text-xs text-ink-secondary lg:table-cell">
-              {a.resume.predicted_category ? ROLE_LABELS[a.resume.predicted_category] : "--"}
+              {a.resume?.predicted_category ? ROLE_LABELS[a.resume.predicted_category] : "--"}
             </TD>
             <TD>
               <StatusBadge status={a.status} />
@@ -71,13 +71,19 @@ export function RankedTable({
               <RelativeTime iso={a.applied_at} />
             </TD>
             <TD>
-              <button
-                type="button"
-                className="text-xs text-accent hover:text-accent-hover"
-                onClick={() => onOpenResume(a.resume.id)}
-              >
-                Resume
-              </button>
+              {a.resume ? (
+                <button
+                  type="button"
+                  className="text-xs text-accent hover:text-accent-hover"
+                  onClick={() => onOpenResume(a.resume!.id)}
+                >
+                  Resume
+                </button>
+              ) : (
+                <span className="text-xs text-ink-secondary" title="Deleted by the candidate">
+                  Deleted
+                </span>
+              )}
             </TD>
           </TR>
         ))}

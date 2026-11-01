@@ -101,11 +101,16 @@ export interface ParsedFields {
   education: string[];
 }
 
+export type ResumeStatus = "processing" | "ready" | "failed";
+
 export interface Resume {
   id: number;
   original_filename: string;
   mime_type: string;
   size_bytes: number;
+  status: ResumeStatus;
+  parse_error: string | null;
+  consent_at: string | null;
   parsed: ParsedFields;
   skills: string[];
   years_experience: number | null;
@@ -149,12 +154,13 @@ export interface RecruiterApplication {
     location: string | null;
     years_experience: number | null;
   };
+  /** null when the candidate has deleted the resume they applied with. */
   resume: {
     id: number;
     filename: string;
     skills: string[];
     predicted_category: RoleCategory | null;
-  };
+  } | null;
   match: {
     score: number;
     skills_matched: string[];
@@ -221,6 +227,38 @@ export interface AdminJob {
   status: "open" | "closed";
   posted_at: string;
   applications: number;
+}
+
+export interface AdminTask {
+  id: string;
+  kind: string;
+  /** rejected = the input was refused (e.g. unreadable file); failed = something broke. */
+  status: "queued" | "running" | "retrying" | "succeeded" | "rejected" | "failed";
+  attempts: number;
+  error: string | null;
+  ref_type: string | null;
+  ref_id: number | null;
+  created_at: string;
+  finished_at: string | null;
+}
+
+export interface SystemOverview {
+  dependencies: {
+    postgres: { ok: boolean; latency_ms: number };
+    redis: { ok: boolean; latency_ms: number };
+    clamav: { ok: boolean } | null;
+  };
+  worker: "ok" | "down" | "inline";
+  queue_depth: number | null;
+  tasks_last_24h: Record<AdminTask["status"], number>;
+  recent_failures: AdminTask[];
+  security: {
+    malware_scan: string;
+    parser_isolation: string;
+    files_encrypted: boolean;
+    signed_url_ttl_seconds: number;
+  };
+  retention: { unconfirmed_days: number; old_resume_days: number; inactive_seeker_days: number };
 }
 
 export interface AdminApplication {

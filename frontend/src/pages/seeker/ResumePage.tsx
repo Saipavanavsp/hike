@@ -1,15 +1,22 @@
-import { FileText, Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import { FileText, Trash2, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { apiErrorMessage } from "@/api/client";
 import { openResumeFile } from "@/api/files";
-import { useConfirmResume, useResumes, useUploadResume } from "@/api/queries";
+import {
+  useConfirmResume,
+  useDeleteResume,
+  useResume,
+  useResumes,
+  useUploadResume,
+} from "@/api/queries";
 import type { Resume } from "@/api/types";
 import { SkillEditor } from "@/components/resume/SkillEditor";
 import { Tag } from "@/components/ui/Badges";
 import { Button } from "@/components/ui/Button";
-import { ErrorBanner, Field, Input } from "@/components/ui/Form";
+import { Checkbox, ErrorBanner, Field, Input } from "@/components/ui/Form";
 import { icon } from "@/components/ui/icon";
 import { PageHeader, RelativeTime, Section } from "@/components/ui/Misc";
+import { Modal } from "@/components/ui/Modal";
 import { TextSkeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/cn";
 import { formatBytes, ROLE_LABELS } from "@/lib/format";
@@ -30,16 +37,21 @@ export function validateResumeFile(file: File): string | null {
 function UploadBox({ onUploaded }: { onUploaded: (r: Resume) => void }) {
   const input = useRef<HTMLInputElement>(null);
   const upload = useUploadResume();
+  const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
 
   async function handle(file: File | undefined) {
     if (!file) return;
+    if (!consent) {
+      setError("Please agree to resume processing first.");
+      return;
+    }
     const problem = validateResumeFile(file);
     setError(problem);
     if (problem) return;
     try {
-      onUploaded(await upload.mutateAsync(file));
+      onUploaded(await upload.mutateAsync({ file, consent }));
     } catch (err) {
       setError(apiErrorMessage(err));
     }
@@ -66,8 +78,12 @@ function UploadBox({ onUploaded }: { onUploaded: (r: Resume) => void }) {
         <Upload {...icon} className="text-ink-secondary" />
         <p className="text-sm">Upload your resume (PDF or DOCX, max 5 MB)</p>
         <p className="text-xs text-ink-secondary">Drop the file here, or</p>
-        <Button size="sm" onClick={() => input.current?.click()} disabled={upload.isPending}>
-          {upload.isPending ? "Reading resume…" : "Choose file"}
+        <Button
+          size="sm"
+          onClick={() => input.current?.click()}
+          disabled={upload.isPending || !consent}
+        >
+          {upload.isPending ? "Uploading…" : "Choose file"}
         </Button>
         <input
           ref={input}
@@ -81,12 +97,48 @@ function UploadBox({ onUploaded }: { onUploaded: (r: Resume) => void }) {
           }}
         />
       </div>
+      <div className="mt-3 rounded border border-border p-3">
+        <Checkbox
+          checked={consent}
+          onChange={(e) => {
+            setConsent(e.target.checked);
+            if (e.target.checked) setError(null);
+          }}
+          label="I agree that Hike may scan, store and read this resume to compute match scores"
+        />
+        <p className="mt-1 pl-6 text-xs text-ink-secondary">
+          The file is checked for malware, stored encrypted, and read in an isolated process. Only
+          you, recruiters of jobs you apply to, and administrators can open it, through links that
+          expire after a few minutes. You can delete it, or your whole account, at any time.
+        </p>
+      </div>
       {error && (
         <p role="alert" className="mt-1 text-xs text-status-red">
           {error}
         </p>
       )}
     </div>
+  );
+}
+
+/** Shown while the background parser works on a fresh upload. */
+function Processing({ resumeId, onReady }: { resumeId: number; onReady: (r: Resume) => void }) {
+  const { data } = useResume(resumeId);
+  useEffect(() => {
+    if (data?.status === "ready") onReady(data);
+  }, [data, onReady]);
+
+  if (data?.status === "failed") {
+    return (
+      <p role="alert" className="text-sm text-status-red">
+        {data.parse_error ?? "We could not read this file."} Try another file.
+      </p>
+    );
+  }
+  return (
+    <p role="status" className="text-sm text-ink-secondary">
+      Reading your resume… this usually takes a few seconds.
+    </p>
   );
 }
 
@@ -167,11 +219,55 @@ function ReviewForm({ resume, onDone }: { resume: Resume; onDone: () => void }) 
   );
 }
 
+function DeleteResumeModal({ resume, onClose }: { resume: Resume | null; onClose: () => void }) {
+  const remove = useDeleteResume();
+  async function confirmDelete() {
+    if (!resume) return;
+    try {
+      await remove.mutateAsync(resume.id);
+      toast("Resume deleted");
+      onClose();
+    } catch {
+      /* banner */
+    }
+  }
+  return (
+    <Modal
+      open={resume !== null}
+      title="Delete resume?"
+      onClose={onClose}
+      footer={
+        <>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button variant="danger" onClick={confirmDelete} disabled={remove.isPending}>
+            {remove.isPending ? "Deleting…" : "Delete permanently"}
+          </Button>
+        </>
+      }
+    >
+      <ErrorBanner message={remove.isError ? apiErrorMessage(remove.error) : null} />
+      <p className="text-sm">
+        <span className="font-medium">{resume?.original_filename}</span> and everything read from it
+        (text, skills, match scores) will be erased. Applications you made with it stay, but
+        recruiters will no longer be able to open this resume.
+        {resume?.is_current && " You will need to upload a new resume before applying again."}
+      </p>
+    </Modal>
+  );
+}
+
 export default function ResumePage() {
   const { data: resumes, isLoading } = useResumes();
   const [reviewing, setReviewing] = useState<Resume | null>(null);
+  const [processingId, setProcessingId] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<Resume | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const current = resumes?.find((r) => r.is_current);
+
+  function uploaded(r: Resume) {
+    if (r.status === "ready") setReviewing(r);
+    else setProcessingId(r.id);
+  }
 
   async function view(id: number) {
     setFileError(null);
@@ -230,6 +326,9 @@ export default function ResumePage() {
                   <Button size="sm" onClick={() => setReviewing(current)}>
                     Edit skills
                   </Button>
+                  <Button size="sm" variant="danger" onClick={() => setDeleting(current)}>
+                    Delete
+                  </Button>
                 </div>
               </div>
               <div className="mt-3 flex flex-wrap gap-1">
@@ -240,7 +339,18 @@ export default function ResumePage() {
             </Section>
           )}
           <Section title={current ? "Replace resume" : "Upload resume"}>
-            <UploadBox onUploaded={setReviewing} />
+            {processingId !== null && (
+              <div className="mb-3">
+                <Processing
+                  resumeId={processingId}
+                  onReady={(r) => {
+                    setProcessingId(null);
+                    setReviewing(r);
+                  }}
+                />
+              </div>
+            )}
+            <UploadBox onUploaded={uploaded} />
           </Section>
           {resumes && resumes.length > 0 && (
             <Section title="Upload history">
@@ -250,7 +360,13 @@ export default function ResumePage() {
                     <span className="truncate">{r.original_filename}</span>
                     <span className="flex shrink-0 items-center gap-3 text-ink-secondary">
                       <RelativeTime iso={r.created_at} className="text-xs" />
-                      {r.is_current ? (
+                      {r.status === "processing" ? (
+                        <span className="text-xs">Processing…</span>
+                      ) : r.status === "failed" ? (
+                        <span className="text-xs text-status-red" title={r.parse_error ?? ""}>
+                          Could not read
+                        </span>
+                      ) : r.is_current ? (
                         <Tag className="border-accent/30 bg-accent-tint text-accent">Current</Tag>
                       ) : r.confirmed_at ? (
                         <button
@@ -267,6 +383,13 @@ export default function ResumePage() {
                           Not saved: review
                         </button>
                       )}
+                      <button
+                        className="text-ink-secondary hover:text-status-red"
+                        aria-label={`Delete ${r.original_filename}`}
+                        onClick={() => setDeleting(r)}
+                      >
+                        <Trash2 {...icon} />
+                      </button>
                     </span>
                   </li>
                 ))}
@@ -275,6 +398,7 @@ export default function ResumePage() {
           )}
         </>
       )}
+      <DeleteResumeModal resume={deleting} onClose={() => setDeleting(null)} />
     </div>
   );
 }

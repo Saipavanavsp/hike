@@ -1,13 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { apiErrorMessage } from "@/api/client";
-import { useProfile, useUpdateProfile } from "@/api/queries";
+import { useDeleteAccount, useProfile, useUpdateProfile } from "@/api/queries";
 import { CITIES } from "@/components/jobs/options";
 import { Button } from "@/components/ui/Button";
 import { Checkbox, ErrorBanner, Field, Input, Select } from "@/components/ui/Form";
 import { PageHeader } from "@/components/ui/Misc";
+import { Modal } from "@/components/ui/Modal";
 import { TextSkeleton } from "@/components/ui/Skeleton";
 import { useAuth } from "@/stores/auth";
 import { toast } from "@/stores/toast";
@@ -31,6 +33,70 @@ const schema = z.object({
     }),
 });
 type Values = z.infer<typeof schema>;
+
+function DeleteAccount() {
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const remove = useDeleteAccount();
+  const clear = useAuth((s) => s.clear);
+  const navigate = useNavigate();
+
+  async function confirmDelete() {
+    try {
+      await remove.mutateAsync(password);
+      clear();
+      navigate("/login", { replace: true });
+      toast("Your account and data have been deleted");
+    } catch {
+      /* banner */
+    }
+  }
+
+  return (
+    <section className="mt-6 rounded border border-status-red/30 p-4">
+      <h2 className="text-base font-semibold">Delete account</h2>
+      <p className="mt-1 text-sm text-ink-secondary">
+        Permanently erases your account, profile, every resume file and everything read from them,
+        your applications and notifications. This cannot be undone.
+      </p>
+      <Button className="mt-3" variant="danger" onClick={() => setOpen(true)}>
+        Delete my account
+      </Button>
+      <Modal
+        open={open}
+        title="Delete your account?"
+        onClose={() => setOpen(false)}
+        footer={
+          <>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button
+              variant="danger"
+              onClick={confirmDelete}
+              disabled={!password || remove.isPending}
+            >
+              {remove.isPending ? "Deleting…" : "Delete everything"}
+            </Button>
+          </>
+        }
+      >
+        <ErrorBanner message={remove.isError ? apiErrorMessage(remove.error) : null} />
+        <Field label="Enter your password to confirm">
+          {({ id, describedBy, invalid }) => (
+            <Input
+              id={id}
+              type="password"
+              autoComplete="current-password"
+              aria-describedby={describedBy}
+              invalid={invalid}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          )}
+        </Field>
+      </Modal>
+    </section>
+  );
+}
 
 export default function ProfilePage() {
   const { data, isLoading } = useProfile();
@@ -195,6 +261,7 @@ export default function ProfilePage() {
           </div>
         </form>
       )}
+      <DeleteAccount />
     </div>
   );
 }

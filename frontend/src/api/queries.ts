@@ -18,6 +18,7 @@ import type {
   SavedJobItem,
   SeekerApplication,
   Suggestion,
+  SystemOverview,
 } from "./types";
 
 // ---------- public ----------
@@ -126,12 +127,41 @@ export function useResumes(enabled = true) {
 export function useUploadResume() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (file: File) => {
+    mutationFn: async ({ file, consent }: { file: File; consent: boolean }) => {
       const form = new FormData();
       form.append("file", file);
+      form.append("consent", consent ? "true" : "false");
       return (await api.post<Resume>("/api/resumes", form)).data;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["resumes"] }),
+  });
+}
+
+/** Polls a resume while the background parser is working on it. */
+export function useResume(id: number | null) {
+  return useQuery({
+    queryKey: ["resume", id],
+    queryFn: async () => (await api.get<Resume>(`/api/resumes/${id}`)).data,
+    enabled: id !== null,
+    refetchInterval: (q) => (q.state.data?.status === "processing" ? 1000 : false),
+  });
+}
+
+export function useDeleteResume() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => api.delete(`/api/resumes/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["resumes"] });
+      qc.invalidateQueries({ queryKey: ["jobs"] });
+      qc.invalidateQueries({ queryKey: ["job"] });
+    },
+  });
+}
+
+export function useDeleteAccount() {
+  return useMutation({
+    mutationFn: async (password: string) => api.post("/api/account/delete", { password }),
   });
 }
 
@@ -328,6 +358,22 @@ export function useAdminApplications(params: AdminQuery) {
     queryKey: ["admin", "applications", params],
     queryFn: adminList<AdminApplication>("/api/admin/applications", params),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useSystemOverview() {
+  return useQuery({
+    queryKey: ["admin", "system"],
+    queryFn: async () => (await api.get<SystemOverview>("/api/admin/system")).data,
+    refetchInterval: 15_000,
+  });
+}
+
+export function useRunRetention() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post<{ task_id: string }>("/api/admin/retention/run")).data,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "system"] }),
   });
 }
 

@@ -1,15 +1,20 @@
 import { api } from "./client";
 
-/** Resume files need the bearer token, so they are fetched as a blob and opened in a new tab. */
+/**
+ * Asks the API for a short-lived signed link to the file, then opens it in a new tab.
+ * The link works without the bearer token and expires after a few minutes.
+ */
 export async function openResumeFile(resumeId: number): Promise<void> {
   // Open the tab synchronously so pop-up blockers treat it as user-initiated.
   const tab = window.open("", "_blank");
   try {
-    const res = await api.get<Blob>(`/api/resumes/${resumeId}/file`, { responseType: "blob" });
-    const url = URL.createObjectURL(res.data);
-    if (tab) tab.location.href = url;
-    else window.location.href = url;
-    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    const { data } = await api.post<{ url: string; expires_at: number }>(
+      `/api/resumes/${resumeId}/link`,
+    );
+    if (tab) {
+      tab.opener = null;
+      tab.location.href = data.url;
+    } else window.location.href = data.url;
   } catch (err) {
     tab?.close();
     throw err;

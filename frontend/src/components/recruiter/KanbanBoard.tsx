@@ -42,6 +42,7 @@ function CandidateCard({
   const style = transform
     ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
     : undefined;
+  const resume = app.resume;
   return (
     <li
       ref={setNodeRef}
@@ -75,7 +76,7 @@ function CandidateCard({
             </button>
           )}
           items={[
-            { label: "Open resume", onSelect: () => onOpenResume(app.resume.id) },
+            ...(resume ? [{ label: "Open resume", onSelect: () => onOpenResume(resume.id) }] : []),
             ...TRANSITIONS[app.status].map((to) => ({
               label: `Move to ${STATUS_LABELS[to]}`,
               onSelect: () => onMove(app.id, to),
@@ -90,18 +91,24 @@ function CandidateCard({
         )}
         {app.candidate.location && <> · {app.candidate.location}</>}
       </p>
-      <div className="mt-1.5 flex flex-wrap gap-1">
-        {app.resume.skills.slice(0, 4).map((s) => (
-          <Tag key={s}>{s}</Tag>
-        ))}
-      </div>
-      <button
-        type="button"
-        onClick={() => onOpenResume(app.resume.id)}
-        className="mt-1.5 text-xs text-accent hover:text-accent-hover"
-      >
-        Resume
-      </button>
+      {resume ? (
+        <>
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            {resume.skills.slice(0, 4).map((s) => (
+              <Tag key={s}>{s}</Tag>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => onOpenResume(resume.id)}
+            className="mt-1.5 text-xs text-accent hover:text-accent-hover"
+          >
+            Resume
+          </button>
+        </>
+      ) : (
+        <p className="mt-1.5 text-xs text-ink-secondary">Resume deleted by the candidate</p>
+      )}
     </li>
   );
 }

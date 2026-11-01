@@ -24,6 +24,7 @@ const JobFormPage = lazy(() => import("@/pages/recruiter/JobFormPage"));
 const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
 const AdminJobsPage = lazy(() => import("@/pages/admin/AdminJobsPage"));
 const AdminApplicationsPage = lazy(() => import("@/pages/admin/AdminApplicationsPage"));
+const AdminSystemPage = lazy(() => import("@/pages/admin/AdminSystemPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
       { path: "/admin/users", element: guard(["admin"], <AdminUsersPage />) },
       { path: "/admin/jobs", element: guard(["admin"], <AdminJobsPage />) },
       { path: "/admin/applications", element: guard(["admin"], <AdminApplicationsPage />) },
+      { path: "/admin/system", element: guard(["admin"], <AdminSystemPage />) },
     ],
   },
   { path: "*", element: <Navigate to="/" replace /> },
