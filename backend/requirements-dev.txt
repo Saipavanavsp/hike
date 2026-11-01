@@ -3,8 +3,9 @@
 pytest>=8.2
 pytest-cov>=5.0
 httpx>=0.27
-ruff>=0.5
-black>=24.4
+# Pinned so CI formats/lints exactly like local runs.
+ruff==0.17.3
+black==26.10.1
 reportlab>=4.2
 # Reference embedding implementation (dev / eval only; prod uses ONNX runtime)
 sentence-transformers>=3.0
