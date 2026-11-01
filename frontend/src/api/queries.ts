@@ -115,10 +115,11 @@ export function useMyApplications() {
 
 // ---------- resumes & profile ----------
 
-export function useResumes() {
+export function useResumes(enabled = true) {
   return useQuery({
     queryKey: ["resumes"],
     queryFn: async () => (await api.get<Resume[]>("/api/resumes")).data,
+    enabled,
   });
 }
 
