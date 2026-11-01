@@ -15,7 +15,7 @@ import ProfilePage from "@/pages/seeker/ProfilePage";
 import ResumePage from "@/pages/seeker/ResumePage";
 import SavedJobsPage from "@/pages/seeker/SavedJobsPage";
 import { FullPageSkeleton, ProtectedRoute } from "@/routes/ProtectedRoute";
-import { useAuth } from "@/stores/auth";
+import { hasSessionHint, useAuth } from "@/stores/auth";
 
 // Recruiter and admin screens pull in dnd-kit and Recharts; load them on demand.
 const PipelinePage = lazy(() => import("@/pages/recruiter/PipelinePage"));
@@ -78,7 +78,9 @@ export default function App() {
   const status = useAuth((s) => s.status);
   useEffect(() => {
     // Restore the session from the refresh cookie on first load.
-    if (status === "loading") void refreshSession();
+    if (status !== "loading") return;
+    if (hasSessionHint()) void refreshSession();
+    else useAuth.getState().clear();
   }, [status]);
   return (
     <QueryClientProvider client={queryClient}>

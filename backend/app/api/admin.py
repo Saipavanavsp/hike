@@ -72,7 +72,10 @@ def _page(db: Session, stmt, page: int, row_to_item) -> dict:
 
 
 def _order(column, order: str, tiebreak):
-    return (column.asc() if order == "asc" else column.desc()).nulls_last(), tiebreak
+    """ORDER BY column (nulls last), then the id in the same direction for a stable order."""
+    if order == "asc":
+        return column.asc().nulls_last(), tiebreak.asc()
+    return column.desc().nulls_last(), tiebreak.desc()
 
 
 def _like(q: str) -> str:

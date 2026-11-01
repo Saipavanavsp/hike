@@ -21,6 +21,10 @@ function dayLabel(iso: string): string {
 /** "Applications this week": one 1.5px line, no fill, light gridlines. */
 export function WeeklyChart({ data }: { data: DayCount[] }) {
   const total = data.reduce((s, d) => s + d.count, 0);
+  // Even integer ticks: 0, half, max (max rounded up to an even number, at least 4).
+  const peak = Math.max(4, ...data.map((d) => d.count));
+  const top = peak % 2 === 0 ? peak : peak + 1;
+  const ticks = [0, top / 2, top];
   return (
     <figure aria-label={`Applications this week: ${total} in total`}>
       <div className="mb-1 flex items-baseline justify-between">
@@ -38,7 +42,15 @@ export function WeeklyChart({ data }: { data: DayCount[] }) {
               tickLine={false}
               axisLine={{ stroke: "#E3E6EB" }}
             />
-            <YAxis allowDecimals={false} tick={AXIS} tickLine={false} axisLine={false} width={48} />
+            <YAxis
+              allowDecimals={false}
+              domain={[0, top]}
+              ticks={ticks}
+              tick={AXIS}
+              tickLine={false}
+              axisLine={false}
+              width={48}
+            />
             <Tooltip
               labelFormatter={(v) => dayLabel(String(v))}
               formatter={(v) => [v, "Applications"]}

@@ -43,7 +43,8 @@ class Application(Base):
     seeker: Mapped[User] = relationship(lazy="joined")
     resume: Mapped[Resume] = relationship()
     history: Mapped[list["ApplicationStatusHistory"]] = relationship(
-        order_by="ApplicationStatusHistory.changed_at", cascade="all, delete-orphan"
+        order_by="(ApplicationStatusHistory.changed_at, ApplicationStatusHistory.id)",
+        cascade="all, delete-orphan",
     )
 
     __table_args__ = (

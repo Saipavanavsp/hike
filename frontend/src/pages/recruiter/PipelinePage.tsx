@@ -32,7 +32,12 @@ export default function PipelinePage() {
   const [view, setView] = useState<View>("board");
   const [error, setError] = useState<string | null>(null);
 
-  const jobId = params.id ? Number(params.id) : (jobs?.[0]?.id ?? null);
+  // Without a job in the URL, open the job with the most applicants.
+  const busiest = jobs?.reduce<(typeof jobs)[number] | undefined>(
+    (best, j) => (!best || j.applications_count > best.applications_count ? j : best),
+    undefined,
+  );
+  const jobId = params.id ? Number(params.id) : (busiest?.id ?? null);
   const job = jobs?.find((j) => j.id === jobId);
   const { data: apps, isLoading: appsLoading } = useJobApplications(jobId);
   const { data: weekly } = useWeeklyApplications(jobId);
