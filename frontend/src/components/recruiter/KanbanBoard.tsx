@@ -23,16 +23,20 @@ interface BoardProps {
   onMove: (applicationId: number, to: ApplicationStatus) => void;
   onInvalidMove: (from: ApplicationStatus, to: ApplicationStatus) => void;
   onOpenResume: (resumeId: number) => void;
+  /** Offered in the card menu for candidates in the Interview column. */
+  onScheduleInterview?: (app: RecruiterApplication) => void;
 }
 
 function CandidateCard({
   app,
   onMove,
   onOpenResume,
+  onScheduleInterview,
 }: {
   app: RecruiterApplication;
   onMove: BoardProps["onMove"];
   onOpenResume: BoardProps["onOpenResume"];
+  onScheduleInterview?: BoardProps["onScheduleInterview"];
 }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: app.id,
@@ -77,6 +81,9 @@ function CandidateCard({
           )}
           items={[
             ...(resume ? [{ label: "Open resume", onSelect: () => onOpenResume(resume.id) }] : []),
+            ...(app.status === "interview" && onScheduleInterview
+              ? [{ label: "Schedule interview", onSelect: () => onScheduleInterview(app) }]
+              : []),
             ...TRANSITIONS[app.status].map((to) => ({
               label: `Move to ${STATUS_LABELS[to]}`,
               onSelect: () => onMove(app.id, to),
@@ -141,7 +148,13 @@ function Column({
   );
 }
 
-export function KanbanBoard({ applications, onMove, onInvalidMove, onOpenResume }: BoardProps) {
+export function KanbanBoard({
+  applications,
+  onMove,
+  onInvalidMove,
+  onOpenResume,
+  onScheduleInterview,
+}: BoardProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
     useSensor(KeyboardSensor),
@@ -191,7 +204,13 @@ export function KanbanBoard({ applications, onMove, onInvalidMove, onOpenResume 
           return (
             <Column key={status} status={status} count={items.length}>
               {items.map((a) => (
-                <CandidateCard key={a.id} app={a} onMove={onMove} onOpenResume={onOpenResume} />
+                <CandidateCard
+                  key={a.id}
+                  app={a}
+                  onMove={onMove}
+                  onOpenResume={onOpenResume}
+                  onScheduleInterview={onScheduleInterview}
+                />
               ))}
               {items.length === 0 && (
                 <li className="px-1 py-2 text-xs text-ink-secondary">No candidates</li>

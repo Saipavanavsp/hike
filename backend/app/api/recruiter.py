@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, Request, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,7 +9,9 @@ from app.models import Application, Job, User
 from app.models.enums import ApplicationStatus, JobStatus, RoleCategory
 from app.schemas.applications import DayCount, RecruiterApplication, StatusChangeIn
 from app.schemas.jobs import JobCreate, JobDetail, JobUpdate, RecruiterJobItem
+from app.services import analytics as analytics_service
 from app.services import applications as app_service
+from app.services import audit
 from app.services import jobs as job_service
 
 router = APIRouter(prefix="/api/recruiter", tags=["recruiter"])
@@ -33,9 +35,15 @@ def my_jobs(db: Session = Depends(get_db), user: User = Depends(recruiter_only))
 
 @router.post("/jobs", response_model=JobDetail, status_code=status.HTTP_201_CREATED)
 def create_job(
-    data: JobCreate, db: Session = Depends(get_db), user: User = Depends(recruiter_only)
+    data: JobCreate,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(recruiter_only),
 ):
-    return job_service.create_job(db, user, data)
+    job = job_service.create_job(db, user, data)
+    audit.record(db, user, "job.create", "job", job.id, {"title": job.title}, request)
+    db.commit()
+    return job
 
 
 @router.get("/jobs/{job_id}", response_model=JobDetail)
@@ -47,23 +55,44 @@ def get_my_job(job_id: int, db: Session = Depends(get_db), user: User = Depends(
 def update_job(
     job_id: int,
     data: JobUpdate,
+    request: Request,
     db: Session = Depends(get_db),
     user: User = Depends(recruiter_only),
 ):
     job = job_service.get_owned_job(db, job_id, user)
-    return job_service.update_job(db, job, data)
+    fields = sorted(data.model_dump(exclude_unset=True))
+    job = job_service.update_job(db, job, data)
+    audit.record(db, user, "job.update", "job", job.id, {"fields": fields}, request)
+    db.commit()
+    return job
 
 
 @router.post("/jobs/{job_id}/close", response_model=JobDetail)
-def close_job(job_id: int, db: Session = Depends(get_db), user: User = Depends(recruiter_only)):
+def close_job(
+    job_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(recruiter_only),
+):
     job = job_service.get_owned_job(db, job_id, user)
-    return job_service.set_job_status(db, job, JobStatus.closed)
+    job = job_service.set_job_status(db, job, JobStatus.closed)
+    audit.record(db, user, "job.close", "job", job.id, None, request)
+    db.commit()
+    return job
 
 
 @router.post("/jobs/{job_id}/reopen", response_model=JobDetail)
-def reopen_job(job_id: int, db: Session = Depends(get_db), user: User = Depends(recruiter_only)):
+def reopen_job(
+    job_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(recruiter_only),
+):
     job = job_service.get_owned_job(db, job_id, user)
-    return job_service.set_job_status(db, job, JobStatus.open)
+    job = job_service.set_job_status(db, job, JobStatus.open)
+    audit.record(db, user, "job.reopen", "job", job.id, None, request)
+    db.commit()
+    return job
 
 
 @router.get("/jobs/{job_id}/applications", response_model=list[RecruiterApplication])
@@ -92,11 +121,36 @@ def job_applications(
 def move_application(
     application_id: int,
     data: StatusChangeIn,
+    request: Request,
     db: Session = Depends(get_db),
     user: User = Depends(recruiter_only),
 ):
+    before = app_service.current_status(db, application_id)
     app = app_service.change_status(db, user, application_id, data.status)
+    if before is not None and before != app.status:
+        audit.record(
+            db,
+            user,
+            "application.status_change",
+            "application",
+            app.id,
+            {"from": before.value, "to": app.status.value, "job_id": app.job_id},
+            request,
+        )
+        db.commit()
     return recruiter_view(db, app)
+
+
+@router.get("/analytics")
+def analytics(
+    job_id: int | None = None,
+    db: Session = Depends(get_db),
+    user: User = Depends(recruiter_only),
+):
+    """Hiring funnel, conversion, time to first response and time to offer."""
+    if job_id is not None:
+        job_service.get_owned_job(db, job_id, user)
+    return analytics_service.recruiter_analytics(db, user, job_id)
 
 
 @router.get("/stats/applications-weekly", response_model=list[DayCount])

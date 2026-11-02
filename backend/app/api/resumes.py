@@ -5,6 +5,7 @@ from fastapi import (
     Form,
     HTTPException,
     Query,
+    Request,
     Response,
     UploadFile,
     status,
@@ -20,6 +21,7 @@ from app.ml.skills import get_taxonomy
 from app.models import BackgroundTask, Resume, User
 from app.models.enums import UserRole
 from app.schemas.resumes import ResumeConfirm, ResumeOut, SignedLink, TaskOut
+from app.services import audit
 from app.services import resumes as resume_service
 from app.services.file_scan import ScannerUnavailable
 from app.services.resume_parser import InvalidResumeFile
@@ -89,9 +91,15 @@ def confirm(
 
 
 @router.delete("/resumes/{resume_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_resume(resume_id: int, db: Session = Depends(get_db), user: User = Depends(seeker_only)):
+def delete_resume(
+    resume_id: int,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(seeker_only),
+):
     """Permanently deletes the file and everything derived from it."""
     resume = resume_service.get_own_resume(db, user, resume_id)
+    audit.record(db, user, "resume.delete", "resume", resume.id, None, request)
     resume_service.delete_resume(db, resume)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -114,6 +122,7 @@ def signed_download(
     resume_id: int,
     uid: int,
     exp: int,
+    request: Request,
     sig: str = Query(..., max_length=128),
     db: Session = Depends(get_db),
 ):
@@ -128,6 +137,18 @@ def signed_download(
     ):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Resume not found")
     data = get_storage().read(resume.storage_key)
+    if viewer.id != resume.user_id:
+        # Who opened whose resume: personal data access by someone other than the owner.
+        audit.record(
+            db,
+            viewer,
+            "resume.file_access",
+            "resume",
+            resume.id,
+            {"owner_id": resume.user_id},
+            request,
+        )
+        db.commit()
     return Response(
         data,
         media_type=resume.mime_type,

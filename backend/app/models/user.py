@@ -28,6 +28,8 @@ class User(Base):
     full_name: Mapped[str] = mapped_column(String(120))
     role: Mapped[UserRole] = mapped_column(pg_enum(UserRole, "user_role"))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, server_default="true")
+    # In-app notifications are always kept; this controls the email copy.
+    email_notifications: Mapped[bool] = mapped_column(Boolean, default=True, server_default="true")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 

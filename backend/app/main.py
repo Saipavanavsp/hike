@@ -4,7 +4,20 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import REGISTRY
 
-from app.api import admin, applications, auth, health, jobs, profile, recruiter, resumes, stats
+from app.api import (
+    admin,
+    applications,
+    auth,
+    companies,
+    health,
+    interviews,
+    jobs,
+    profile,
+    recruiter,
+    resumes,
+    saved_searches,
+    stats,
+)
 from app.core.config import settings
 from app.core.health import DependencyCollector
 from app.core.observability import ObservabilityMiddleware, configure_logging, init_sentry
@@ -57,6 +70,9 @@ def create_app() -> FastAPI:
     app.include_router(profile.router)
     app.include_router(profile.account_router)
     app.include_router(admin.router)
+    app.include_router(interviews.router)
+    app.include_router(saved_searches.router)
+    app.include_router(companies.router)
     return app
 
 

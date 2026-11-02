@@ -87,6 +87,15 @@ def score_job_candidates(job_id: int) -> dict:
         return {"scored": len(resume_ids)}
 
 
+@tracked("saved_search_alerts", ref_type="job")
+def saved_search_alerts(job_id: int) -> dict:
+    """Notify seekers whose saved searches match a newly posted (or reopened) job."""
+    from app.services.saved_searches import alert_for_job
+
+    with SessionLocal() as db:
+        return alert_for_job(db, job_id)
+
+
 @tracked("deliver_email", ref_type="notification")
 def deliver_email(notification_id: int) -> dict:
     from app.services.notifications import send_email

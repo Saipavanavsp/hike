@@ -1,13 +1,16 @@
 import re
 from decimal import Decimal
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Request, Response
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user, require_role
+from app.core.security import verify_password
 from app.db.session import get_db
 from app.models import SeekerProfile, User
+from app.models.enums import UserRole
+from app.services import audit
 from app.services import resumes as resume_service
 
 router = APIRouter(prefix="/api/profile", tags=["profile"])
@@ -90,14 +93,42 @@ class DeleteAccountIn(BaseModel):
     password: str = Field(min_length=1, max_length=128)
 
 
+class PreferencesOut(BaseModel):
+    email_notifications: bool
+
+
+class PreferencesIn(BaseModel):
+    email_notifications: bool
+
+
+@account_router.get("/preferences", response_model=PreferencesOut)
+def get_preferences(user: User = Depends(get_current_user)):
+    return PreferencesOut(email_notifications=user.email_notifications)
+
+
+@account_router.put("/preferences", response_model=PreferencesOut)
+def update_preferences(
+    data: PreferencesIn, db: Session = Depends(get_db), user: User = Depends(get_current_user)
+):
+    user.email_notifications = data.email_notifications
+    db.commit()
+    return PreferencesOut(email_notifications=user.email_notifications)
+
+
 @account_router.post("/delete", status_code=204)
 def delete_account(
     data: DeleteAccountIn,
+    request: Request,
     response: Response,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
-    """Permanently erase a seeker's account and all of their data. Requires the password."""
+    """Permanently erase a seeker's account and all of their data. Requires the password.
+
+    The audit entry survives with actor_id set to NULL and no personal data."""
+    if user.role == UserRole.seeker and verify_password(data.password, user.password_hash):
+        audit.record(db, user, "account.delete", "user", user.id, None, request)
+        db.flush()
     resume_service.delete_account(db, user, data.password)
     response.delete_cookie("hike_refresh", path="/api/auth")
     response.status_code = 204

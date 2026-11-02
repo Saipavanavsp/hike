@@ -29,10 +29,12 @@ from app.models import (
     Application,
     ApplicationStatusHistory,
     Company,
+    Interview,
     Job,
     Notification,
     RecruiterProfile,
     Resume,
+    SavedSearch,
     SeekerProfile,
     User,
 )
@@ -258,6 +260,41 @@ def seed(db: Session, rng: random.Random, run_eval: bool = True) -> dict:
                 )
             )
             n_apps += 1
+            if final == S.interview:
+                # Upcoming interview on a weekday in the next week, 9:30-17:30 IST.
+                day = (now + timedelta(days=rng.randint(1, 7))).date()
+                while day.weekday() >= 5:
+                    day += timedelta(days=1)
+                start = datetime(day.year, day.month, day.day, 4, 0, tzinfo=UTC) + timedelta(
+                    minutes=30 * rng.randint(0, 16)
+                )
+                mode = rng.choice(["video", "video", "phone", "onsite"])
+                location = {
+                    "video": f"https://meet.example.com/hike-{app.id}",
+                    "phone": "+91 80 4000 1234",
+                    "onsite": f"{job.company.name} office"
+                    + ("" if job.location == "Remote" else f", {job.location}"),
+                }[mode]
+                db.add(
+                    Interview(
+                        application_id=app.id,
+                        scheduled_by=job.recruiter_id,
+                        starts_at=start,
+                        duration_minutes=rng.choice([30, 45, 60]),
+                        mode=mode,
+                        location=location,
+                        notes="Technical discussion with the hiring team.",
+                    )
+                )
+    # The demo seeker gets a saved search with alerts on.
+    demo = next(u for u, _ in seekers if u.email == "rahul@example.com")
+    db.add(
+        SavedSearch(
+            user_id=demo.id,
+            name="Python backend roles",
+            params={"q": "python", "location": [], "role": ["backend"], "remote": []},
+        )
+    )
     db.commit()
     bump_jobs_version()
 

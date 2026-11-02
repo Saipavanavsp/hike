@@ -4,7 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { apiErrorMessage } from "@/api/client";
-import { useDeleteAccount, useProfile, useUpdateProfile } from "@/api/queries";
+import {
+  useDeleteAccount,
+  usePreferences,
+  useProfile,
+  useUpdatePreferences,
+  useUpdateProfile,
+} from "@/api/queries";
 import { CITIES } from "@/components/jobs/options";
 import { Button } from "@/components/ui/Button";
 import { Checkbox, ErrorBanner, Field, Input, Select } from "@/components/ui/Form";
@@ -33,6 +39,32 @@ const schema = z.object({
     }),
 });
 type Values = z.infer<typeof schema>;
+
+function EmailPreferences() {
+  const { data } = usePreferences();
+  const update = useUpdatePreferences();
+  if (!data) return null;
+  return (
+    <section className="mt-6 rounded border border-border p-4">
+      <h2 className="text-base font-semibold">Email notifications</h2>
+      <Checkbox
+        className="mt-2"
+        checked={data.email_notifications}
+        disabled={update.isPending}
+        onChange={(e) =>
+          update.mutate(e.target.checked, {
+            onSuccess: (r) =>
+              toast(r.email_notifications ? "Emails turned on" : "Emails turned off"),
+          })
+        }
+        label="Email me about application updates, interview invitations and job alerts"
+      />
+      <p className="mt-1 pl-6 text-xs text-ink-secondary">
+        In-app notifications are always kept. Interview invitations include a calendar file.
+      </p>
+    </section>
+  );
+}
 
 function DeleteAccount() {
   const [open, setOpen] = useState(false);
@@ -261,6 +293,7 @@ export default function ProfilePage() {
           </div>
         </form>
       )}
+      <EmailPreferences />
       <DeleteAccount />
     </div>
   );

@@ -1,5 +1,9 @@
 import {
   Activity,
+  BarChart3,
+  Building2,
+  CalendarClock,
+  ScrollText,
   Bookmark,
   Briefcase,
   ClipboardList,
@@ -34,12 +38,16 @@ export const NAV: Record<Role, NavItem[]> = {
     { to: "/recruiter", label: "Pipeline", short: "Pipeline", icon: Kanban, end: true },
     { to: "/recruiter/jobs", label: "My jobs", short: "Jobs", icon: Briefcase, end: true },
     { to: "/recruiter/jobs/new", label: "Post a job", short: "Post", icon: PlusSquare },
+    { to: "/recruiter/interviews", label: "Interviews", short: "Interviews", icon: CalendarClock },
+    { to: "/recruiter/analytics", label: "Analytics", short: "Stats", icon: BarChart3 },
+    { to: "/recruiter/company", label: "Company profile", short: "Company", icon: Building2 },
   ],
   admin: [
     { to: "/admin/users", label: "Users", short: "Users", icon: Users },
     { to: "/admin/jobs", label: "Jobs", short: "Jobs", icon: Briefcase },
     { to: "/admin/applications", label: "Applications", short: "Apps", icon: Send },
     { to: "/admin/system", label: "System", short: "System", icon: Activity },
+    { to: "/admin/audit", label: "Audit log", short: "Audit", icon: ScrollText },
   ],
 };
 

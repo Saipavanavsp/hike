@@ -35,6 +35,7 @@ function app(
     },
     match: {
       score,
+      components: [],
       skills_matched: [],
       skills_missing: [],
       skills_ratio: "3/4",
@@ -102,6 +103,29 @@ describe("KanbanBoard", () => {
     await user.click(screen.getByRole("button", { name: "Actions for Kavya Iyer" }));
     expect(screen.queryByRole("menuitem", { name: "Open resume" })).not.toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Move to Shortlisted" })).toBeInTheDocument();
+  });
+
+  it("offers interview scheduling only in the Interview column", async () => {
+    const user = userEvent.setup();
+    const onSchedule = vi.fn();
+    render(
+      <KanbanBoard
+        applications={[
+          app(1, "Priya Sharma", "applied", 84),
+          app(2, "Arjun Menon", "interview", 61),
+        ]}
+        onOpenResume={() => {}}
+        onInvalidMove={() => {}}
+        onMove={() => {}}
+        onScheduleInterview={onSchedule}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: "Actions for Priya Sharma" }));
+    expect(screen.queryByRole("menuitem", { name: "Schedule interview" })).not.toBeInTheDocument();
+    await user.keyboard("{Escape}");
+    await user.click(screen.getByRole("button", { name: "Actions for Arjun Menon" }));
+    await user.click(screen.getByRole("menuitem", { name: "Schedule interview" }));
+    expect(onSchedule).toHaveBeenCalledWith(expect.objectContaining({ id: 2 }));
   });
 
   it("exposes cards to keyboard users as draggable", () => {

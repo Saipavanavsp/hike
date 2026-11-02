@@ -10,6 +10,7 @@ from app.core.security import TokenError
 from app.db.session import get_db
 from app.models import User
 from app.schemas.auth import CompanyBrief, LoginIn, RegisterIn, TokenOut, UserOut
+from app.services import audit
 from app.services import auth as auth_service
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -76,11 +77,16 @@ def login(data: LoginIn, request: Request, response: Response, db: Session = Dep
     user = auth_service.authenticate(db, data.email, data.password)
     if user is None:
         login_limiter.hit(identity)
+        audit.record(
+            db, None, "auth.login_failed", None, None, {"email": data.email.lower()}, request
+        )
+        db.commit()
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Incorrect email or password")
     if not user.is_active:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "This account has been deactivated")
     login_limiter.reset(identity)
     user.last_login_at = datetime.now(UTC)
+    audit.record(db, user, "auth.login", "user", user.id, None, request)
     access, refresh = auth_service.issue_tokens(db, user)
     return _token_response(response, user, access, refresh)
 

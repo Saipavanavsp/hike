@@ -2,6 +2,7 @@ import { Check, X } from "lucide-react";
 import type { JobDetail } from "@/api/types";
 import { MatchPill, Tag } from "@/components/ui/Badges";
 import { icon } from "@/components/ui/icon";
+import { ScoreComponents } from "./ScoreComponents";
 
 function Mark({ ok }: { ok: boolean }) {
   return ok ? (
@@ -59,6 +60,21 @@ export function MatchBreakdownPanel({ job }: { job: JobDetail }) {
           {job.remote_type === "hybrid" && <span className="text-ink-secondary"> (hybrid)</span>}
         </p>
       </div>
+      {m.components?.length > 0 && (
+        <details className="border-t border-border pt-2">
+          <summary className="cursor-pointer text-xs text-accent hover:text-accent-hover">
+            How this score is calculated
+          </summary>
+          <div className="mt-2">
+            <ScoreComponents components={m.components} score={m.score} />
+            <p className="mt-2 text-xs text-ink-secondary">
+              Your name, contact details and college are removed before the text comparison, so they
+              never affect the score. Edit your skills or experience on the Resume page if something
+              is wrong.
+            </p>
+          </div>
+        </details>
+      )}
     </div>
   );
 }

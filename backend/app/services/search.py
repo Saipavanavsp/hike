@@ -129,6 +129,19 @@ def fetch_candidates(db: Session, p: SearchParams) -> list[Candidate]:
     return candidates
 
 
+def job_matches(db: Session, p: SearchParams, job_id: int) -> bool:
+    """Would this job appear in the results for these search params? (saved-search alerts)"""
+    conds = [*_filters(p), Job.id == job_id]
+    q = p.q.strip()
+    if q:
+        escaped = q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        tsq = func.websearch_to_tsquery("english", q)
+        conds.append(
+            or_(Job.search_vector.op("@@")(tsq), Job.title.ilike(f"%{escaped}%", escape="\\"))
+        )
+    return db.scalar(select(Job.id).where(*conds)) is not None
+
+
 MatchLookup = Callable[[list[int]], dict[int, int]]
 
 

@@ -3,7 +3,7 @@
 import math
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import func, or_, select, update
 from sqlalchemy.orm import Session, aliased
@@ -14,6 +14,7 @@ from app.core.health import check_db, check_redis, queue_depth, task_counts, wor
 from app.db.session import get_db
 from app.models import (
     Application,
+    AuditLog,
     BackgroundTask,
     Company,
     Job,
@@ -22,6 +23,7 @@ from app.models import (
     User,
 )
 from app.models.enums import ApplicationStatus, JobStatus, UserRole
+from app.services import audit
 from app.services.cache import bump_jobs_version
 from app.services.file_scan import clamav_ping
 
@@ -139,7 +141,9 @@ def list_users(
     )
 
 
-def _set_active(db: Session, admin: User, ids: list[int], active: bool) -> int:
+def _set_active(
+    db: Session, admin: User, ids: list[int], active: bool, request: Request | None = None
+) -> int:
     if not active and admin.id in ids:
         raise HTTPException(422, "You cannot deactivate your own account")
     res = db.execute(
@@ -154,20 +158,30 @@ def _set_active(db: Session, admin: User, ids: list[int], active: bool) -> int:
             .where(RefreshToken.user_id.in_(ids), RefreshToken.revoked_at.is_(None))
             .values(revoked_at=datetime.now(UTC))
         )
+    action = "admin.users.activate" if active else "admin.users.deactivate"
+    audit.record(db, admin, action, "user", None, {"ids": ids, "changed": res.rowcount}, request)
     db.commit()
     return res.rowcount
 
 
 @router.post("/users/deactivate", response_model=BulkResult)
 def deactivate_users(
-    data: BulkIds, db: Session = Depends(get_db), admin: User = Depends(admin_only)
+    data: BulkIds,
+    request: Request,
+    db: Session = Depends(get_db),
+    admin: User = Depends(admin_only),
 ):
-    return BulkResult(updated=_set_active(db, admin, data.ids, False))
+    return BulkResult(updated=_set_active(db, admin, data.ids, False, request))
 
 
 @router.post("/users/activate", response_model=BulkResult)
-def activate_users(data: BulkIds, db: Session = Depends(get_db), admin: User = Depends(admin_only)):
-    return BulkResult(updated=_set_active(db, admin, data.ids, True))
+def activate_users(
+    data: BulkIds,
+    request: Request,
+    db: Session = Depends(get_db),
+    admin: User = Depends(admin_only),
+):
+    return BulkResult(updated=_set_active(db, admin, data.ids, True, request))
 
 
 # ---------- jobs ----------
@@ -240,11 +254,25 @@ def list_jobs(
 
 
 @router.post("/jobs/close", response_model=BulkResult)
-def close_jobs(data: BulkIds, db: Session = Depends(get_db), _: User = Depends(admin_only)):
+def close_jobs(
+    data: BulkIds,
+    request: Request,
+    db: Session = Depends(get_db),
+    admin: User = Depends(admin_only),
+):
     res = db.execute(
         update(Job)
         .where(Job.id.in_(data.ids), Job.status == JobStatus.open)
         .values(status=JobStatus.closed, closed_at=datetime.now(UTC))
+    )
+    audit.record(
+        db,
+        admin,
+        "admin.jobs.close",
+        "job",
+        None,
+        {"ids": data.ids, "changed": res.rowcount},
+        request,
     )
     db.commit()
     bump_jobs_version()
@@ -319,11 +347,70 @@ def _task_out(t: BackgroundTask) -> AdminTask:
 
 
 @router.post("/retention/run")
-def run_retention_now(admin: User = Depends(admin_only)):
+def run_retention_now(
+    request: Request, db: Session = Depends(get_db), admin: User = Depends(admin_only)
+):
     from app.tasks.definitions import retention_sweep
     from app.tasks.tracking import enqueue
 
+    audit.record(db, admin, "admin.retention.run", None, None, None, request)
+    db.commit()
     return {"task_id": enqueue(retention_sweep, user_id=admin.id)}
+
+
+class AdminAudit(BaseModel):
+    id: int
+    created_at: datetime
+    actor: str | None
+    actor_role: str | None
+    action: str
+    target_type: str | None
+    target_id: int | None
+    details: dict
+    ip: str | None
+    request_id: str | None
+
+
+@router.get("/audit")
+def audit_log(
+    q: str = Query("", max_length=100),
+    action: str = Query("", max_length=60),
+    page: int = Query(1, ge=1),
+    db: Session = Depends(get_db),
+    _: User = Depends(admin_only),
+):
+    """Newest first. q matches the actor name or email; action matches a prefix."""
+    actor = aliased(User)
+    stmt = select(AuditLog, actor.full_name, actor.email).outerjoin(
+        actor, actor.id == AuditLog.actor_id
+    )
+    if action.strip():
+        stmt = stmt.where(AuditLog.action.startswith(action.strip()))
+    if q.strip():
+        pattern = _like(q.strip())
+        stmt = stmt.where(
+            or_(
+                actor.full_name.ilike(pattern, escape="\\"), actor.email.ilike(pattern, escape="\\")
+            )
+        )
+    stmt = stmt.order_by(AuditLog.created_at.desc(), AuditLog.id.desc())
+    return _page(
+        db,
+        stmt,
+        page,
+        lambda r: AdminAudit(
+            id=r[0].id,
+            created_at=r[0].created_at,
+            actor=f"{r[1]} ({r[2]})" if r[1] else None,
+            actor_role=r[0].actor_role,
+            action=r[0].action,
+            target_type=r[0].target_type,
+            target_id=r[0].target_id,
+            details=r[0].details,
+            ip=r[0].ip,
+            request_id=r[0].request_id,
+        ),
+    )
 
 
 # ---------- applications ----------

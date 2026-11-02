@@ -20,3 +20,16 @@ export async function openResumeFile(resumeId: number): Promise<void> {
     throw err;
   }
 }
+
+/** Download an interview's .ics invite (needs the bearer token, so it goes through axios). */
+export async function downloadInterviewIcs(interviewId: number): Promise<void> {
+  const res = await api.get<Blob>(`/api/interviews/${interviewId}/ics`, { responseType: "blob" });
+  const url = URL.createObjectURL(res.data);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `interview-${interviewId}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}

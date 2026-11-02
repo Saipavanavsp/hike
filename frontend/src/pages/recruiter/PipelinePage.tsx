@@ -9,10 +9,11 @@ import {
   useRecruiterJobs,
   useWeeklyApplications,
 } from "@/api/queries";
-import type { ApplicationStatus } from "@/api/types";
+import type { ApplicationStatus, RecruiterApplication } from "@/api/types";
 import { COLUMNS } from "@/components/recruiter/pipeline";
 import { KanbanBoard } from "@/components/recruiter/KanbanBoard";
 import { RankedTable } from "@/components/recruiter/RankedTable";
+import { ScheduleInterviewModal } from "@/components/recruiter/ScheduleInterviewModal";
 import { WeeklyChart } from "@/components/recruiter/WeeklyChart";
 import { Tag } from "@/components/ui/Badges";
 import { ErrorBanner, Select } from "@/components/ui/Form";
@@ -31,6 +32,7 @@ export default function PipelinePage() {
   const { data: jobs, isLoading: jobsLoading } = useRecruiterJobs();
   const [view, setView] = useState<View>("board");
   const [error, setError] = useState<string | null>(null);
+  const [scheduling, setScheduling] = useState<RecruiterApplication | null>(null);
 
   // Without a job in the URL, open the job with the most applicants.
   const busiest = jobs?.reduce<(typeof jobs)[number] | undefined>(
@@ -153,6 +155,11 @@ export default function PipelinePage() {
         ]}
       />
       <div className="pt-3">
+        <p className="mb-3 rounded border border-border bg-surface px-3 py-2 text-xs text-ink-secondary">
+          Match scores are decision support, not a hiring decision. They estimate resume fit from
+          skills, experience, location and text similarity (with names, contacts and colleges
+          removed). Review each candidate; Hike never rejects anyone automatically.
+        </p>
         <ErrorBanner message={error} />
         {appsLoading || !apps ? (
           <div className="flex gap-2">
@@ -166,6 +173,7 @@ export default function PipelinePage() {
               applications={apps}
               onMove={onMove}
               onOpenResume={openResume}
+              onScheduleInterview={setScheduling}
               onInvalidMove={(from, to) =>
                 setError(`Cannot move from ${STATUS_LABELS[from]} to ${STATUS_LABELS[to]}.`)
               }
@@ -177,6 +185,11 @@ export default function PipelinePage() {
           </TabPanel>
         )}
       </div>
+      <ScheduleInterviewModal
+        key={scheduling?.id ?? "none"}
+        app={scheduling}
+        onClose={() => setScheduling(null)}
+      />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 """In-app notifications, each also delivered by email in a background task.
 
-Emails go to the log (logger "hike.email"): no mail provider is configured. Delivery runs
-in the worker with retries, and notifications.emailed_at records when it happened.
+Email goes through services/email.py (logged by default, SMTP when configured), unless the
+user turned email off. Delivery runs in the worker with retries; notifications.emailed_at
+records when it happened. Interview notifications carry an .ics calendar invite.
 """
 
-import logging
 from datetime import UTC, datetime
 
 from sqlalchemy import event
@@ -12,7 +12,6 @@ from sqlalchemy.orm import Session
 
 from app.models import Notification, User
 
-log = logging.getLogger("hike.email")
 _PENDING = "pending_email_ids"
 
 
@@ -53,19 +52,37 @@ def _drop_pending_emails(session: Session) -> None:
 
 
 def send_email(db: Session, notification_id: int) -> dict:
+    from app.core.config import settings
+    from app.models import Interview
+    from app.services import email
+    from app.services.calendar import build_ics
+
     n = db.get(Notification, notification_id)
     if n is None:
         return {"skipped": "notification deleted"}
     if n.emailed_at is not None:
         return {"skipped": "already sent"}
     user = db.get(User, n.user_id)
-    log.info(
-        "[email] to=%s subject=%r body=%r",
-        user.email,
-        n.title,
-        n.body,
-        extra={"notification_id": n.id, "email_type": n.type},
-    )
+    if not user.email_notifications:
+        return {"skipped": "user opted out of email"}
+    body = n.body or ""
+    if n.link:
+        body = f"{body}\n\nOpen in Hike: {settings.public_app_url}{n.link}".strip()
+    body += "\n\nYou can turn off these emails in your Hike profile."
+    attachments = []
+    interview_id = (n.payload or {}).get("interview_id")
+    if interview_id:
+        iv = db.get(Interview, interview_id)
+        if iv is not None:
+            attachments.append(
+                email.Attachment(
+                    "interview.ics",
+                    build_ics(iv),
+                    "text/calendar; method="
+                    + ("CANCEL" if iv.status == "cancelled" else "REQUEST"),
+                )
+            )
+    backend = email.send(email.OutgoingEmail(user.email, n.title, body, attachments))
     n.emailed_at = datetime.now(UTC)
     db.commit()
-    return {"sent_to": user.id}
+    return {"sent_to": user.id, "backend": backend, "attachments": len(attachments)}

@@ -50,7 +50,7 @@ def create_job(db: Session, recruiter: User, data: JobCreate) -> Job:
     db.add(job)
     db.commit()
     db.refresh(job)
-    on_job_changed(db, job)
+    on_job_changed(db, job, new_listing=True)
     return job
 
 
@@ -79,11 +79,11 @@ def set_job_status(db: Session, job: Job, new_status: JobStatus) -> Job:
     job.closed_at = datetime.now(UTC) if new_status == JobStatus.closed else None
     db.commit()
     db.refresh(job)
-    on_job_changed(db, job)
+    on_job_changed(db, job, new_listing=new_status == JobStatus.open)
     return job
 
 
-def on_job_changed(db: Session, job: Job) -> None:
+def on_job_changed(db: Session, job: Job, new_listing: bool = False) -> None:
     """Invalidate search cache + autocomplete index (both keyed on the jobs version), then
     re-embed the job and re-score its applicants in the background. If those tasks fail,
     matching still recomputes missing embeddings and stale scores lazily."""
@@ -95,3 +95,7 @@ def on_job_changed(db: Session, job: Job) -> None:
     has_applicants = db.scalar(select(Application.id).where(Application.job_id == job.id).limit(1))
     if has_applicants is not None:
         enqueue(score_job_candidates, job.id, ref_id=job.id)
+    if new_listing:
+        from app.tasks.definitions import saved_search_alerts
+
+        enqueue(saved_search_alerts, job.id, ref_id=job.id)

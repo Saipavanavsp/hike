@@ -46,6 +46,17 @@ class Settings(BaseSettings):
     tasks_eager: bool = False
     task_max_retries: int = 3
 
+    # Email: "log" writes messages to the hike.email logger; "smtp" sends them.
+    email_backend: str = "log"
+    email_from: str = "Hike <no-reply@hike.example>"
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_username: str = ""
+    smtp_password: str = ""
+    smtp_starttls: bool = True
+    # Base URL of the web app, used for links in emails and calendar invites.
+    public_app_url: str = "http://localhost:8080"
+
     # Observability
     log_format: str = "json"  # "json" or "text"
     log_level: str = "INFO"

@@ -1,11 +1,12 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMyApplications } from "@/api/queries";
+import { useInterviews, useMyApplications } from "@/api/queries";
 import type { SeekerApplication } from "@/api/types";
+import { InterviewList } from "@/components/InterviewList";
 import { StatusBadge } from "@/components/ui/Badges";
 import { icon } from "@/components/ui/icon";
-import { CompanyLogo, EmptyState, PageHeader, RelativeTime } from "@/components/ui/Misc";
+import { CompanyLogo, EmptyState, PageHeader, RelativeTime, Section } from "@/components/ui/Misc";
 import { TableRowSkeletons } from "@/components/ui/Skeleton";
 import { Table, TD, TH, THead, TR } from "@/components/ui/Table";
 import { Tabs } from "@/components/ui/Tabs";
@@ -48,6 +49,7 @@ function Timeline({ app }: { app: SeekerApplication }) {
 
 export default function ApplicationsPage() {
   const { data, isLoading } = useMyApplications();
+  const { data: interviews } = useInterviews(true);
   const [filter, setFilter] = useState<Filter>("all");
   const [open, setOpen] = useState<number | null>(null);
 
@@ -68,6 +70,13 @@ export default function ApplicationsPage() {
   return (
     <div>
       <PageHeader title="My Applications" />
+      {interviews && interviews.length > 0 && (
+        <div className="mb-4">
+          <Section title="Upcoming interviews">
+            <InterviewList interviews={interviews} role="seeker" />
+          </Section>
+        </div>
+      )}
       <div className="mb-3">
         <Tabs
           label="Filter applications"

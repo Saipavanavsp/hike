@@ -25,6 +25,11 @@ const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
 const AdminJobsPage = lazy(() => import("@/pages/admin/AdminJobsPage"));
 const AdminApplicationsPage = lazy(() => import("@/pages/admin/AdminApplicationsPage"));
 const AdminSystemPage = lazy(() => import("@/pages/admin/AdminSystemPage"));
+const AdminAuditPage = lazy(() => import("@/pages/admin/AdminAuditPage"));
+const AnalyticsPage = lazy(() => import("@/pages/recruiter/AnalyticsPage"));
+const InterviewsPage = lazy(() => import("@/pages/recruiter/InterviewsPage"));
+const CompanyProfilePage = lazy(() => import("@/pages/recruiter/CompanyProfilePage"));
+const CompanyPage = lazy(() => import("@/pages/CompanyPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,10 +72,18 @@ const router = createBrowserRouter([
       { path: "/recruiter/jobs/new", element: guard(["recruiter", "admin"], <JobFormPage />) },
       { path: "/recruiter/jobs/:id/edit", element: guard(["recruiter", "admin"], <JobFormPage />) },
       { path: "/recruiter/jobs/:id", element: guard(["recruiter", "admin"], <PipelinePage />) },
+      { path: "/recruiter/analytics", element: guard(["recruiter", "admin"], <AnalyticsPage />) },
+      { path: "/recruiter/interviews", element: guard(["recruiter", "admin"], <InterviewsPage />) },
+      { path: "/recruiter/company", element: guard(["recruiter"], <CompanyProfilePage />) },
+      {
+        path: "/companies/:slug",
+        element: guard(["seeker", "recruiter", "admin"], <CompanyPage />),
+      },
       { path: "/admin/users", element: guard(["admin"], <AdminUsersPage />) },
       { path: "/admin/jobs", element: guard(["admin"], <AdminJobsPage />) },
       { path: "/admin/applications", element: guard(["admin"], <AdminApplicationsPage />) },
       { path: "/admin/system", element: guard(["admin"], <AdminSystemPage />) },
+      { path: "/admin/audit", element: guard(["admin"], <AdminAuditPage />) },
     ],
   },
   { path: "*", element: <Navigate to="/" replace /> },

@@ -45,8 +45,17 @@ export interface JobListItem {
   match_score: number | null;
 }
 
+export interface ScoreComponent {
+  key: "semantic" | "skills" | "experience" | "location";
+  label: string;
+  weight: number;
+  points: number;
+  detail: string;
+}
+
 export interface MatchBreakdown {
   score: number;
+  components: ScoreComponent[];
   skills_matched: string[];
   skills_missing: string[];
   skills_ratio: string;
@@ -163,6 +172,7 @@ export interface RecruiterApplication {
   } | null;
   match: {
     score: number;
+    components: ScoreComponent[];
     skills_matched: string[];
     skills_missing: string[];
     skills_ratio: string;
@@ -259,6 +269,98 @@ export interface SystemOverview {
     signed_url_ttl_seconds: number;
   };
   retention: { unconfirmed_days: number; old_resume_days: number; inactive_seeker_days: number };
+}
+
+export type InterviewMode = "video" | "phone" | "onsite";
+
+export interface Interview {
+  id: number;
+  application_id: number;
+  job_id: number;
+  job_title: string;
+  company: string;
+  candidate_name: string;
+  starts_at: string;
+  duration_minutes: number;
+  mode: InterviewMode;
+  location: string | null;
+  notes: string | null;
+  status: "scheduled" | "cancelled";
+  google_calendar_url: string;
+}
+
+export interface SearchFilters {
+  q: string;
+  location: string[];
+  role: RoleCategory[];
+  remote: RemoteType[];
+  experience: number | null;
+}
+
+export interface SavedSearch {
+  id: number;
+  name: string;
+  params: SearchFilters;
+  summary: string;
+  alerts_enabled: boolean;
+  last_alert_at: string | null;
+  created_at: string;
+}
+
+export interface FunnelStep {
+  stage: "applied" | "shortlisted" | "interview" | "offer";
+  count: number;
+  conversion_from_previous: number | null;
+}
+
+export interface RecruiterAnalytics {
+  total_applications: number;
+  funnel: FunnelStep[];
+  rejected: number;
+  offer_rate: number | null;
+  median_days_to_first_response: number | null;
+  median_days_to_offer: number | null;
+  offers_measured: number;
+  avg_days_in_stage: Partial<Record<ApplicationStatus, number>>;
+  by_job: {
+    job_id: number;
+    title: string;
+    applications: number;
+    interviews: number;
+    offers: number;
+    median_days_to_offer: number | null;
+  }[];
+}
+
+export interface Company {
+  id: number;
+  name: string;
+  slug: string;
+  logo_url: string | null;
+  website: string | null;
+  industry: string | null;
+  size_range: string | null;
+  hq_city: string | null;
+  about: string | null;
+}
+
+export interface CompanyPage {
+  company: Company;
+  open_jobs: JobListItem[];
+  recruiters: number;
+}
+
+export interface AuditEntry {
+  id: number;
+  created_at: string;
+  actor: string | null;
+  actor_role: Role | null;
+  action: string;
+  target_type: string | null;
+  target_id: number | null;
+  details: Record<string, unknown>;
+  ip: string | null;
+  request_id: string | null;
 }
 
 export interface AdminApplication {

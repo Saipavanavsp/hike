@@ -45,6 +45,13 @@ services:
         value: "256"
       - key: LOG_FORMAT
         value: json
+      # Links in emails and calendar invites. Update if Render gives hike-web another hostname.
+      - key: PUBLIC_APP_URL
+        value: https://hike-web.onrender.com
+      # Emails are logged until you add an SMTP provider: set EMAIL_BACKEND=smtp and the
+      # SMTP_HOST / SMTP_USERNAME / SMTP_PASSWORD / EMAIL_FROM variables in the dashboard.
+      - key: EMAIL_BACKEND
+        value: log
       # Optional error tracking: add SENTRY_DSN in the dashboard (needs a Sentry account).
       - key: COOKIE_SECURE
         value: "true"

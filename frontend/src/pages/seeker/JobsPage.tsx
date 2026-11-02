@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { type JobSearch, useJobs, useResumes } from "@/api/queries";
 import { FilterChip } from "@/components/jobs/FilterChip";
 import { JobList, JobListHeader } from "@/components/jobs/JobList";
+import { SaveSearchButton } from "@/components/jobs/SaveSearchButton";
 import {
   EXPERIENCE_OPTIONS,
   LOCATION_OPTIONS,
@@ -119,6 +120,7 @@ export default function JobsPage() {
             Clear all
           </button>
         )}
+        {filtered && <SaveSearchButton search={search} />}
         <span className="ml-auto text-sm text-ink-secondary" aria-live="polite">
           {data && (
             <>

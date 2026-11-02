@@ -89,6 +89,10 @@ def get_application_for(db: Session, user: User, application_id: int) -> Applica
     return app
 
 
+def current_status(db: Session, application_id: int) -> ApplicationStatus | None:
+    return db.scalar(select(Application.status).where(Application.id == application_id))
+
+
 def change_status(
     db: Session, actor: User, application_id: int, new_status: ApplicationStatus
 ) -> Application:

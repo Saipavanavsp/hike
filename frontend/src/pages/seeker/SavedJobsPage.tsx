@@ -1,9 +1,10 @@
 import { BookmarkX } from "lucide-react";
 import { useSavedJobs, useToggleSave } from "@/api/queries";
 import { JobList, JobListHeader } from "@/components/jobs/JobList";
+import { SavedSearchList } from "@/components/jobs/SavedSearchList";
 import { IconButton } from "@/components/ui/Button";
 import { icon } from "@/components/ui/icon";
-import { EmptyState, PageHeader } from "@/components/ui/Misc";
+import { EmptyState, PageHeader, Section } from "@/components/ui/Misc";
 import { JobRowSkeletons } from "@/components/ui/Skeleton";
 import { toast } from "@/stores/toast";
 
@@ -11,7 +12,7 @@ export default function SavedJobsPage() {
   const { data, isLoading } = useSavedJobs();
   const toggle = useToggleSave();
   return (
-    <div>
+    <div className="space-y-4">
       <PageHeader title="Saved Jobs" />
       <div className="rounded border border-border">
         <JobListHeader withAction />
@@ -38,6 +39,9 @@ export default function SavedJobsPage() {
           />
         )}
       </div>
+      <Section title="Saved searches and job alerts">
+        <SavedSearchList />
+      </Section>
     </div>
   );
 }

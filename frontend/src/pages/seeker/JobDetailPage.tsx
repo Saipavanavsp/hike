@@ -134,7 +134,8 @@ export default function JobDetailPage() {
             <div className="min-w-0 flex-1">
               <h1 className="text-xl font-semibold">{job.title}</h1>
               <p className="text-sm text-ink-secondary">
-                {job.company.name} · {job.location} · {REMOTE_LABELS[job.remote_type]} · posted{" "}
+                <Link to={`/companies/${job.company.slug}`}>{job.company.name}</Link> ·{" "}
+                {job.location} · {REMOTE_LABELS[job.remote_type]} · posted{" "}
                 <RelativeTime iso={job.posted_at} />
               </p>
             </div>

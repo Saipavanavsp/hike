@@ -5,6 +5,14 @@ import type {
   AdminJob,
   AdminUser,
   ApplicationStatus,
+  AuditEntry,
+  Company,
+  CompanyPage,
+  Interview,
+  InterviewMode,
+  RecruiterAnalytics,
+  SavedSearch,
+  SearchFilters,
   DayCount,
   JobDetail,
   JobListItem,
@@ -386,5 +394,139 @@ export function useAdminBulk() {
       qc.invalidateQueries({ queryKey: ["admin"] });
       qc.invalidateQueries({ queryKey: ["jobs"] });
     },
+  });
+}
+
+// ---------- interviews ----------
+
+export interface InterviewInput {
+  starts_at: string;
+  duration_minutes: number;
+  mode: InterviewMode;
+  location: string;
+  notes: string;
+}
+
+export function useInterviews(upcoming = false) {
+  return useQuery({
+    queryKey: ["interviews", { upcoming }],
+    queryFn: async () =>
+      (await api.get<Interview[]>("/api/interviews", { params: { upcoming } })).data,
+  });
+}
+
+export function useInterviewMutations() {
+  const qc = useQueryClient();
+  const done = () => qc.invalidateQueries({ queryKey: ["interviews"] });
+  const schedule = useMutation({
+    mutationFn: async ({ applicationId, body }: { applicationId: number; body: InterviewInput }) =>
+      (await api.post<Interview>(`/api/recruiter/applications/${applicationId}/interviews`, body))
+        .data,
+    onSuccess: done,
+  });
+  const cancel = useMutation({
+    mutationFn: async (id: number) =>
+      (await api.post<Interview>(`/api/recruiter/interviews/${id}/cancel`)).data,
+    onSuccess: done,
+  });
+  return { schedule, cancel };
+}
+
+// ---------- saved searches ----------
+
+export function useSavedSearches(enabled = true) {
+  return useQuery({
+    queryKey: ["saved-searches"],
+    queryFn: async () => (await api.get<SavedSearch[]>("/api/saved-searches")).data,
+    enabled,
+  });
+}
+
+export function useSavedSearchMutations() {
+  const qc = useQueryClient();
+  const done = () => qc.invalidateQueries({ queryKey: ["saved-searches"] });
+  const create = useMutation({
+    mutationFn: async (body: { name: string; params: SearchFilters }) =>
+      (await api.post<SavedSearch>("/api/saved-searches", body)).data,
+    onSuccess: done,
+  });
+  const toggle = useMutation({
+    mutationFn: async ({ id, alerts_enabled }: { id: number; alerts_enabled: boolean }) =>
+      (await api.patch<SavedSearch>(`/api/saved-searches/${id}`, { alerts_enabled })).data,
+    onSuccess: done,
+  });
+  const remove = useMutation({
+    mutationFn: async (id: number) => api.delete(`/api/saved-searches/${id}`),
+    onSuccess: done,
+  });
+  return { create, toggle, remove };
+}
+
+// ---------- analytics, companies, preferences, audit ----------
+
+export function useRecruiterAnalytics(jobId: number | null) {
+  return useQuery({
+    queryKey: ["recruiter", "analytics", jobId],
+    queryFn: async () =>
+      (
+        await api.get<RecruiterAnalytics>("/api/recruiter/analytics", {
+          params: jobId ? { job_id: jobId } : {},
+        })
+      ).data,
+  });
+}
+
+export function useCompanyPage(slug: string) {
+  return useQuery({
+    queryKey: ["company", slug],
+    queryFn: async () => (await api.get<CompanyPage>(`/api/companies/${slug}`)).data,
+  });
+}
+
+export function useMyCompany() {
+  return useQuery({
+    queryKey: ["recruiter", "company"],
+    queryFn: async () => (await api.get<Company>("/api/recruiter/company")).data,
+  });
+}
+
+export function useUpdateMyCompany() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (body: Partial<Company>) =>
+      (await api.put<Company>("/api/recruiter/company", body)).data,
+    onSuccess: (data) => {
+      qc.setQueryData(["recruiter", "company"], data);
+      qc.invalidateQueries({ queryKey: ["company", data.slug] });
+    },
+  });
+}
+
+export function usePreferences() {
+  return useQuery({
+    queryKey: ["preferences"],
+    queryFn: async () =>
+      (await api.get<{ email_notifications: boolean }>("/api/account/preferences")).data,
+  });
+}
+
+export function useUpdatePreferences() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (email_notifications: boolean) =>
+      (
+        await api.put<{ email_notifications: boolean }>("/api/account/preferences", {
+          email_notifications,
+        })
+      ).data,
+    onSuccess: (data) => qc.setQueryData(["preferences"], data),
+  });
+}
+
+export function useAuditLog(params: { q: string; action: string; page: number }) {
+  return useQuery({
+    queryKey: ["admin", "audit", params],
+    queryFn: async () => (await api.get<Page<AuditEntry>>("/api/admin/audit", { params })).data,
+    placeholderData: keepPreviousData,
   });
 }
