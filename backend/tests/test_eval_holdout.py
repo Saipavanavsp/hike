@@ -117,6 +117,18 @@ def test_report_is_generated_from_the_committed_results():
     assert doc == render(RESULTS), "docs/evaluation.md is stale: rerun with --report"
 
 
+def test_name_and_institution_do_not_move_scores(fresh):
+    """Regression guard for the bias found by the counterfactual check."""
+    after = fresh["counterfactual_fairness"]["with_redaction"]
+    before = fresh["counterfactual_fairness"]["without_redaction"]
+    assert after["name"]["max_abs_change_points"] == 0
+    assert after["name"]["top5_changed_share"] == 0
+    assert after["institution"]["top5_changed_share"] == 0
+    assert after["institution"]["mean_abs_change_points"] <= 0.1
+    # The check itself is sensitive: without redaction it does detect the effect.
+    assert before["name"]["max_abs_change_points"] > 0
+
+
 def test_report_wording_follows_the_intervals():
     from app.ml.eval_report import _verdict
 

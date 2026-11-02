@@ -58,6 +58,7 @@ def parse_seed_resumes(resumes: list[dict]) -> list[dict]:
         out.append(
             {
                 "file": r["file"],
+                "name": r["name"],
                 "category": r["category"],
                 "text": text,
                 "parsed": parse_resume(text),
@@ -99,7 +100,12 @@ def evaluate_matching(jobs, parsed_resumes, labels) -> dict:
 
     job_keys = [j["key"] for j in jobs]
     job_texts = [job_text(j["title"], j["skills"], j["description_md"]) for j in jobs]
-    resume_texts = [r["text"] for r in parsed_resumes]
+    from app.services.redaction import redact_identity
+
+    # Same text production embeds: name, contacts and institutions removed.
+    resume_texts = [
+        redact_identity(r["text"], [r["name"], r["parsed"].name]) for r in parsed_resumes
+    ]
     relevant = [labels[r["file"]] for r in parsed_resumes]
 
     tfidf = TfidfMatcher().fit(job_texts + resume_texts)
@@ -163,7 +169,11 @@ def evaluate_classifier(parsed_resumes) -> dict:
     cv_pred = cross_val_predict(build_pipeline(), texts, labels, cv=cv)
     model = RoleClassifier.train(texts, labels)
     y_true = [r["category"] for r in parsed_resumes]
-    y_pred = model.predict_many([r["text"] for r in parsed_resumes])
+    from app.services.redaction import redact_identity
+
+    y_pred = model.predict_many(
+        [redact_identity(r["text"], [r["name"], r["parsed"].name]) for r in parsed_resumes]
+    )
     return {
         "labels": CATEGORIES,
         "cv_synthetic": {

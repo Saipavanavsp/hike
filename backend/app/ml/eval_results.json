@@ -12,30 +12,30 @@
     "accuracy": 0.933
    },
    "embeddings": {
-    "precision_at_5": 0.69,
-    "recall_at_5": 0.5926,
-    "mrr": 0.975,
-    "ndcg_at_5": 0.7896,
-    "accuracy": 0.919
+    "precision_at_5": 0.71,
+    "recall_at_5": 0.6192,
+    "mrr": 1.0,
+    "ndcg_at_5": 0.8075,
+    "accuracy": 0.923
    },
    "hike": {
     "precision_at_5": 0.74,
-    "recall_at_5": 0.6505,
+    "recall_at_5": 0.6484,
     "mrr": 1.0,
-    "ndcg_at_5": 0.8335,
+    "ndcg_at_5": 0.8358,
     "accuracy": 0.929
    }
   },
   "cosine_distribution": {
    "relevant": {
-    "p05": 0.308,
-    "median": 0.46,
-    "p95": 0.57
+    "p05": 0.329,
+    "median": 0.464,
+    "p95": 0.578
    },
    "not_relevant": {
-    "p05": 0.213,
-    "median": 0.337,
-    "p95": 0.466
+    "p05": 0.224,
+    "median": 0.343,
+    "p95": 0.464
    }
   }
  },

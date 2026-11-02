@@ -49,10 +49,10 @@
     ]
    },
    "r_at_5": {
-    "mean": 0.855,
+    "mean": 0.851,
     "ci95": [
-     0.787,
-     0.922
+     0.79,
+     0.91
     ]
    },
    "mrr": {
@@ -63,10 +63,10 @@
     ]
    },
    "ndcg_at_5": {
-    "mean": 0.927,
+    "mean": 0.926,
     "ci95": [
      0.898,
-     0.957
+     0.955
     ]
    }
   },
@@ -79,10 +79,10 @@
     ]
    },
    "r_at_5": {
-    "mean": 0.938,
+    "mean": 0.936,
     "ci95": [
-     0.887,
-     0.983
+     0.877,
+     0.986
     ]
    },
    "mrr": {
@@ -93,10 +93,10 @@
     ]
    },
    "ndcg_at_5": {
-    "mean": 0.966,
+    "mean": 0.965,
     "ci95": [
-     0.944,
-     0.987
+     0.941,
+     0.985
     ]
    }
   }
@@ -106,15 +106,15 @@
    "p_at_5": {
     "mean": 0.008,
     "ci95": [
-     -0.025,
-     0.042
+     -0.017,
+     0.033
     ]
    },
    "ndcg_at_5": {
-    "mean": 0.006,
+    "mean": 0.004,
     "ci95": [
-     -0.014,
-     0.027
+     -0.012,
+     0.02
     ]
    }
   },
@@ -123,21 +123,21 @@
     "mean": 0.058,
     "ci95": [
      0.017,
-     0.108
+     0.1
     ]
    },
    "ndcg_at_5": {
-    "mean": 0.039,
+    "mean": 0.038,
     "ci95": [
-     0.015,
-     0.065
+     0.013,
+     0.062
     ]
    }
   }
  },
  "distractors_in_top5": {
-  "tfidf": 0.07,
-  "minilm": 0.017,
+  "tfidf": 0.061,
+  "minilm": 0.026,
   "hike": 0.061
  },
  "by_category": {
@@ -148,12 +148,12 @@
     "ndcg_at_5": 0.971
    },
    "minilm": {
-    "p_at_5": 0.55,
-    "ndcg_at_5": 0.955
+    "p_at_5": 0.5,
+    "ndcg_at_5": 0.925
    },
    "hike": {
-    "p_at_5": 0.55,
-    "ndcg_at_5": 0.955
+    "p_at_5": 0.6,
+    "ndcg_at_5": 0.974
    }
   },
   "data_ml": {
@@ -163,12 +163,12 @@
     "ndcg_at_5": 0.964
    },
    "minilm": {
-    "p_at_5": 0.45,
-    "ndcg_at_5": 0.871
+    "p_at_5": 0.5,
+    "ndcg_at_5": 0.9
    },
    "hike": {
     "p_at_5": 0.65,
-    "ndcg_at_5": 0.981
+    "ndcg_at_5": 0.979
    }
   },
   "devops": {
@@ -194,11 +194,11 @@
    },
    "minilm": {
     "p_at_5": 0.45,
-    "ndcg_at_5": 0.898
+    "ndcg_at_5": 0.886
    },
    "hike": {
     "p_at_5": 0.6,
-    "ndcg_at_5": 1.0
+    "ndcg_at_5": 0.993
    }
   },
   "fullstack": {
@@ -209,11 +209,11 @@
    },
    "minilm": {
     "p_at_5": 0.5,
-    "ndcg_at_5": 0.908
+    "ndcg_at_5": 0.915
    },
    "hike": {
-    "p_at_5": 0.5,
-    "ndcg_at_5": 0.913
+    "p_at_5": 0.45,
+    "ndcg_at_5": 0.892
    }
   },
   "mobile": {
@@ -285,12 +285,12 @@
     "ndcg_at_5": 0.917
    },
    "minilm": {
-    "p_at_5": 0.5,
-    "ndcg_at_5": 0.899
+    "p_at_5": 0.533,
+    "ndcg_at_5": 0.913
    },
    "hike": {
-    "p_at_5": 0.6,
-    "ndcg_at_5": 0.957
+    "p_at_5": 0.567,
+    "ndcg_at_5": 0.938
    }
   },
   "pdf_classic": {
@@ -300,12 +300,12 @@
     "ndcg_at_5": 0.99
    },
    "minilm": {
-    "p_at_5": 0.6,
-    "ndcg_at_5": 0.939
+    "p_at_5": 0.567,
+    "ndcg_at_5": 0.923
    },
    "hike": {
     "p_at_5": 0.667,
-    "ndcg_at_5": 0.982
+    "ndcg_at_5": 0.98
    }
   },
   "pdf_two_column": {
@@ -316,11 +316,11 @@
    },
    "minilm": {
     "p_at_5": 0.367,
-    "ndcg_at_5": 0.942
+    "ndcg_at_5": 0.939
    },
    "hike": {
-    "p_at_5": 0.367,
-    "ndcg_at_5": 0.959
+    "p_at_5": 0.4,
+    "ndcg_at_5": 0.972
    }
   }
  },
@@ -361,14 +361,68 @@
  "taxonomy_coverage": 0.967,
  "format_invariance": {
   "resumes": 6,
-  "mean_score_spread_points": 3.32,
-  "max_score_spread_points": 4.76,
-  "top5_overlap_vs_first_layout": 0.922,
+  "mean_score_spread_points": 4.19,
+  "max_score_spread_points": 5.09,
+  "top5_overlap_vs_first_layout": 0.978,
   "years_abs_error_by_layout": {
    "pdf_classic": 0.0,
    "pdf_two_column": 1.017,
    "docx_table": 0.0,
    "docx_caps": 0.0
+  }
+ },
+ "counterfactual_fairness": {
+  "with_redaction": {
+   "name": {
+    "variants": 108,
+    "mean_abs_change_points": 0.0,
+    "max_abs_change_points": 0.0,
+    "top5_changed_share": 0.0
+   },
+   "institution": {
+    "variants": 38,
+    "mean_abs_change_points": 0.027,
+    "max_abs_change_points": 2.0,
+    "top5_changed_share": 0.0
+   },
+   "names_used": [
+    "Ayesha Siddiqui",
+    "Rohan Sharma",
+    "Lakshmi Iyer",
+    "Gurpreet Singh",
+    "Joseph Fernandes",
+    "Mary Lyngdoh"
+   ],
+   "institutions_used": [
+    "Apex National Institute of Technology",
+    "District Government College"
+   ]
+  },
+  "without_redaction": {
+   "name": {
+    "variants": 108,
+    "mean_abs_change_points": 1.794,
+    "max_abs_change_points": 9.0,
+    "top5_changed_share": 0.204
+   },
+   "institution": {
+    "variants": 38,
+    "mean_abs_change_points": 0.536,
+    "max_abs_change_points": 4.0,
+    "top5_changed_share": 0.132
+   },
+   "names_used": [
+    "Ayesha Siddiqui",
+    "Rohan Sharma",
+    "Lakshmi Iyer",
+    "Gurpreet Singh",
+    "Joseph Fernandes",
+    "Mary Lyngdoh"
+   ],
+   "institutions_used": [
+    "Apex National Institute of Technology",
+    "District Government College"
+   ]
   }
  },
  "per_resume": {
@@ -592,10 +646,10 @@
   ],
   "minilm": [
    {
-    "p_at_5": 0.6,
-    "r_at_5": 1.0,
+    "p_at_5": 0.4,
+    "r_at_5": 0.667,
     "mrr": 1.0,
-    "ndcg_at_5": 0.983,
+    "ndcg_at_5": 0.879,
     "key": "r01",
     "category": "backend",
     "format": "pdf_classic"
@@ -613,7 +667,7 @@
     "p_at_5": 0.6,
     "r_at_5": 0.6,
     "mrr": 1.0,
-    "ndcg_at_5": 0.835,
+    "ndcg_at_5": 0.821,
     "key": "r03",
     "category": "backend",
     "format": "pdf_two_column"
@@ -640,7 +694,7 @@
     "p_at_5": 0.4,
     "r_at_5": 0.667,
     "mrr": 1.0,
-    "ndcg_at_5": 0.83,
+    "ndcg_at_5": 0.82,
     "key": "r06",
     "category": "frontend",
     "format": "docx_table"
@@ -658,7 +712,7 @@
     "p_at_5": 0.4,
     "r_at_5": 1.0,
     "mrr": 1.0,
-    "ndcg_at_5": 1.0,
+    "ndcg_at_5": 0.964,
     "key": "r08",
     "category": "frontend",
     "format": "pdf_two_column"
@@ -667,7 +721,7 @@
     "p_at_5": 0.6,
     "r_at_5": 0.75,
     "mrr": 1.0,
-    "ndcg_at_5": 0.862,
+    "ndcg_at_5": 0.89,
     "key": "r09",
     "category": "fullstack",
     "format": "pdf_classic"
@@ -703,16 +757,16 @@
     "p_at_5": 0.6,
     "r_at_5": 0.75,
     "mrr": 1.0,
-    "ndcg_at_5": 0.906,
+    "ndcg_at_5": 0.89,
     "key": "r13",
     "category": "data_ml",
     "format": "pdf_classic"
    },
    {
-    "p_at_5": 0.4,
-    "r_at_5": 0.5,
+    "p_at_5": 0.6,
+    "r_at_5": 0.75,
     "mrr": 1.0,
-    "ndcg_at_5": 0.796,
+    "ndcg_at_5": 0.89,
     "key": "r14",
     "category": "data_ml",
     "format": "docx_table"
@@ -730,7 +784,7 @@
     "p_at_5": 0.4,
     "r_at_5": 1.0,
     "mrr": 1.0,
-    "ndcg_at_5": 0.964,
+    "ndcg_at_5": 1.0,
     "key": "r16",
     "category": "data_ml",
     "format": "pdf_two_column"
@@ -828,10 +882,10 @@
     "format": "docx_table"
    },
    {
-    "p_at_5": 0.6,
-    "r_at_5": 0.6,
+    "p_at_5": 0.8,
+    "r_at_5": 0.8,
     "mrr": 1.0,
-    "ndcg_at_5": 0.835,
+    "ndcg_at_5": 0.913,
     "key": "r03",
     "category": "backend",
     "format": "pdf_two_column"
@@ -858,7 +912,7 @@
     "p_at_5": 0.6,
     "r_at_5": 1.0,
     "mrr": 1.0,
-    "ndcg_at_5": 1.0,
+    "ndcg_at_5": 0.973,
     "key": "r06",
     "category": "frontend",
     "format": "docx_table"
@@ -891,10 +945,10 @@
     "format": "pdf_classic"
    },
    {
-    "p_at_5": 0.6,
-    "r_at_5": 0.75,
+    "p_at_5": 0.4,
+    "r_at_5": 0.5,
     "mrr": 1.0,
-    "ndcg_at_5": 0.881,
+    "ndcg_at_5": 0.796,
     "key": "r10",
     "category": "fullstack",
     "format": "docx_table"
@@ -921,7 +975,7 @@
     "p_at_5": 0.8,
     "r_at_5": 1.0,
     "mrr": 1.0,
-    "ndcg_at_5": 1.0,
+    "ndcg_at_5": 0.99,
     "key": "r13",
     "category": "data_ml",
     "format": "pdf_classic"

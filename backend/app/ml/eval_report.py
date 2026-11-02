@@ -86,6 +86,14 @@ def render(h: dict) -> str:
         f"{inv['mean_score_spread_points']:.1f} points (out of 100) on average, and keeps "
         f"{_pct(inv['top5_overlap_vs_first_layout'])} of its top-5 jobs."
     )
+    cfa = h["counterfactual_fairness"]["with_redaction"]
+    cfb = h["counterfactual_fairness"]["without_redaction"]
+    add(
+        f"- Fairness check: changing only a candidate's name used to move scores by up to "
+        f"{cfb['name']['max_abs_change_points']:.0f} points. With identity redaction before "
+        f"embedding, name swaps move them by {cfa['name']['max_abs_change_points']:.0f} and "
+        f"institution swaps by at most {cfa['institution']['max_abs_change_points']:.0f}."
+    )
     add(
         "- These numbers come from a small, hand-written dataset with AI-drafted labels. They "
         "are evidence that the pipeline works end to end and where it is fragile, not a "
@@ -246,6 +254,50 @@ def render(h: dict) -> str:
     )
     add("")
 
+    cf = h["counterfactual_fairness"]
+    after, before = cf["with_redaction"], cf["without_redaction"]
+    add("## Counterfactual fairness")
+    add("")
+    add(
+        "Each holdout resume was rescored after changing only the candidate's name (to "
+        + ", ".join(after["names_used"])
+        + ": fictional names associated with different genders, regions and religions) or "
+        "only their institution (to "
+        + " / ".join(f'"{i}"' for i in after["institutions_used"])
+        + "). Neither says anything about job fit, so a fair score should not move."
+    )
+    add("")
+    add(
+        "| Swap | Variants | Before redaction: mean / max change | Top-5 changed | After redaction: mean / max change | Top-5 changed |"
+    )
+    add("|---|---|---|---|---|---|")
+    for key, label in (("name", "Name"), ("institution", "Institution")):
+        b, a = before[key], after[key]
+        add(
+            f"| {label} | {a['variants']} | {b['mean_abs_change_points']:.2f} / "
+            f"{b['max_abs_change_points']:.0f} pts | {_pct(b['top5_changed_share'])} | "
+            f"{a['mean_abs_change_points']:.2f} / {a['max_abs_change_points']:.0f} pts | "
+            f"{_pct(a['top5_changed_share'])} |"
+        )
+    add("")
+    add(
+        "Before the fix, MiniLM read the name as part of the resume: a name swap moved scores "
+        f"by up to {before['name']['max_abs_change_points']:.0f} points and changed the top-5 "
+        f"jobs for {_pct(before['name']['top5_changed_share'])} of variants. The product now "
+        "removes the candidate's name, email, phone, links and institution names before "
+        "computing the embedding and the role category (`services/redaction.py`); skills, "
+        "experience and location are still read from the full text. Every number elsewhere "
+        "in this report is measured with redaction on."
+    )
+    add("")
+    add(
+        "This is a counterfactual test on fictional names, not a measurement of outcomes for "
+        "real groups of candidates, which would need consented demographic data. Institution "
+        "redaction is pattern-based (words like Institute, College, University), so unusual "
+        "names or names split across lines can slip through."
+    )
+    add("")
+
     add("## Synthetic seed set")
     add("")
     add("| Method | P@5 | R@5 | MRR | NDCG@5 | Accuracy |")
@@ -293,7 +345,7 @@ def render(h: dict) -> str:
     )
     add("- **Ceiling effects.** MRR is 1.0 for every method, and NDCG@5 is near its ceiling.")
     add(
-        "- **No demographic fairness test.** The data has no consented demographic attributes, so this report covers format robustness only, not bias across candidate groups."
+        "- **Fairness is tested counterfactually only.** Name and institution swaps on fictional resumes show what the score ignores; with no consented demographic data, outcomes for real candidate groups are not measured."
     )
     add("")
     add("## What a real-world evaluation would need")

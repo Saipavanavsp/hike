@@ -38,6 +38,14 @@ W_EXPERIENCE = 0.10
 W_LOCATION = 0.05
 SEM_FLOOR = 0.15
 SEM_CEIL = 0.65
+# Bump when the breakdown format changes, so cached match_scores rows are recomputed.
+BREAKDOWN_VERSION = 2
+COMPONENT_LABELS = {
+    "semantic": "Resume and job description similarity",
+    "skills": "Required skills",
+    "experience": "Experience",
+    "location": "Location",
+}
 
 
 # ---------- pure scoring ----------
@@ -102,11 +110,48 @@ def compute_match(r: ResumeSide, job: JobSide) -> dict:
     skills_ratio = len(matched) / len(job.skills) if job.skills else 1.0
     exp_fit, exp_ok = experience_fit(r.years, job.experience_min, job.experience_max)
     loc_fit, loc_ok = location_fit(r, job)
-    score = 100 * (
-        W_SEMANTIC * sem + W_SKILLS * skills_ratio + W_EXPERIENCE * exp_fit + W_LOCATION * loc_fit
-    )
+    parts = [
+        ("semantic", W_SEMANTIC, sem),
+        ("skills", W_SKILLS, skills_ratio),
+        ("experience", W_EXPERIENCE, exp_fit),
+        ("location", W_LOCATION, loc_fit),
+    ]
+    score = sum(100 * w * v for _, w, v in parts)
+    if r.years is None:
+        exp_detail = (
+            f"Experience not stated; job asks {job.experience_min}-{job.experience_max} yrs"
+        )
+    else:
+        exp_detail = f"{r.years:g} yrs; job asks {job.experience_min}-{job.experience_max} yrs"
+    if job.remote_type == RemoteType.remote.value:
+        loc_detail = "Remote job; " + (
+            "open to remote" if r.open_to_remote else "not open to remote"
+        )
+    else:
+        loc_detail = f"Job in {job.location}; " + (
+            "matches the candidate's locations"
+            if loc_ok
+            else "not one of the candidate's locations"
+        )
+    details = {
+        "semantic": f"Text similarity {cosine:.2f} (scaled from {SEM_FLOOR}-{SEM_CEIL})",
+        "skills": f"{len(matched)} of {len(job.skills)} required skills",
+        "experience": exp_detail,
+        "location": loc_detail,
+    }
+    components = [
+        {
+            "key": key,
+            "label": COMPONENT_LABELS[key],
+            "weight": int(round(100 * w)),
+            "points": round(100 * w * v, 1),
+            "detail": details[key],
+        }
+        for key, w, v in parts
+    ]
     return {
         "score": int(round(score)),
+        "components": components,
         "skills_matched": matched,
         "skills_missing": missing,
         "skills_ratio": f"{len(matched)}/{len(job.skills)}",
@@ -147,9 +192,22 @@ def ensure_job_embeddings(db: Session, jobs: list[Job]) -> None:
     db.commit()
 
 
+def resume_matching_text(resume: Resume, account_name: str | None = None) -> str:
+    """Resume text with the candidate's name, contacts and institutions removed."""
+    from app.services.redaction import redact_identity
+
+    parsed_name = (resume.parsed or {}).get("name")
+    return redact_identity(resume.raw_text or "", [account_name, parsed_name])
+
+
 def ensure_resume_derived(db: Session, resume: Resume) -> None:
-    """Embedding + predicted role category for a resume (skipped if text unchanged)."""
-    text = resume.raw_text or ""
+    """Embedding + predicted role category for a resume (skipped if text unchanged).
+
+    Both see the redacted text, so a candidate's name or college cannot move the score."""
+    from app.models import User
+
+    user = db.get(User, resume.user_id)
+    text = resume_matching_text(resume, user.full_name if user else None)
     h = content_hash(text)
     if resume.embedding_hash == h and resume.embedding is not None:
         return
@@ -165,7 +223,8 @@ def ensure_resume_derived(db: Session, resume: Resume) -> None:
 
 
 def _sig(*parts) -> str:
-    return hashlib.sha1(json.dumps(parts, default=str, sort_keys=True).encode()).hexdigest()
+    payload = json.dumps([BREAKDOWN_VERSION, *parts], default=str, sort_keys=True)
+    return hashlib.sha1(payload.encode()).hexdigest()
 
 
 def resume_side(db: Session, resume: Resume) -> tuple[ResumeSide, str]:

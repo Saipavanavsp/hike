@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.models.enums import ApplicationStatus
-from app.schemas.jobs import JobListItem
+from app.schemas.jobs import JobListItem, ScoreComponent
 
 
 class ApplyIn(BaseModel):
@@ -54,6 +54,7 @@ class CandidateResume(BaseModel):
 
 class CandidateMatch(BaseModel):
     score: int
+    components: list[ScoreComponent] = []
     skills_matched: list[str]
     skills_missing: list[str]
     skills_ratio: str

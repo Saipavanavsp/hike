@@ -31,6 +31,7 @@ from app.ml.embeddings import embed_documents
 from app.ml.skills import get_taxonomy
 from app.ml.tfidf import TfidfMatcher
 from app.services.doc_extract import extract_text
+from app.services.redaction import redact_identity
 from app.services.resume_parser import MONTHS, parse_resume
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
@@ -219,7 +220,8 @@ def format_invariance(jobs: list[dict], job_vecs, job_keys) -> dict:
     for key, layouts in sorted(by_resume.items()):
         names = sorted(layouts)
         parsed = [parse_file(layouts[n]) for n in names]
-        vecs = embed_documents([t for t, _ in parsed])
+        name = resumes[key]["name"]
+        vecs = embed_documents([matching_text(t, p, name) for t, p in parsed])
         scores = hike_scores([p for _, p in parsed], vecs, jobs, job_vecs)
         spreads.append(float(np.mean(scores.max(axis=0) - scores.min(axis=0))))
         tops = [set(rank(row, job_keys)[:K]) for row in scores]
@@ -237,6 +239,74 @@ def format_invariance(jobs: list[dict], job_vecs, job_keys) -> dict:
     }
 
 
+# Counterfactual fairness: fictional names associated with different genders, regions and
+# religions, and institutions of different perceived prestige. Swapping them must not
+# change a candidate's scores, because none of them says anything about job fit.
+SWAP_NAMES = [
+    "Ayesha Siddiqui",
+    "Rohan Sharma",
+    "Lakshmi Iyer",
+    "Gurpreet Singh",
+    "Joseph Fernandes",
+    "Mary Lyngdoh",
+]
+SWAP_INSTITUTIONS = ["Apex National Institute of Technology", "District Government College"]
+
+
+def matching_text(text: str, parsed, account_name: str) -> str:
+    """What production embeds: the resume with name, contacts and institutions removed."""
+    return redact_identity(text, [account_name, parsed.name])
+
+
+def counterfactual_fairness(resumes, texts, jobs, job_vecs, job_keys, redact: bool = True) -> dict:
+    def mtext(t, p, name):
+        return matching_text(t, p, name) if redact else t
+
+    base_parsed = [parse_resume(t, today=TODAY) for t in texts]
+    base_texts = [
+        mtext(t, p, r["name"]) for r, t, p in zip(resumes, texts, base_parsed, strict=True)
+    ]
+    base = hike_scores(base_parsed, embed_documents(base_texts), jobs, job_vecs)
+
+    def measure(variants: list[tuple[int, str, str]]) -> dict:
+        idx = [i for i, _, _ in variants]
+        parsed = [parse_resume(t, today=TODAY) for _, t, _ in variants]
+        vtexts = [mtext(t, p, name) for (_, t, name), p in zip(variants, parsed, strict=True)]
+        scores = hike_scores(parsed, embed_documents(vtexts), jobs, job_vecs)
+        diffs = np.abs(scores - base[idx])
+        top_changed = [
+            set(rank(scores[k], job_keys)[:K]) != set(rank(base[i], job_keys)[:K])
+            for k, i in enumerate(idx)
+        ]
+        return {
+            "variants": len(variants),
+            "mean_abs_change_points": round(float(diffs.mean()), 3),
+            "max_abs_change_points": round(float(diffs.max()), 2),
+            "top5_changed_share": round(float(np.mean(top_changed)), 3),
+        }
+
+    # The account name changes with the resume, as it would for a real candidate.
+    name_variants = [
+        (i, t.replace(r["name"], new), new)
+        for i, (r, t) in enumerate(zip(resumes, texts, strict=True))
+        for new in SWAP_NAMES
+        if r["name"] in t
+    ]
+    inst_variants = []
+    for i, (r, t) in enumerate(zip(resumes, texts, strict=True)):
+        institution = r["education"][0].split(", ")[1]
+        if institution in t:
+            inst_variants += [
+                (i, t.replace(institution, new), r["name"]) for new in SWAP_INSTITUTIONS
+            ]
+    return {
+        "name": measure(name_variants),
+        "institution": measure(inst_variants),
+        "names_used": SWAP_NAMES,
+        "institutions_used": SWAP_INSTITUTIONS,
+    }
+
+
 def run() -> dict:
     jobs, resumes, labels = load()
     job_keys = [j["key"] for j in jobs]
@@ -247,10 +317,14 @@ def run() -> dict:
         texts.append(text)
         parsed.append(p)
 
+    # All three methods see the same redacted text that production embeds.
+    mtexts = [
+        matching_text(t, p, r["name"]) for r, t, p in zip(resumes, texts, parsed, strict=True)
+    ]
     jtexts = job_texts(jobs)
-    tfidf = TfidfMatcher().fit(jtexts + texts).similarity(texts, jtexts)
+    tfidf = TfidfMatcher().fit(jtexts + mtexts).similarity(mtexts, jtexts)
     job_vecs = embed_documents(jtexts)
-    res_vecs = embed_documents(texts)
+    res_vecs = embed_documents(mtexts)
     method_scores = {
         "tfidf": tfidf,
         "minilm": res_vecs @ job_vecs.T,
@@ -327,6 +401,13 @@ def run() -> dict:
         "parser_by_format": parser_by_format,
         "taxonomy_coverage": _mean(a["taxonomy_coverage"] for a in acc),
         "format_invariance": format_invariance(jobs, job_vecs, job_keys),
+        # "without_redaction" is the same check on raw text: the problem the redaction fixes.
+        "counterfactual_fairness": {
+            "with_redaction": counterfactual_fairness(resumes, texts, jobs, job_vecs, job_keys),
+            "without_redaction": counterfactual_fairness(
+                resumes, texts, jobs, job_vecs, job_keys, redact=False
+            ),
+        },
         "per_resume": {
             m: [{k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()} for r in rs]
             for m, rs in rows.items()

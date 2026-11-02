@@ -8,8 +8,19 @@ from app.schemas.auth import CompanyBrief
 MAX_SALARY = 100_000_000  # 10 crore INR
 
 
+class ScoreComponent(BaseModel):
+    """One part of the match score: points earned out of its weight, and why."""
+
+    key: str
+    label: str
+    weight: int
+    points: float
+    detail: str
+
+
 class MatchBreakdown(BaseModel):
     score: int
+    components: list[ScoreComponent] = []
     skills_matched: list[str]
     skills_missing: list[str]
     skills_ratio: str
