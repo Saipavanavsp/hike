@@ -24,6 +24,8 @@ class OutgoingEmail:
     subject: str
     body: str
     attachments: list[Attachment] = field(default_factory=list)
+    # Stable per notification, so a re-sent duplicate is recognisable as the same message.
+    message_id: str | None = None
 
 
 def build_message(mail: OutgoingEmail) -> EmailMessage:
@@ -31,6 +33,8 @@ def build_message(mail: OutgoingEmail) -> EmailMessage:
     msg["From"] = settings.email_from
     msg["To"] = mail.to
     msg["Subject"] = mail.subject
+    if mail.message_id:
+        msg["Message-ID"] = mail.message_id
     msg.set_content(mail.body)
     for a in mail.attachments:
         maintype, _, rest = a.mime.partition("/")
@@ -61,6 +65,9 @@ def send(mail: OutgoingEmail) -> str:
         mail.to,
         mail.subject,
         mail.body,
-        extra={"attachments": [a.filename for a in mail.attachments]},
+        extra={
+            "attachments": [a.filename for a in mail.attachments],
+            "message_id": mail.message_id,
+        },
     )
     return "log"

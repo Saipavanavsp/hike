@@ -107,3 +107,17 @@ class DependencyCollector(Collector):
         for status, n in counts.items():
             tasks.add_metric([status], n)
         yield tasks
+        with SessionLocal() as db:
+            dead = db.scalar(
+                select(func.count())
+                .select_from(BackgroundTask)
+                .where(
+                    BackgroundTask.status == "failed",
+                    func.coalesce(BackgroundTask.result.op("->>")("retried_as"), "") == "",
+                )
+            )
+        yield GaugeMetricFamily(
+            "hike_dead_letter_tasks",
+            "Tasks that failed after every retry and have not been retried by an admin.",
+            value=dead,
+        )

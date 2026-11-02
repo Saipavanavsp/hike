@@ -292,6 +292,7 @@ class AdminTask(BaseModel):
     ref_id: int | None
     created_at: datetime
     finished_at: datetime | None
+    retried_as: str | None = None
 
 
 @router.get("/system")
@@ -318,6 +319,8 @@ def system_overview(db: Session = Depends(get_db), _: User = Depends(admin_only)
         "queue_depth": queue_depth(),
         "tasks_last_24h": task_counts(24),
         "recent_failures": [_task_out(t) for t in recent_failures],
+        # Dead letters: failed after every retry and not yet retried by an admin.
+        "dead_letter": dead_letter_count(db),
         "security": {
             "malware_scan": settings.malware_scan,
             "parser_isolation": settings.parser_isolation,
@@ -332,6 +335,17 @@ def system_overview(db: Session = Depends(get_db), _: User = Depends(admin_only)
     }
 
 
+def dead_letter_count(db: Session) -> int:
+    return db.scalar(
+        select(func.count())
+        .select_from(BackgroundTask)
+        .where(
+            BackgroundTask.status == "failed",
+            func.coalesce(BackgroundTask.result.op("->>")("retried_as"), "") == "",
+        )
+    )
+
+
 def _task_out(t: BackgroundTask) -> AdminTask:
     return AdminTask(
         id=t.id,
@@ -343,6 +357,7 @@ def _task_out(t: BackgroundTask) -> AdminTask:
         ref_id=t.ref_id,
         created_at=t.created_at,
         finished_at=t.finished_at,
+        retried_as=(t.result or {}).get("retried_as"),
     )
 
 
@@ -356,6 +371,30 @@ def run_retention_now(
     audit.record(db, admin, "admin.retention.run", None, None, None, request)
     db.commit()
     return {"task_id": enqueue(retention_sweep, user_id=admin.id)}
+
+
+@router.post("/tasks/{task_id}/retry")
+def retry_task(
+    task_id: str, request: Request, db: Session = Depends(get_db), admin: User = Depends(admin_only)
+):
+    """Requeue a dead-lettered (failed after every retry) background task."""
+    from app.tasks.tracking import NotRetryable, requeue
+
+    try:
+        new_id = requeue(task_id, user_id=admin.id)
+    except NotRetryable as e:
+        raise HTTPException(409, str(e)) from e
+    audit.record(
+        db,
+        admin,
+        "admin.task.retry",
+        "task",
+        None,
+        {"task_id": task_id, "new_task_id": new_id},
+        request,
+    )
+    db.commit()
+    return {"task_id": new_id}
 
 
 class AdminAudit(BaseModel):

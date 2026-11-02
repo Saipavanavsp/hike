@@ -16,4 +16,7 @@ if [ "$TASKS_EAGER" = "true" ]; then
   python -m app.services.retention || echo "retention sweep failed; continuing"
 fi
 
-exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}" --proxy-headers --forwarded-allow-ips="*"
+# exec: uvicorn becomes PID 1 and receives SIGTERM directly. It stops accepting connections
+# and lets in-flight requests finish (up to the graceful timeout) before exiting.
+exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}" --proxy-headers \
+  --forwarded-allow-ips="*" --workers "${WEB_CONCURRENCY:-1}" --timeout-graceful-shutdown 25

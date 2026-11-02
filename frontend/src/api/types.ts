@@ -250,6 +250,7 @@ export interface AdminTask {
   ref_id: number | null;
   created_at: string;
   finished_at: string | null;
+  retried_as: string | null;
 }
 
 export interface SystemOverview {
@@ -262,6 +263,7 @@ export interface SystemOverview {
   queue_depth: number | null;
   tasks_last_24h: Record<AdminTask["status"], number>;
   recent_failures: AdminTask[];
+  dead_letter: number;
   security: {
     malware_scan: string;
     parser_isolation: string;

@@ -26,7 +26,19 @@ def _resume_gave_up(resume_id: int, error: str) -> None:
         )
 
 
-@tracked("process_resume", ref_type="resume", on_give_up=_resume_gave_up)
+def _resume_requeue(resume_id: int) -> None:
+    from app.services.resumes import reset_for_reprocessing
+
+    with SessionLocal() as db:
+        reset_for_reprocessing(db, resume_id)
+
+
+@tracked(
+    "process_resume",
+    ref_type="resume",
+    on_give_up=_resume_gave_up,
+    before_requeue=_resume_requeue,
+)
 def process_resume(resume_id: int) -> dict:
     from app.services.resumes import process_resume_file
 

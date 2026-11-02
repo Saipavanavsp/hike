@@ -89,10 +89,18 @@ def upload_resume(
 
 
 def process_resume_file(db: Session, resume_id: int) -> dict:
-    """Background step: extract text in the sandbox and parse fields. Idempotent."""
-    resume = db.get(Resume, resume_id)
-    if resume is None or resume.status != "processing":
-        return {"skipped": True}
+    """Background step: extract text in the sandbox and parse fields.
+
+    Idempotent: the row is locked (SKIP LOCKED) for the duration, so a redelivered or
+    duplicate task finds it locked or already "ready" and does nothing."""
+    resume = db.scalar(
+        select(Resume).where(Resume.id == resume_id).with_for_update(skip_locked=True)
+    )
+    if resume is None:
+        return {"skipped": "locked or deleted"}
+    if resume.status != "processing":
+        db.rollback()
+        return {"skipped": f"already {resume.status}"}
     data = get_storage().read(resume.storage_key)
     kind = "pdf" if resume.mime_type == ALLOWED[".pdf"] else "docx"
     try:
@@ -111,6 +119,15 @@ def process_resume_file(db: Session, resume_id: int) -> dict:
     resume.parse_error = None
     db.commit()
     return {"skills": len(parsed.skills), "chars": len(text)}
+
+
+def reset_for_reprocessing(db: Session, resume_id: int) -> None:
+    """Used when an admin retries a dead-lettered parse task."""
+    resume = db.get(Resume, resume_id)
+    if resume is not None and resume.status == "failed":
+        resume.status = "processing"
+        resume.parse_error = None
+        db.commit()
 
 
 def mark_resume_failed(db: Session, resume_id: int, message: str) -> None:

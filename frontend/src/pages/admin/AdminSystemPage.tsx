@@ -1,5 +1,5 @@
 import { apiErrorMessage } from "@/api/client";
-import { useRunRetention, useSystemOverview } from "@/api/queries";
+import { useRetryTask, useRunRetention, useSystemOverview } from "@/api/queries";
 import type { AdminTask } from "@/api/types";
 import { Tag } from "@/components/ui/Badges";
 import { Button } from "@/components/ui/Button";
@@ -36,6 +36,16 @@ const TASK_ORDER: AdminTask["status"][] = [
 export default function AdminSystemPage() {
   const { data, isLoading, error } = useSystemOverview();
   const retention = useRunRetention();
+  const retry = useRetryTask();
+
+  async function retryTask(id: string) {
+    try {
+      await retry.mutateAsync(id);
+      toast("Task queued again");
+    } catch {
+      /* banner */
+    }
+  }
 
   async function runRetention() {
     try {
@@ -109,7 +119,8 @@ export default function AdminSystemPage() {
             </Section>
           </div>
 
-          <Section title="Recent failed tasks">
+          <Section title={`Failed tasks (dead letter: ${data.dead_letter} waiting)`}>
+            <ErrorBanner message={retry.isError ? apiErrorMessage(retry.error) : null} />
             {data.recent_failures.length === 0 ? (
               <EmptyState message="No failed tasks" />
             ) : (
@@ -121,6 +132,9 @@ export default function AdminSystemPage() {
                     <TH>Attempts</TH>
                     <TH>Error</TH>
                     <TH>When</TH>
+                    <TH>
+                      <span className="sr-only">Action</span>
+                    </TH>
                   </TR>
                 </THead>
                 <tbody>
@@ -136,6 +150,20 @@ export default function AdminSystemPage() {
                       </TD>
                       <TD className="text-xs text-ink-secondary">
                         <RelativeTime iso={t.created_at} />
+                      </TD>
+                      <TD>
+                        {t.retried_as ? (
+                          <span className="text-xs text-ink-secondary">Retried</span>
+                        ) : (
+                          <Button
+                            size="sm"
+                            disabled={retry.isPending}
+                            onClick={() => retryTask(t.id)}
+                            aria-label={`Retry ${t.kind} task`}
+                          >
+                            Retry
+                          </Button>
+                        )}
                       </TD>
                     </TR>
                   ))}

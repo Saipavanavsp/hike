@@ -385,6 +385,15 @@ export function useRunRetention() {
   });
 }
 
+export function useRetryTask() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) =>
+      (await api.post<{ task_id: string }>(`/api/admin/tasks/${id}/retry`)).data,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "system"] }),
+  });
+}
+
 export function useAdminBulk() {
   const qc = useQueryClient();
   return useMutation({

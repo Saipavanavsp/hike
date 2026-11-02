@@ -28,6 +28,13 @@ groups:
         annotations:
           summary: "{{ $value }} background task(s) failed in the last hour (see Admin > System)"
 
+      - alert: HikeDeadLetterTasks
+        expr: hike_dead_letter_tasks > 0
+        for: 15m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $value }} dead-lettered task(s) waiting for an admin retry (Admin > System)"
+
       - alert: HikeQueueBacklog
         expr: hike_queue_depth > 50
         for: 5m

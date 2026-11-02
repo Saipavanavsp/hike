@@ -7,7 +7,7 @@ With TASKS_EAGER=true no worker is needed: tasks run inline in the API process.
 
 from celery import Celery
 from celery.schedules import crontab
-from celery.signals import setup_logging, task_postrun, task_prerun
+from celery.signals import setup_logging, task_postrun, task_prerun, worker_ready
 
 from app.core.config import settings
 from app.core.observability import configure_logging, init_sentry, request_id_var
@@ -30,7 +30,11 @@ celery_app.conf.update(
         "interval_step": 0.5,
         "interval_max": 1,
     },
-    broker_transport_options={"visibility_timeout": 3600},
+    # A task taken by a worker that dies is redelivered after this long (acks_late).
+    broker_transport_options={"visibility_timeout": 900},
+    # On SIGTERM the worker stops taking tasks and finishes the ones it has (warm shutdown);
+    # docker-compose gives it stop_grace_period to do so.
+    worker_cancel_long_running_tasks_on_connection_loss=True,
     timezone="UTC",
     beat_schedule={
         "worker-heartbeat": {"task": "hike.heartbeat", "schedule": 30.0},
@@ -43,6 +47,18 @@ celery_app.conf.update(
 def _setup_logging(**_kwargs) -> None:
     configure_logging()
     init_sentry()
+
+
+@worker_ready.connect
+def _recover(**_kwargs) -> None:
+    from app.tasks.tracking import recover_stale_tasks
+
+    try:
+        recover_stale_tasks()
+    except Exception:  # never block worker start-up
+        import logging
+
+        logging.getLogger("hike.tasks").exception("stale task recovery failed")
 
 
 @task_prerun.connect

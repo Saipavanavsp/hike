@@ -1,4 +1,6 @@
-"""Tracked background tasks: a background_tasks row per job, retries with backoff, alerts.
+"""Tracked background tasks: a background_tasks row per job, retries with backoff, alerts,
+and a dead-letter queue: tasks that are still "failed" after every retry stay in the table
+until an admin retries them (requeue) from the System page.
 
     @tracked("process_resume", ref_type="resume")
     def process_resume(resume_id: int) -> dict: ...
@@ -15,9 +17,9 @@ import logging
 import random
 import uuid
 from collections.abc import Callable
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from app.core.config import settings
 from app.core.observability import capture_exception
@@ -84,10 +86,18 @@ def alert_task_failure(kind: str, task_id: str, error: str) -> None:
         db.commit()
 
 
+# kind -> task, for requeueing dead-lettered tasks by name.
+REGISTRY: dict[str, object] = {}
+
+
 def tracked(
-    kind: str, ref_type: str | None = None, on_give_up: Callable[..., None] | None = None
+    kind: str,
+    ref_type: str | None = None,
+    on_give_up: Callable[..., None] | None = None,
+    before_requeue: Callable[..., None] | None = None,
 ) -> Callable:
-    """on_give_up(*args, error) runs once retries are exhausted, e.g. to flag the record."""
+    """on_give_up(*args, error) runs once retries are exhausted, e.g. to flag the record.
+    before_requeue(*args) runs when an admin retries a dead-lettered task, e.g. to reset it."""
 
     def decorator(fn: Callable) -> Callable:
         @celery_app.task(name=f"hike.{kind}", bind=True, max_retries=settings.task_max_retries)
@@ -139,6 +149,8 @@ def tracked(
 
         task.kind = kind
         task.ref_type = ref_type
+        task.before_requeue = before_requeue
+        REGISTRY[kind] = task
         return task
 
     return decorator
@@ -166,3 +178,75 @@ def enqueue(task, *args, user_id: int | None = None, ref_id: int | None = None) 
         log.warning("queue unavailable, running %s inline", task.kind, exc_info=True)
         task.apply(args=args, task_id=task_id)
     return task_id
+
+
+STALE_AFTER = timedelta(minutes=10)
+
+
+def recover_stale_tasks(now: datetime | None = None) -> int:
+    """Re-dispatch tasks left behind by a worker that died (or a lost broker message).
+
+    Runs when a worker starts. A task still "queued" or "running" ten minutes after it was
+    last touched is sent again under the same id. Every task is idempotent, so a task that
+    was in fact still running elsewhere does no harm when it runs twice.
+    """
+    from sqlalchemy import and_, or_
+
+    now = now or datetime.now(UTC)
+    cutoff = now - STALE_AFTER
+    with SessionLocal() as db:
+        stale = list(
+            db.scalars(
+                select(BackgroundTask).where(
+                    or_(
+                        and_(BackgroundTask.status == "queued", BackgroundTask.created_at < cutoff),
+                        and_(
+                            BackgroundTask.status.in_(("running", "retrying")),
+                            func.coalesce(BackgroundTask.started_at, BackgroundTask.created_at)
+                            < cutoff,
+                        ),
+                    )
+                )
+            )
+        )
+        jobs = [(t.id, t.kind, list(t.args or [])) for t in stale]
+    sent = 0
+    for task_id, kind, args in jobs:
+        task = REGISTRY.get(kind)
+        if task is None:
+            continue
+        task.apply_async(args=args, task_id=task_id)
+        sent += 1
+    if sent:
+        log.warning("recovered %d stale background task(s)", sent)
+    return sent
+
+
+class NotRetryable(ValueError):
+    pass
+
+
+def requeue(task_id: str, user_id: int | None = None) -> str:
+    """Retry a dead-lettered task: a "failed" task (retries exhausted) is queued again as a
+    new task with the same arguments, and the old row records which task replaced it."""
+    with SessionLocal() as db:
+        row = db.get(BackgroundTask, task_id)
+        if row is None:
+            raise NotRetryable("Task not found")
+        if row.status != "failed":
+            raise NotRetryable("Only failed tasks can be retried")
+        if (row.result or {}).get("retried_as"):
+            raise NotRetryable("This task was already retried")
+        task = REGISTRY.get(row.kind)
+        if task is None:
+            raise NotRetryable(f"Unknown task kind {row.kind}")
+        args, ref_id = list(row.args or []), row.ref_id
+    if task.before_requeue is not None:
+        task.before_requeue(*args)
+    new_id = enqueue(task, *args, user_id=user_id, ref_id=ref_id)
+    with SessionLocal() as db:
+        row = db.get(BackgroundTask, task_id)
+        row.result = {**(row.result or {}), "retried_as": new_id}
+        db.commit()
+    log.info("dead-lettered task requeued", extra={"task_id": task_id, "new_task_id": new_id})
+    return new_id

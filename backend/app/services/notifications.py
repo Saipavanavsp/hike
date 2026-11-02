@@ -7,7 +7,7 @@ records when it happened. Interview notifications carry an .ics calendar invite.
 
 from datetime import UTC, datetime
 
-from sqlalchemy import event
+from sqlalchemy import event, select
 from sqlalchemy.orm import Session
 
 from app.models import Notification, User
@@ -57,10 +57,20 @@ def send_email(db: Session, notification_id: int) -> dict:
     from app.services import email
     from app.services.calendar import build_ics
 
-    n = db.get(Notification, notification_id)
+    # Idempotent delivery: the row stays locked while the email is sent, so a duplicate task
+    # running at the same time skips it, and a later rerun sees emailed_at and skips it.
+    # If the process dies after sending but before the commit, the retry sends again with
+    # the same Message-ID, which lets mail servers and clients drop the duplicate.
+    n = db.scalar(
+        select(Notification)
+        .where(Notification.id == notification_id)
+        .with_for_update(skip_locked=True)
+    )
     if n is None:
-        return {"skipped": "notification deleted"}
+        exists = db.scalar(select(Notification.id).where(Notification.id == notification_id))
+        return {"skipped": "being sent by another worker" if exists else "notification deleted"}
     if n.emailed_at is not None:
+        db.rollback()
         return {"skipped": "already sent"}
     user = db.get(User, n.user_id)
     if not user.email_notifications:
@@ -82,7 +92,11 @@ def send_email(db: Session, notification_id: int) -> dict:
                     + ("CANCEL" if iv.status == "cancelled" else "REQUEST"),
                 )
             )
-    backend = email.send(email.OutgoingEmail(user.email, n.title, body, attachments))
+    backend = email.send(
+        email.OutgoingEmail(
+            user.email, n.title, body, attachments, message_id=f"<notification-{n.id}@hike>"
+        )
+    )
     n.emailed_at = datetime.now(UTC)
     db.commit()
     return {"sent_to": user.id, "backend": backend, "attachments": len(attachments)}

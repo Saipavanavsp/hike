@@ -10,7 +10,7 @@ from datetime import UTC, datetime
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import Job, SavedSearch, User
+from app.models import Job, Notification, SavedSearch, User
 from app.models.enums import JobStatus
 from app.services.notifications import notify
 from app.services.search import SearchParams, job_matches
@@ -50,6 +50,16 @@ def alert_for_job(db: Session, job_id: int) -> dict:
     )
     for s in searches:
         if not job_matches(db, to_params(s.params), job.id):
+            continue
+        # Idempotent: a rerun (or a reopen of the same job) never alerts twice.
+        already = db.scalar(
+            select(Notification.id).where(
+                Notification.user_id == s.user_id,
+                Notification.type == "saved_search_match",
+                Notification.payload.contains({"saved_search_id": s.id, "job_id": job.id}),
+            )
+        )
+        if already is not None:
             continue
         notify(
             db,
