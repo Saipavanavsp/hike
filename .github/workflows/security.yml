@@ -1,0 +1,53 @@
+name: Security scans
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 3 * * 1" # weekly, Monday 03:17 UTC: new CVEs appear without code changes
+  workflow_dispatch:
+
+jobs:
+  dependencies:
+    name: Dependency audit (pip-audit, npm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: pip-audit (backend runtime dependencies)
+        run: |
+          pip install pip-audit
+          pip-audit -r backend/requirements.txt --progress-spinner off
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: npm audit (frontend code that ships to browsers)
+        working-directory: frontend
+        run: npm audit --omit=dev --audit-level=high
+      - name: npm audit (all frontend and e2e packages, report only)
+        run: |
+          (cd frontend && npm audit --audit-level=critical) || true
+          (cd e2e && npm audit --audit-level=critical) || true
+
+  images:
+    name: Container scan (Trivy)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.image }} image
+        run: docker build -t hike-${{ matrix.image }}:scan ./${{ matrix.image }}
+      - name: Trivy (fail on fixable HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: hike-${{ matrix.image }}:scan
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+          format: table

@@ -8,6 +8,8 @@ const baseURL = import.meta.env.VITE_API_URL || "";
 export const api = axios.create({
   baseURL,
   withCredentials: true,
+  // Required by the API on cookie endpoints (login, refresh, logout): see backend/app/core/csrf.py.
+  headers: { "X-CSRF-Protection": "1" },
   paramsSerializer: { indexes: null },
 });
 
@@ -23,7 +25,10 @@ let refreshing: Promise<string | null> | null = null;
 export function refreshSession(): Promise<string | null> {
   if (!refreshing) {
     refreshing = axios
-      .post<TokenResponse>(`${baseURL}/api/auth/refresh`, null, { withCredentials: true })
+      .post<TokenResponse>(`${baseURL}/api/auth/refresh`, null, {
+        withCredentials: true,
+        headers: { "X-CSRF-Protection": "1" },
+      })
       .then((res) => {
         useAuth.getState().setSession(res.data.access_token, res.data.user);
         return res.data.access_token;

@@ -119,6 +119,30 @@ def _route_template(scope: dict) -> str:
     return getattr(route, "path", None) or "unmatched"
 
 
+_DOCS = ("/api/docs", "/api/openapi.json", "/api/docs/oauth2-redirect")
+
+
+def security_headers(path: str) -> list[tuple[bytes, bytes]]:
+    """Headers added to every API response (a response may set its own value first)."""
+    headers = [
+        (b"x-content-type-options", b"nosniff"),
+        (b"x-frame-options", b"DENY"),
+        (b"referrer-policy", b"strict-origin-when-cross-origin"),
+        (b"permissions-policy", b"camera=(), microphone=(), geolocation=(), payment=()"),
+        (b"cross-origin-opener-policy", b"same-origin"),
+        (b"cross-origin-resource-policy", b"same-origin"),
+    ]
+    # JSON never needs to run scripts or be framed. Exempt: Swagger UI (loads its own assets)
+    # and resume files (a CSP on a PDF can stop the browser's built-in viewer from showing it).
+    if not path.startswith(_DOCS) and not path.startswith("/api/files/"):
+        headers.append((b"content-security-policy", b"default-src 'none'; frame-ancestors 'none'"))
+    if settings.cookie_secure:  # HTTPS deployments
+        headers.append((b"strict-transport-security", b"max-age=31536000; includeSubDomains"))
+    if path.startswith("/api/auth/"):
+        headers.append((b"cache-control", b"no-store"))  # responses carry tokens
+    return headers
+
+
 class ObservabilityMiddleware:
     """Pure ASGI middleware: request id, access log, metrics and a JSON 500 for crashes."""
 
@@ -143,8 +167,10 @@ class ObservabilityMiddleware:
             if message["type"] == "http.response.start":
                 started = True
                 status_code = message["status"]
-                message.setdefault("headers", [])
-                message["headers"] = [*message["headers"], (b"x-request-id", rid.encode())]
+                existing = list(message.get("headers") or [])
+                present = {k.lower() for k, _ in existing}
+                extra = [h for h in security_headers(scope.get("path", "")) if h[0] not in present]
+                message["headers"] = [*existing, *extra, (b"x-request-id", rid.encode())]
             await send(message)
 
         try:

@@ -62,5 +62,6 @@ def db():
 def client():
     from app.main import app
 
-    with TestClient(app) as c:
+    # The app sends the CSRF header on every request, like the frontend does.
+    with TestClient(app, headers={"X-CSRF-Protection": "1"}) as c:
         yield c

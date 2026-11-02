@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.csrf import csrf_protect
 from app.core.deps import get_current_user
 from app.core.rate_limit import FixedWindowLimiter
 from app.core.security import TokenError
@@ -14,6 +15,8 @@ from app.services import audit
 from app.services import auth as auth_service
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
+# Endpoints that set or read the refresh cookie need the CSRF header.
+cookie_csrf = [Depends(csrf_protect)]
 
 REFRESH_COOKIE = "hike_refresh"
 login_limiter = FixedWindowLimiter(
@@ -51,7 +54,12 @@ def _client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-@router.post("/register", response_model=TokenOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/register",
+    response_model=TokenOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=cookie_csrf,
+)
 def register(data: RegisterIn, response: Response, db: Session = Depends(get_db)):
     try:
         user = auth_service.register_user(db, data)
@@ -63,7 +71,7 @@ def register(data: RegisterIn, response: Response, db: Session = Depends(get_db)
     return _token_response(response, user, access, refresh)
 
 
-@router.post("/login", response_model=TokenOut)
+@router.post("/login", response_model=TokenOut, dependencies=cookie_csrf)
 def login(data: LoginIn, request: Request, response: Response, db: Session = Depends(get_db)):
     identity = f"{data.email.lower()}:{_client_ip(request)}"
     retry = login_limiter.retry_after(identity)
@@ -91,7 +99,7 @@ def login(data: LoginIn, request: Request, response: Response, db: Session = Dep
     return _token_response(response, user, access, refresh)
 
 
-@router.post("/refresh", response_model=TokenOut)
+@router.post("/refresh", response_model=TokenOut, dependencies=cookie_csrf)
 def refresh(request: Request, response: Response, db: Session = Depends(get_db)):
     token = request.cookies.get(REFRESH_COOKIE)
     if not token:
@@ -104,7 +112,7 @@ def refresh(request: Request, response: Response, db: Session = Depends(get_db))
     return _token_response(response, user, access, new_refresh)
 
 
-@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT, dependencies=cookie_csrf)
 def logout(request: Request, response: Response, db: Session = Depends(get_db)):
     token = request.cookies.get(REFRESH_COOKIE)
     if token:

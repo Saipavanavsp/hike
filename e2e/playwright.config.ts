@@ -12,6 +12,8 @@ export default defineConfig({
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://localhost:8080",
     trace: "retain-on-failure",
+    // API calls made by the tests carry the CSRF header the frontend sends.
+    extraHTTPHeaders: { "X-CSRF-Protection": "1" },
     screenshot: "only-on-failure",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } }],

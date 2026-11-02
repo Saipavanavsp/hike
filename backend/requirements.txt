@@ -29,5 +29,9 @@ prometheus-client>=0.20
 sentry-sdk[fastapi]>=2.10
 # Encryption of stored resume files
 cryptography>=42
+# Minimum versions of transitive dependencies with known CVEs (flagged by Trivy / pip-audit)
+msgpack>=1.2.3
+urllib3>=2.8.0
+setuptools>=78.1.1
 # IANA time zones for zoneinfo (Windows and slim images ship none)
 tzdata>=2024.1

@@ -87,7 +87,9 @@ test.describe("authentication and access control", () => {
     // Each call uses a fresh context so only the cookie we pass is sent.
     async function refresh(token: string) {
       const c = await playwright.request.newContext({ baseURL });
-      const res = await c.post("/api/auth/refresh", { headers: { Cookie: `hike_refresh=${token}` } });
+      const res = await c.post("/api/auth/refresh", {
+        headers: { Cookie: `hike_refresh=${token}`, "X-CSRF-Protection": "1" },
+      });
       const status = res.status();
       const cookies = res
         .headersArray()
@@ -122,7 +124,7 @@ test.describe("authentication and access control", () => {
 
     const replay = await playwright.request.newContext({ baseURL });
     const res = await replay.post("/api/auth/refresh", {
-      headers: { Cookie: `hike_refresh=${cookie!.value}` },
+      headers: { Cookie: `hike_refresh=${cookie!.value}`, "X-CSRF-Protection": "1" },
     });
     expect(res.status()).toBe(401);
     await replay.dispose();

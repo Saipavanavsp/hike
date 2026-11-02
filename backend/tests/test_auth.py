@@ -170,7 +170,7 @@ def test_require_role_denies_with_403(db):
     from app.api.auth import router as auth_router
 
     app.include_router(auth_router)
-    with TestClient(app) as c:
+    with TestClient(app, headers={"X-CSRF-Protection": "1"}) as c:
         make_user(db, "seeker@example.com", "seeker")
         make_user(db, "rec@example.com", "recruiter")
         assert c.get("/recruiters-only").status_code == 401
