@@ -39,6 +39,11 @@ class Settings(BaseSettings):
     model_dir: str = ""  # directory with model.onnx + tokenizer.json; empty = HF cache
 
     search_cache_ttl_seconds: int = 60
+    # Search features; values chosen with the search evaluation (docs/search-evaluation.md).
+    search_synonyms: bool = True
+    search_typo: bool = True
+    search_semantic_weight: float = 0.4
+    search_semantic_min: float = 0.45
     seed_on_start: bool = False
 
     # Background jobs. With tasks_eager=true tasks run inline in the API process

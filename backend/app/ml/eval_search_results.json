@@ -1,0 +1,1697 @@
+{
+ "queries": 37,
+ "jobs": 50,
+ "k": 10,
+ "configs": {
+  "Lexical (before)": {
+   "ndcg_at_10": {
+    "mean": 0.404,
+    "ci95": [
+     0.27,
+     0.535
+    ]
+   },
+   "recall_at_10": {
+    "mean": 0.309,
+    "ci95": [
+     0.192,
+     0.429
+    ]
+   },
+   "mrr": {
+    "mean": 0.514,
+    "ci95": [
+     0.351,
+     0.676
+    ]
+   },
+   "zero_results": {
+    "mean": 0.486,
+    "ci95": [
+     0.324,
+     0.649
+    ]
+   },
+   "by_type": {
+    "exact": 0.862,
+    "typo": 0.085,
+    "synonym": 0.231,
+    "natural": 0.484
+   }
+  },
+  "+ synonyms": {
+   "ndcg_at_10": {
+    "mean": 0.606,
+    "ci95": [
+     0.484,
+     0.729
+    ]
+   },
+   "recall_at_10": {
+    "mean": 0.498,
+    "ci95": [
+     0.379,
+     0.622
+    ]
+   },
+   "mrr": {
+    "mean": 0.73,
+    "ci95": [
+     0.595,
+     0.865
+    ]
+   },
+   "zero_results": {
+    "mean": 0.27,
+    "ci95": [
+     0.135,
+     0.405
+    ]
+   },
+   "by_type": {
+    "exact": 0.862,
+    "typo": 0.085,
+    "synonym": 0.84,
+    "natural": 0.584
+   }
+  },
+  "+ typo correction": {
+   "ndcg_at_10": {
+    "mean": 0.556,
+    "ci95": [
+     0.436,
+     0.673
+    ]
+   },
+   "recall_at_10": {
+    "mean": 0.402,
+    "ci95": [
+     0.293,
+     0.517
+    ]
+   },
+   "mrr": {
+    "mean": 0.73,
+    "ci95": [
+     0.568,
+     0.865
+    ]
+   },
+   "zero_results": {
+    "mean": 0.27,
+    "ci95": [
+     0.135,
+     0.432
+    ]
+   },
+   "by_type": {
+    "exact": 0.862,
+    "typo": 0.711,
+    "synonym": 0.231,
+    "natural": 0.484
+   }
+  },
+  "+ synonyms + typos": {
+   "ndcg_at_10": {
+    "mean": 0.785,
+    "ci95": [
+     0.703,
+     0.858
+    ]
+   },
+   "recall_at_10": {
+    "mean": 0.619,
+    "ci95": [
+     0.515,
+     0.72
+    ]
+   },
+   "mrr": {
+    "mean": 0.946,
+    "ci95": [
+     0.865,
+     1.0
+    ]
+   },
+   "zero_results": {
+    "mean": 0.054,
+    "ci95": [
+     0.0,
+     0.135
+    ]
+   },
+   "by_type": {
+    "exact": 0.862,
+    "typo": 0.818,
+    "synonym": 0.84,
+    "natural": 0.584
+   }
+  },
+  "Hybrid (production)": {
+   "ndcg_at_10": {
+    "mean": 0.787,
+    "ci95": [
+     0.704,
+     0.858
+    ]
+   },
+   "recall_at_10": {
+    "mean": 0.624,
+    "ci95": [
+     0.518,
+     0.725
+    ]
+   },
+   "mrr": {
+    "mean": 0.946,
+    "ci95": [
+     0.865,
+     1.0
+    ]
+   },
+   "zero_results": {
+    "mean": 0.054,
+    "ci95": [
+     0.0,
+     0.135
+    ]
+   },
+   "by_type": {
+    "exact": 0.87,
+    "typo": 0.836,
+    "synonym": 0.834,
+    "natural": 0.571
+   }
+  }
+ },
+ "hybrid_minus_lexical_ndcg": {
+  "mean": 0.383,
+  "ci95": [
+   0.253,
+   0.526
+  ]
+ },
+ "semantic_sweep_ndcg": {
+  "w=0.2 min=0.4": 0.788,
+  "w=0.2 min=0.45": 0.786,
+  "w=0.2 min=0.5": 0.786,
+  "w=0.4 min=0.4": 0.789,
+  "w=0.4 min=0.45": 0.787,
+  "w=0.4 min=0.5": 0.787,
+  "w=0.6 min=0.4": 0.783,
+  "w=0.6 min=0.45": 0.782,
+  "w=0.6 min=0.5": 0.786
+ },
+ "per_query": {
+  "Lexical (before)": [
+   {
+    "q": "python backend",
+    "type": "exact",
+    "ndcg_at_10": 0.958,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "react",
+    "type": "exact",
+    "ndcg_at_10": 0.772,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernetes",
+    "type": "exact",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "data scientist",
+    "type": "exact",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutter",
+    "type": "exact",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenium",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "full stack",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "android",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "spring boot microservices",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "pyhton developer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "kubernets",
+    "type": "typo",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "fronted engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "machne learning",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "javscript",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "djnago",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "flutr developer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "devpos engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "selenum",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "js developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "k8s",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "ml engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.679,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sde backend",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "sre",
+    "type": "synonym",
+    "ndcg_at_10": 0.483,
+    "recall_at_10": 0.2,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "golang",
+    "type": "synonym",
+    "ndcg_at_10": 0.726,
+    "recall_at_10": 0.333,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "postgres",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "front end developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "nodejs",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "tester",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "ai engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "build mobile apps",
+    "type": "natural",
+    "ndcg_at_10": 0.723,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "cloud infrastructure automation",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "recommendation systems",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "large language models",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "payments backend",
+    "type": "natural",
+    "ndcg_at_10": 0.566,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "dashboards and data visualization",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "load testing",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "test automation",
+    "type": "natural",
+    "ndcg_at_10": 0.931,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   }
+  ],
+  "+ synonyms": [
+   {
+    "q": "python backend",
+    "type": "exact",
+    "ndcg_at_10": 0.958,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "react",
+    "type": "exact",
+    "ndcg_at_10": 0.772,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernetes",
+    "type": "exact",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "data scientist",
+    "type": "exact",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutter",
+    "type": "exact",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenium",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "full stack",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "android",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "spring boot microservices",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "pyhton developer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "kubernets",
+    "type": "typo",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "fronted engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "machne learning",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "javscript",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "djnago",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "flutr developer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "devpos engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "selenum",
+    "type": "typo",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "js developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.923,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "k8s",
+    "type": "synonym",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ml engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sde backend",
+    "type": "synonym",
+    "ndcg_at_10": 0.22,
+    "recall_at_10": 0.1,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sre",
+    "type": "synonym",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "golang",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "postgres",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 0.769,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "front end developer",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "nodejs",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "tester",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ai engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "build mobile apps",
+    "type": "natural",
+    "ndcg_at_10": 0.699,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "cloud infrastructure automation",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "recommendation systems",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "large language models",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "payments backend",
+    "type": "natural",
+    "ndcg_at_10": 0.566,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "dashboards and data visualization",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "load testing",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "test automation",
+    "type": "natural",
+    "ndcg_at_10": 0.931,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   }
+  ],
+  "+ typo correction": [
+   {
+    "q": "python backend",
+    "type": "exact",
+    "ndcg_at_10": 0.958,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "react",
+    "type": "exact",
+    "ndcg_at_10": 0.772,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernetes",
+    "type": "exact",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "data scientist",
+    "type": "exact",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutter",
+    "type": "exact",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenium",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "full stack",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "android",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "spring boot microservices",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "pyhton developer",
+    "type": "typo",
+    "ndcg_at_10": 0.356,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernets",
+    "type": "typo",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "fronted engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.83,
+    "recall_at_10": 0.75,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "machne learning",
+    "type": "typo",
+    "ndcg_at_10": 0.38,
+    "recall_at_10": 0.143,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "javscript",
+    "type": "typo",
+    "ndcg_at_10": 0.923,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "djnago",
+    "type": "typo",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutr developer",
+    "type": "typo",
+    "ndcg_at_10": 0.606,
+    "recall_at_10": 0.2,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "devpos engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.745,
+    "recall_at_10": 0.333,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenum",
+    "type": "typo",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "js developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "k8s",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "ml engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.679,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sde backend",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "sre",
+    "type": "synonym",
+    "ndcg_at_10": 0.483,
+    "recall_at_10": 0.2,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "golang",
+    "type": "synonym",
+    "ndcg_at_10": 0.726,
+    "recall_at_10": 0.333,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "postgres",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "front end developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "nodejs",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "tester",
+    "type": "synonym",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "ai engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "build mobile apps",
+    "type": "natural",
+    "ndcg_at_10": 0.723,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "cloud infrastructure automation",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "recommendation systems",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "large language models",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "payments backend",
+    "type": "natural",
+    "ndcg_at_10": 0.566,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "dashboards and data visualization",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "load testing",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "test automation",
+    "type": "natural",
+    "ndcg_at_10": 0.931,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   }
+  ],
+  "+ synonyms + typos": [
+   {
+    "q": "python backend",
+    "type": "exact",
+    "ndcg_at_10": 0.958,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "react",
+    "type": "exact",
+    "ndcg_at_10": 0.772,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernetes",
+    "type": "exact",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "data scientist",
+    "type": "exact",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutter",
+    "type": "exact",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenium",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "full stack",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "android",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "spring boot microservices",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "pyhton developer",
+    "type": "typo",
+    "ndcg_at_10": 0.723,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernets",
+    "type": "typo",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "fronted engineer",
+    "type": "typo",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "machne learning",
+    "type": "typo",
+    "ndcg_at_10": 0.809,
+    "recall_at_10": 0.429,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "javscript",
+    "type": "typo",
+    "ndcg_at_10": 0.923,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "djnago",
+    "type": "typo",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutr developer",
+    "type": "typo",
+    "ndcg_at_10": 0.606,
+    "recall_at_10": 0.2,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "devpos engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.745,
+    "recall_at_10": 0.333,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenum",
+    "type": "typo",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "js developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.923,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "k8s",
+    "type": "synonym",
+    "ndcg_at_10": 0.764,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ml engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sde backend",
+    "type": "synonym",
+    "ndcg_at_10": 0.22,
+    "recall_at_10": 0.1,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sre",
+    "type": "synonym",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "golang",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "postgres",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 0.769,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "front end developer",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "nodejs",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "tester",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ai engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "build mobile apps",
+    "type": "natural",
+    "ndcg_at_10": 0.699,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "cloud infrastructure automation",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "recommendation systems",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "large language models",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "payments backend",
+    "type": "natural",
+    "ndcg_at_10": 0.566,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "dashboards and data visualization",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "load testing",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "test automation",
+    "type": "natural",
+    "ndcg_at_10": 0.931,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   }
+  ],
+  "Hybrid (production)": [
+   {
+    "q": "python backend",
+    "type": "exact",
+    "ndcg_at_10": 0.958,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "react",
+    "type": "exact",
+    "ndcg_at_10": 0.785,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernetes",
+    "type": "exact",
+    "ndcg_at_10": 0.83,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "data scientist",
+    "type": "exact",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutter",
+    "type": "exact",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenium",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "full stack",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "android",
+    "type": "exact",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "spring boot microservices",
+    "type": "exact",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "pyhton developer",
+    "type": "typo",
+    "ndcg_at_10": 0.854,
+    "recall_at_10": 0.833,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "kubernets",
+    "type": "typo",
+    "ndcg_at_10": 0.83,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "fronted engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.979,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "machne learning",
+    "type": "typo",
+    "ndcg_at_10": 0.809,
+    "recall_at_10": 0.429,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "javscript",
+    "type": "typo",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "djnago",
+    "type": "typo",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "flutr developer",
+    "type": "typo",
+    "ndcg_at_10": 0.606,
+    "recall_at_10": 0.2,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "devpos engineer",
+    "type": "typo",
+    "ndcg_at_10": 0.745,
+    "recall_at_10": 0.333,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "selenum",
+    "type": "typo",
+    "ndcg_at_10": 0.907,
+    "recall_at_10": 0.667,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "js developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.878,
+    "recall_at_10": 0.571,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "k8s",
+    "type": "synonym",
+    "ndcg_at_10": 0.782,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ml engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.887,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sde backend",
+    "type": "synonym",
+    "ndcg_at_10": 0.22,
+    "recall_at_10": 0.1,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "sre",
+    "type": "synonym",
+    "ndcg_at_10": 0.788,
+    "recall_at_10": 0.4,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "golang",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "postgres",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 0.769,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "front end developer",
+    "type": "synonym",
+    "ndcg_at_10": 0.992,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "nodejs",
+    "type": "synonym",
+    "ndcg_at_10": 1.0,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "tester",
+    "type": "synonym",
+    "ndcg_at_10": 0.971,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "ai engineer",
+    "type": "synonym",
+    "ndcg_at_10": 0.658,
+    "recall_at_10": 0.25,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "build mobile apps",
+    "type": "natural",
+    "ndcg_at_10": 0.723,
+    "recall_at_10": 0.6,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "cloud infrastructure automation",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "recommendation systems",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "large language models",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "payments backend",
+    "type": "natural",
+    "ndcg_at_10": 0.566,
+    "recall_at_10": 0.167,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "dashboards and data visualization",
+    "type": "natural",
+    "ndcg_at_10": 0.0,
+    "recall_at_10": 0.0,
+    "mrr": 0.0,
+    "zero_results": 1.0
+   },
+   {
+    "q": "load testing",
+    "type": "natural",
+    "ndcg_at_10": 0.826,
+    "recall_at_10": 0.5,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   },
+   {
+    "q": "test automation",
+    "type": "natural",
+    "ndcg_at_10": 0.804,
+    "recall_at_10": 1.0,
+    "mrr": 1.0,
+    "zero_results": 0.0
+   }
+  ]
+ }
+}

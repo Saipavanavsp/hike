@@ -68,6 +68,8 @@ class JobPage(BaseModel):
     page: int
     page_size: int
     pages: int
+    # Set when a misspelt word was corrected: "Showing results for ..."
+    corrected_query: str | None = None
 
 
 class SavedJobItem(JobListItem):

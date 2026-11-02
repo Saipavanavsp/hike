@@ -2,7 +2,9 @@
 
     score = W_TEXT * text_relevance + W_MATCH * match + W_RECENCY * recency + W_CATEGORY * category_fit
 
-- text_relevance: Postgres ts_rank_cd (unbounded, >= 0) squashed into [0, 1) with r / (r + 1).
+- text_relevance: hybrid of lexical and semantic relevance (hybrid_text):
+  lexical = Postgres ts_rank_cd (unbounded, >= 0) squashed into [0, 1) with r / (r + 1);
+  semantic = MiniLM query/job cosine rescaled to [0, 1].
 - match: the resume/job match score (0-100) / 100. Missing when the seeker has no resume.
 - recency: exponential decay, exp(-ln2 * age_days / HALF_LIFE_DAYS): 1.0 today, 0.5 after 14 days.
 - category_fit: 1 if the job's role category equals the category predicted for the resume.
@@ -40,6 +42,25 @@ def recency_decay(posted_at: datetime, now: datetime | None = None) -> float:
 def normalise_text_rank(rank: float) -> float:
     rank = max(rank, 0.0)
     return rank / (rank + 1.0)
+
+
+# MiniLM cosine between a short query and a whole job posting sits roughly in [0.1, 0.7];
+# rescale to [0, 1] the same way the match score does.
+SEM_FLOOR = 0.15
+SEM_CEIL = 0.65
+
+
+def semantic_scaled(cosine: float) -> float:
+    return min(1.0, max(0.0, (cosine - SEM_FLOOR) / (SEM_CEIL - SEM_FLOOR)))
+
+
+def hybrid_text(text_rank: float, cosine: float | None, semantic_weight: float) -> float:
+    """Text relevance = (1 - w) * lexical + w * semantic. With w = 0 (or no embedding) it is
+    the lexical score alone, as before the hybrid ranking existed."""
+    lexical = normalise_text_rank(text_rank)
+    if cosine is None or semantic_weight <= 0:
+        return lexical
+    return (1 - semantic_weight) * lexical + semantic_weight * semantic_scaled(cosine)
 
 
 @dataclass(frozen=True)

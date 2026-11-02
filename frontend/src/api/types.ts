@@ -84,6 +84,8 @@ export interface Page<T> {
   page: number;
   page_size: number;
   pages: number;
+  /** Job search only: set when a misspelt word was corrected. */
+  corrected_query?: string | null;
 }
 
 export interface SavedJobItem extends JobListItem {

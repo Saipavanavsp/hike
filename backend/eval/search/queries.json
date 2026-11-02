@@ -1,0 +1,46 @@
+{
+ "rubric": "Graded relevance over the 50 seed jobs (keys from seed/data/jobs.json). 2 = what the searcher is looking for; 1 = a reasonable result to show further down; unlisted = not relevant.",
+ "provenance": "Queries and labels written with AI assistance (Claude) by reading the seed job titles and skills; not reviewed by an independent labeller.",
+ "queries": [
+  {"q": "python backend", "type": "exact", "labels": {"1": 2, "6": 2, "8": 2, "10": 2, "21": 1, "24": 1}},
+  {"q": "react", "type": "exact", "labels": {"11": 2, "12": 2, "13": 2, "14": 2, "16": 2, "17": 2, "19": 1, "20": 1, "21": 1, "22": 1, "23": 1, "24": 1, "25": 1, "26": 1, "45": 1}},
+  {"q": "kubernetes", "type": "exact", "labels": {"36": 2, "39": 2, "37": 1, "41": 1, "3": 1, "8": 1, "30": 1}},
+  {"q": "data scientist", "type": "exact", "labels": {"27": 2, "34": 2, "32": 1, "28": 1, "33": 1}},
+  {"q": "flutter", "type": "exact", "labels": {"44": 2, "42": 1, "43": 1, "46": 1}},
+  {"q": "selenium", "type": "exact", "labels": {"47": 2, "49": 2, "48": 1}},
+  {"q": "full stack", "type": "exact", "labels": {"19": 2, "20": 2, "21": 2, "22": 2, "23": 2, "24": 2, "25": 2, "26": 2}},
+  {"q": "android", "type": "exact", "labels": {"42": 2, "46": 2, "45": 1}},
+  {"q": "spring boot microservices", "type": "exact", "labels": {"2": 2, "7": 2, "5": 1}},
+
+  {"q": "pyhton developer", "type": "typo", "labels": {"1": 2, "6": 2, "8": 2, "10": 2, "21": 1, "24": 1}},
+  {"q": "kubernets", "type": "typo", "labels": {"36": 2, "39": 2, "37": 1, "41": 1, "3": 1, "8": 1, "30": 1}},
+  {"q": "fronted engineer", "type": "typo", "labels": {"11": 2, "12": 2, "13": 2, "14": 2, "15": 2, "16": 2, "17": 2, "18": 2}},
+  {"q": "machne learning", "type": "typo", "labels": {"28": 2, "30": 2, "33": 2, "31": 1, "35": 1, "27": 1, "34": 1}},
+  {"q": "javscript", "type": "typo", "labels": {"13": 2, "17": 2, "20": 2, "11": 1, "12": 1, "14": 1, "16": 1, "18": 1, "19": 1, "22": 1, "23": 1, "25": 1, "26": 1, "4": 1}},
+  {"q": "djnago", "type": "typo", "labels": {"6": 2, "1": 2, "21": 2, "10": 1, "8": 1}},
+  {"q": "flutr developer", "type": "typo", "labels": {"44": 2, "42": 1, "43": 1, "45": 1, "46": 1}},
+  {"q": "devpos engineer", "type": "typo", "labels": {"36": 2, "40": 2, "37": 1, "38": 1, "39": 1, "41": 1}},
+  {"q": "selenum", "type": "typo", "labels": {"47": 2, "49": 2, "48": 1}},
+
+  {"q": "js developer", "type": "synonym", "labels": {"13": 2, "17": 2, "20": 2, "11": 1, "12": 1, "14": 1, "16": 1, "18": 1, "19": 1, "22": 1, "23": 1, "25": 1, "26": 1, "4": 1}},
+  {"q": "k8s", "type": "synonym", "labels": {"36": 2, "39": 2, "37": 1, "41": 1, "3": 1, "8": 1, "30": 1}},
+  {"q": "ml engineer", "type": "synonym", "labels": {"28": 2, "30": 2, "33": 2, "31": 1, "35": 1}},
+  {"q": "sde backend", "type": "synonym", "labels": {"1": 2, "2": 2, "3": 2, "4": 2, "5": 2, "6": 2, "7": 2, "8": 2, "9": 2, "10": 2}},
+  {"q": "sre", "type": "synonym", "labels": {"37": 2, "41": 2, "36": 1, "39": 1, "40": 1}},
+  {"q": "golang", "type": "synonym", "labels": {"3": 2, "9": 1, "37": 1}},
+  {"q": "postgres", "type": "synonym", "labels": {"1": 2, "2": 2, "3": 2, "6": 2, "8": 2, "9": 2, "10": 2, "19": 2, "21": 2, "22": 2, "23": 2, "24": 2, "26": 2}},
+  {"q": "front end developer", "type": "synonym", "labels": {"11": 2, "12": 2, "13": 2, "14": 2, "15": 2, "16": 2, "17": 2, "18": 2}},
+  {"q": "nodejs", "type": "synonym", "labels": {"4": 2, "19": 2, "20": 2, "22": 2, "23": 2, "25": 2, "26": 2}},
+  {"q": "tester", "type": "synonym", "labels": {"47": 2, "48": 2, "49": 2, "50": 2}},
+  {"q": "ai engineer", "type": "synonym", "labels": {"35": 2, "31": 1, "30": 1, "28": 1}},
+
+  {"q": "build mobile apps", "type": "natural", "labels": {"42": 2, "43": 2, "44": 2, "45": 2, "46": 2}},
+  {"q": "cloud infrastructure automation", "type": "natural", "labels": {"36": 2, "38": 2, "39": 2, "40": 1, "41": 1, "37": 1}},
+  {"q": "recommendation systems", "type": "natural", "labels": {"30": 2, "28": 1}},
+  {"q": "large language models", "type": "natural", "labels": {"35": 2, "31": 1}},
+  {"q": "payments backend", "type": "natural", "labels": {"2": 2, "1": 1, "5": 1, "7": 1, "9": 1, "10": 1}},
+  {"q": "dashboards and data visualization", "type": "natural", "labels": {"16": 2, "24": 2, "27": 2, "32": 2, "15": 1}},
+  {"q": "load testing", "type": "natural", "labels": {"50": 2, "48": 1}},
+  {"q": "test automation", "type": "natural", "labels": {"47": 2, "48": 2, "49": 1, "50": 1}}
+ ]
+}

@@ -132,6 +132,18 @@ test.describe("explainable scores, interviews, alerts, analytics, companies, aud
     await request.post(`/api/recruiter/jobs/${(await job.json()).id}/close`, { headers: rohan });
   });
 
+  test("search corrects typos and understands synonyms", async ({ page, request }) => {
+    const seeker = await registerSeeker(request, "typo");
+    await login(page, seeker.email, seeker.password);
+    await page.goto("/jobs?q=pyhton");
+    await expect(page.getByRole("status").filter({ hasText: "Showing results for" })).toContainText(
+      "python",
+    );
+    await expect(page.getByRole("list", { name: "Jobs" }).getByRole("link").first()).toBeVisible();
+    await page.goto("/jobs?q=k8s");
+    await expect(page.getByRole("link", { name: "DevOps Engineer", exact: true })).toBeVisible();
+  });
+
   test("recruiter analytics and the admin audit log", async ({ browser }) => {
     const recCtx = await browser.newContext();
     const rp = await recCtx.newPage();

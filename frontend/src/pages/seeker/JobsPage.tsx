@@ -131,6 +131,14 @@ export default function JobsPage() {
         </span>
       </div>
 
+      {data?.corrected_query && (
+        <p className="mb-3 text-sm text-ink-secondary" role="status">
+          Showing results for{" "}
+          <span className="font-medium text-ink">&ldquo;{data.corrected_query}&rdquo;</span> (you
+          searched for &ldquo;{search.q}&rdquo;).
+        </p>
+      )}
+
       {hasResume === false && (
         <p className="mb-3 rounded border border-border bg-surface px-3 py-2 text-sm text-ink-secondary">
           Match scores appear once you upload a resume. <Link to="/resume">Upload resume →</Link>

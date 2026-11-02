@@ -1,0 +1,31 @@
+{
+ "_comment": "Each group lists words or phrases that mean the same thing in a job search. A query term matching any variant also matches all the others. Lower case.",
+ "groups": [
+  ["javascript", "js"],
+  ["typescript", "ts"],
+  ["kubernetes", "k8s"],
+  ["golang", "go"],
+  ["postgresql", "postgres", "psql"],
+  ["node.js", "nodejs", "node"],
+  ["react", "reactjs", "react.js"],
+  ["vue", "vue.js", "vuejs"],
+  ["machine learning", "ml"],
+  ["artificial intelligence", "ai"],
+  ["large language models", "llm", "llms"],
+  ["natural language processing", "nlp"],
+  ["software engineer", "sde", "swe", "software developer"],
+  ["developer", "engineer"],
+  ["frontend", "front end", "front-end", "ui developer"],
+  ["backend", "back end", "back-end"],
+  ["full stack", "fullstack", "full-stack"],
+  ["site reliability", "sre"],
+  ["devops", "dev ops"],
+  ["qa", "quality assurance", "tester", "testing", "sdet", "test engineer"],
+  ["data scientist", "data science"],
+  ["ci/cd", "cicd", "continuous integration"],
+  ["amazon web services", "aws"],
+  ["google cloud", "gcp"],
+  ["mobile", "mobile app", "mobile apps"],
+  ["recommendation", "recommender", "recommendations"]
+ ]
+}

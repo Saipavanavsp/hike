@@ -98,6 +98,7 @@ def list_jobs(
         page=result.page,
         page_size=result.page_size,
         pages=result.pages,
+        corrected_query=result.corrected_query,
     )
 
 
