@@ -3,7 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Runs against the docker-compose stack by default (nginx on :8080 proxying /api).
 export default defineConfig({
   testDir: "./tests",
-  testIgnore: ["**/screenshots.spec.ts"],
+  testIgnore: ["**/screenshots.spec.ts", "**/demo.spec.ts"],
   timeout: 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
