@@ -17,6 +17,7 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sen
 - [Architecture](#architecture)
 - [Matching algorithm](#matching-algorithm)
 - [Search ranking](#search-ranking)
+- [Fair and explainable matching](#fair-and-explainable-matching)
 - [Background jobs](#background-jobs)
 - [Resume privacy and security](#resume-privacy-and-security)
 - [Observability](#observability)
@@ -34,16 +35,33 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sen
 - Resume upload (PDF or DOCX, max 5 MB) after an explicit consent checkbox. Extension, MIME and magic-byte checks and a malware screen run at upload; text extraction (pdfplumber / python-docx) runs in a background task inside a resource-limited subprocess. Skills, years of experience, education, email and phone are parsed, and the seeker reviews and corrects them before saving.
 - Delete any resume, or the whole account, permanently (files, extracted text, embeddings, cached scores).
 - Match score (0-100) on every job, with a text breakdown: skills matched (e.g. 7/9) plus the missing skills, experience fit and location fit.
+- "How this score is calculated": every component with its points, for example "Required skills 28.0 / 35 · 8 of 10 required skills".
 - Apply with an optional note; track status and a timeline of every change; save jobs; in-app notifications.
+- Upcoming interviews with a calendar file (.ics) and an "Add to Google Calendar" link.
+- Saved searches with job alerts: when a matching job is posted, the seeker is notified in the app and by email.
+- Email notifications for application updates, interview invitations and job alerts, with an opt-out switch on the profile.
+- Company pages: about, industry, size, website and open jobs.
 
 **Recruiters**
 - Post, edit, close and reopen jobs (markdown descriptions).
 - Kanban pipeline per job: Applied / Shortlisted / Interview / Offer / Rejected, built with dnd-kit. Usable with keyboard (Space to pick up, arrows to move) and through each card's menu. Invalid moves (e.g. Applied to Offer) are blocked on the client and the server.
-- Ranked list of candidates by match score with a skill-gap column; resumes open through short-lived signed links; "Applications this week" line chart. The score is decision support: nothing is rejected automatically.
+- Ranked list of candidates by match score, with a skill-gap column and a "Why?" breakdown of every score component. Resumes open through short-lived signed links. An "Applications this week" line chart.
+- A notice on the pipeline says the score is decision support, not a hiring decision. Nothing is rejected automatically.
+- Interview scheduling from a candidate's card: date, time, format and link. The candidate gets an email with a calendar invite; rescheduling and cancelling update the same calendar event.
+- Analytics: hiring funnel with stage-to-stage conversion, offer rate, median time to first response, median time to offer, average days in each stage, and per-job results.
+- Company profile editor (about, website, industry, size, headquarters).
 
 **Admins**
 - Users, jobs and applications tables with search, column sorting, pagination, checkbox bulk actions (deactivate/activate users, close jobs) and a confirmation dialog.
 - System page: Postgres/Redis/worker/ClamAV health, queue depth, background task counts, recent failures, security and retention settings, and a "run retention now" button.
+- Audit log of sensitive actions, with request ID and IP, filterable by actor and action. It covers:
+  - sign-ins and failed sign-ins;
+  - admin bulk actions and retention runs;
+  - pipeline moves;
+  - job changes and company profile edits;
+  - interviews;
+  - every time someone other than the owner opens a resume;
+  - resume and account deletion.
 
 **Platform**
 - JWT access tokens (15 min, in memory only) and rotating refresh tokens (7 days, httpOnly cookie, stored hashed; reuse of a rotated token revokes the whole token family).
@@ -112,7 +130,7 @@ flowchart LR
 
 The SPA calls the API on the same origin (`/api/...`): the Vite dev server, nginx in Docker and a Render rewrite rule all proxy it. That keeps the refresh-token cookie first-party (`SameSite=Lax`, `HttpOnly`, `Secure` in production) without third-party cookie problems.
 
-**Database schema (main tables):** `users`, `refresh_tokens`, `seeker_profiles`, `recruiter_profiles`, `companies`, `jobs` (with `search_vector tsvector` maintained by a trigger and `embedding vector(384)`), `saved_jobs`, `resumes` (processing status, consent time and version, file hash, scan result, parsed JSON, confirmed skills, embedding, predicted category; partial unique index for one current resume per seeker), `match_scores` (cached breakdowns keyed by resume and job signatures), `applications` (unique on job + seeker; `resume_id` is set to NULL if the seeker deletes that resume), `application_status_history`, `notifications` (with `emailed_at`), `background_tasks`, `eval_runs`. Migrations are in `backend/alembic/versions`.
+**Database schema (main tables):** `users`, `refresh_tokens`, `seeker_profiles`, `recruiter_profiles`, `companies`, `jobs` (with `search_vector tsvector` maintained by a trigger and `embedding vector(384)`), `saved_jobs`, `resumes` (processing status, consent time and version, file hash, scan result, parsed JSON, confirmed skills, embedding, predicted category; partial unique index for one current resume per seeker), `match_scores` (cached breakdowns keyed by resume and job signatures), `applications` (unique on job + seeker; `resume_id` is set to NULL if the seeker deletes that resume), `application_status_history`, `notifications` (with `emailed_at`), `background_tasks`, `interviews` (with an iCalendar sequence number), `saved_searches`, `audit_logs` (actor set to NULL when an account is deleted), `eval_runs`. Migrations are in `backend/alembic/versions`.
 
 ## Matching algorithm
 
@@ -160,6 +178,21 @@ When a signal is unavailable (no search text, no resume), its weight is dropped 
 
 **Autocomplete Trie** (`services/trie.py`). Each job title and skill is inserted under every word start, so "back" finds "Senior Backend Engineer". Terminal nodes store how many open jobs use the term. A query walks the prefix in O(P), collects the M terms below it, and picks the top k by frequency in O(M log k). Each API worker keeps its own Trie and rebuilds it lazily when the shared jobs version counter in Redis changes.
 
+## Fair and explainable matching
+
+- **Every component is shown.** The API returns `components`: label, points earned, weight and the reason, for example "8 of 10 required skills" or "3 yrs; job asks 2-5 yrs". Seekers see it on each job; recruiters see it under "Why?" in the ranked list.
+- **Candidates correct what the parser got wrong.** Skills and years are reviewed and confirmed before any score is computed.
+- **Identity is removed before the text comparison.** The embedding and the role classifier see the resume with the candidate's name, email, phone, links and institution names removed (`services/redaction.py`). Skills, experience and location are still read from the full text, and recruiters still see the original resume.
+- **The removal was added because a test found a real bias.** The holdout evaluation rescores every resume after changing only the name (fictional names linked with different genders, regions and religions) or only the college:
+
+  | Swap | Before redaction: max change / top-5 changed | After redaction: max change / top-5 changed |
+  |---|---|---|
+  | Name | 9 points / 20% of variants | 0 points / 0% |
+  | Institution | 4 points / 13% of variants | 2 points / 0% |
+
+  A test keeps it that way. This is a counterfactual check on fictional data; there is no consented demographic data, so outcomes for real candidate groups are not measured.
+- **Decision support only.** The recruiter pipeline says so, and no candidate is filtered out or rejected by the system.
+
 ## Background jobs
 
 `backend/app/worker.py`, `backend/app/tasks/`
@@ -171,7 +204,8 @@ Slow or failure-prone work runs in a Celery worker, with Redis as the broker:
 | `process_resume`: sandboxed text extraction + field parsing | every upload (the API answers `202 Accepted`; the UI polls until the resume is `ready` or `failed`) |
 | `derive_resume`: MiniLM embedding + role classification | the seeker confirming a resume |
 | `embed_job`, `score_job_candidates` (bulk matching) | a job being created or edited |
-| `deliver_email` | every notification (written to the `hike.email` log; no mail provider is configured) |
+| `deliver_email` | every notification, unless the user turned email off. `EMAIL_BACKEND=log` (default) writes it to the `hike.email` log; `EMAIL_BACKEND=smtp` sends it through any SMTP provider. Interview emails carry an `.ics` invite. |
+| `saved_search_alerts` | a job being posted or reopened (checked against every saved search, using the search page's own filters) |
 | `retention_sweep` | daily at 03:00 UTC (Celery beat), or an admin button |
 
 Each task gets a row in `background_tasks` (queued → running → retrying → succeeded / rejected / failed, attempts, error, timestamps). `GET /api/tasks/{id}` shows its status to its owner. Any exception is retried 3 times with exponential backoff and jitter. A `PermanentError` ends the task at once as `rejected` instead: an unreadable file is the user's input problem, not an outage. When retries run out, the task is marked `failed`, logged at ERROR with `alert=true`, sent to Sentry if configured, and reported to admins in the app (at most once per task type per hour). The resume being processed is also flagged so the seeker sees an error. If Redis is unreachable when a task is queued, the API runs it inline instead of losing it.
@@ -227,12 +261,12 @@ cd backend
 | Method | P@5 | R@5 | MRR | NDCG@5 |
 |---|---|---|---|---|
 | TF-IDF cosine (baseline) | 0.517 (0.44–0.60) | 0.926 | 1.000 | 0.961 (0.93–0.98) |
-| MiniLM embeddings only | 0.467 (0.41–0.53) | 0.855 | 1.000 | 0.927 (0.90–0.96) |
-| Hike hybrid score | 0.525 (0.45–0.60) | 0.938 | 1.000 | 0.966 (0.94–0.99) |
+| MiniLM embeddings only | 0.467 (0.41–0.53) | 0.851 | 1.000 | 0.926 (0.90–0.96) |
+| Hike hybrid score | 0.525 (0.45–0.60) | 0.936 | 1.000 | 0.965 (0.94–0.99) |
 
 What this shows, honestly:
-- **Hike vs MiniLM alone:** the hybrid score is clearly better. NDCG@5 is +0.039 (paired 95% CI +0.015 to +0.065).
-- **Hike vs TF-IDF:** there is no clear difference (+0.006, CI −0.014 to +0.027). On the synthetic set TF-IDF is ahead.
+- **Hike vs MiniLM alone:** the hybrid score is clearly better. NDCG@5 is +0.038 (paired 95% CI +0.013 to +0.062).
+- **Hike vs TF-IDF:** there is no clear difference (+0.004, CI −0.012 to +0.020). On the synthetic set TF-IDF is ahead.
 - **P@5 ceiling:** the best possible P@5 here is 0.575, because most resumes have fewer than five acceptable jobs. MRR is 1.0 for every method, so this set is too easy at rank 1.
 - **Two-column PDFs are the weak spot:**
   - The parser never finds the name.
@@ -250,8 +284,8 @@ What this shows, honestly:
 | Method | Precision@5 | Recall@5 | MRR | NDCG@5 | Accuracy* |
 |---|---|---|---|---|---|
 | TF-IDF cosine (baseline) | **0.760** | **0.669** | 1.000 | **0.838** | **0.933** |
-| MiniLM embeddings cosine only | 0.690 | 0.593 | 0.975 | 0.790 | 0.919 |
-| Hike match score (full formula) | 0.740 | 0.651 | 1.000 | 0.834 | 0.929 |
+| MiniLM embeddings cosine only | 0.710 | 0.619 | 1.000 | 0.807 | 0.923 |
+| Hike match score (full formula) | 0.740 | 0.648 | 1.000 | 0.836 | 0.929 |
 
 \* Accuracy of the decision "the top-5 jobs per resume are relevant, the rest are not" over all 1,000 pairs (119 relevant). The synthetic jobs and resumes come from the same templates and share vocabulary, which favours exact term overlap.
 
@@ -343,11 +377,11 @@ The other 15 seeded seekers use `<firstname>@example.com` with the same password
 
 | Suite | Command | What it covers |
 |---|---|---|
-| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 192 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing, skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, both eval harnesses (including a check that the committed numbers and report reproduce), applications pipeline, admin, seed. Background tasks: retries, permanent failures, alerts, queue-down fallback, email delivery, bulk re-scoring. Security: malware heuristics, a fake clamd server (clean, infected, unreachable = 503), sandboxed parsing (timeout, memory limit, no secrets in the child), encryption at rest, signed URL tampering, expiry and revocation. Privacy: resume and account deletion, retention rules. Observability: request IDs, JSON 500s, metrics, health. Needs Postgres and Redis (`docker compose up -d postgres redis`). One test (parser memory limit) runs on Linux only. |
-| Frontend (Vitest + RTL) | `cd frontend; npm test` | 30 tests: MatchPill thresholds, filter chips, login/register validation, kanban moves and allowed transitions, a candidate whose resume was deleted, resume upload consent and the processing/failed states, formatting. |
-| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | 15 tests against the running stack on :8080, with the real worker. Covered: the hiring flow (search, match breakdown, apply, recruiter shortlists, seeker sees the status); invalid login; role-based redirects; 401/403 across the API and a forged token; refresh-token reuse revoking the session; sign-out revoking the refresh token; deactivation ending a live session; upload failures (wrong type, oversize, fake PDF, EICAR, unreadable PDF processed by the worker); upload without consent; duplicate applications; invalid pipeline moves and cross-recruiter access; signed file links; resume deletion; account deletion; a recruiter's view after a resume is deleted. |
+| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 208 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing, skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, both eval harnesses (including a check that the committed numbers and report reproduce), applications pipeline, admin, seed. Background tasks: retries, permanent failures, alerts, queue-down fallback, email delivery, bulk re-scoring. Security: malware heuristics, a fake clamd server (clean, infected, unreachable = 503), sandboxed parsing (timeout, memory limit, no secrets in the child), encryption at rest, signed URL tampering, expiry and revocation. Privacy: resume and account deletion, retention rules. Observability: request IDs, JSON 500s, metrics, health. Features: score components, identity redaction and the fairness regression guard, interviews (stage rule, time checks, permissions, reschedule/cancel, `.ics` content and line folding), SMTP email with the invite attached (fake SMTP server), email opt-out, saved searches and alerts, the analytics funnel and timings, company pages, and the audit log (including anonymised entries after account deletion). Needs Postgres and Redis (`docker compose up -d postgres redis`). One test (parser memory limit) runs on Linux only. |
+| Frontend (Vitest + RTL) | `cd frontend; npm test` | 33 tests: score component table, interview scheduling only from the Interview column, MatchPill thresholds, filter chips, login/register validation, kanban moves and allowed transitions, a candidate whose resume was deleted, resume upload consent and the processing/failed states, formatting. |
+| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | 19 tests against the running stack on :8080, with the real worker. Covered: score components and the company page; scheduling an interview in the UI and the seeker downloading the `.ics` and opening the Google Calendar link; a saved search producing an alert when a matching job is posted; recruiter analytics; the admin audit log; the hiring flow (search, match breakdown, apply, recruiter shortlists, seeker sees the status); invalid login; role-based redirects; 401/403 across the API and a forged token; refresh-token reuse revoking the session; sign-out revoking the refresh token; deactivation ending a live session; upload failures (wrong type, oversize, fake PDF, EICAR, unreadable PDF processed by the worker); upload without consent; duplicate applications; invalid pipeline moves and cross-recruiter access; signed file links; resume deletion; account deletion; a recruiter's view after a resume is deleted. |
 
-Backend coverage is 95% overall. Every module in `app/services`, `app/tasks` and `app/ml` is above 80% except three:
+Backend coverage is 96% overall. Every module in `app/services`, `app/tasks` and `app/ml` is above 80% except three:
 - `services/cache.py` (68%): Redis-down fallbacks.
 - `services/doc_extract.py` (69%): its main path runs in the sandbox subprocess, which coverage does not measure, though the tests exercise it.
 - `services/storage.py` (88%) covers everything except the S3 backend.
