@@ -6,7 +6,8 @@ alembic upgrade head
 
 if [ "$SEED_ON_START" = "true" ]; then
   echo "Seeding (only if database is empty)..."
-  python -m seed.seed --if-empty
+  # SEED_ARGS="--no-eval --committed-eval" on small (512 MB) instances.
+  python -m seed.seed --if-empty ${SEED_ARGS:-}
 fi
 
 # Without a worker (TASKS_EAGER=true) there is no scheduler, so apply the retention

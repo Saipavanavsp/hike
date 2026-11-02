@@ -94,7 +94,9 @@ def make_user(db: Session, name: str, email: str, password: str, role: UserRole)
     return u
 
 
-def seed(db: Session, rng: random.Random, run_eval: bool = True) -> dict:
+def seed(
+    db: Session, rng: random.Random, run_eval: bool = True, load_committed_eval: bool = False
+) -> dict:
     now = datetime.now(UTC)
     companies_data = load("companies.json")
     jobs_data = load("jobs.json")
@@ -306,6 +308,13 @@ def seed(db: Session, rng: random.Random, run_eval: bool = True) -> dict:
         metrics = ev.run()
         ev.RESULTS_PATH.write_text(json.dumps(metrics, indent=1), encoding="utf-8")
         ev.save_to_db(metrics)
+    elif load_committed_eval:
+        # Small instances: store the committed results (computed by the same code) instead
+        # of rerunning the evaluation at start-up, so the landing page still has its numbers.
+        from app.ml import eval as ev
+
+        metrics = json.loads(ev.RESULTS_PATH.read_text(encoding="utf-8"))
+        ev.save_to_db(metrics)
 
     return {
         "companies": len(companies),
@@ -325,6 +334,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--if-empty", action="store_true", help="skip when users already exist")
     ap.add_argument("--reset", action="store_true", help="truncate all tables first")
     ap.add_argument("--no-eval", action="store_true", help="skip the evaluation run")
+    ap.add_argument(
+        "--committed-eval",
+        action="store_true",
+        help="with --no-eval: store app/ml/eval_results.json instead (small instances)",
+    )
     args = ap.parse_args(argv)
 
     with SessionLocal() as db:
@@ -337,7 +351,12 @@ def main(argv: list[str] | None = None) -> int:
                 return 0
             log.error("database is not empty; use --reset to wipe it")
             return 1
-        summary = seed(db, random.Random(7), run_eval=not args.no_eval)
+        summary = seed(
+            db,
+            random.Random(7),
+            run_eval=not args.no_eval,
+            load_committed_eval=args.committed_eval,
+        )
     log.info("seeded: %s", summary)
     return 0
 

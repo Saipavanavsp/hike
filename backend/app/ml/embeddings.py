@@ -27,6 +27,9 @@ DIM = 384
 MAX_TOKENS = 256
 WINDOW_WORDS = 180
 MAX_WINDOWS = 8
+# Windows per ONNX run. Peak memory embedding the 50 seed jobs (scripts/mem_probe.py):
+# batch 4 -> 373 MB, 8 -> 466 MB, 16 -> 587 MB, 32 -> 729 MB; 4 fits a 512 MB instance.
+ONNX_BATCH = 4
 
 
 class Embedder(Protocol):
@@ -69,6 +72,13 @@ class OnnxEmbedder:
     def encode(self, texts: list[str]) -> np.ndarray:
         if not texts:
             return np.zeros((0, DIM), dtype=np.float32)
+        # Bounded batches: attention memory grows with batch x seq^2, and one batch of every
+        # window of 50 jobs exceeded a 512 MB instance. Padding is masked out of the mean
+        # pooling, so batching does not change the vectors.
+        if len(texts) > ONNX_BATCH:
+            return np.vstack(
+                [self.encode(texts[i : i + ONNX_BATCH]) for i in range(0, len(texts), ONNX_BATCH)]
+            )
         enc = self.tokenizer.encode_batch(texts)
         ids = np.array([e.ids for e in enc], dtype=np.int64)
         mask = np.array([e.attention_mask for e in enc], dtype=np.int64)

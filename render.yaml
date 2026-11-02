@@ -59,6 +59,9 @@ services:
         value: https://hike-web.onrender.com
       - key: SEED_ON_START
         value: "true"
+      # 512 MB: store the committed evaluation results instead of recomputing at start-up.
+      - key: SEED_ARGS
+        value: --no-eval --committed-eval
       # Free web services have no persistent disk: uploaded resumes are lost on restart.
       # For persistence set STORAGE_BACKEND=s3 and the S3_* variables (e.g. Cloudflare R2).
       - key: STORAGE_BACKEND
