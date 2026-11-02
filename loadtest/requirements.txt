@@ -1,0 +1,4 @@
+locust>=2.32
+requests>=2.32
+redis>=5.0
+psycopg[binary]>=3.2

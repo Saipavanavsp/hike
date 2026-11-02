@@ -119,6 +119,74 @@ def _route_template(scope: dict) -> str:
     return getattr(route, "path", None) or "unmatched"
 
 
+REQUESTS_WAITING = Gauge(
+    "hike_requests_waiting", "Requests queued for a concurrency slot (load shedding)."
+)
+REQUESTS_SHED = Counter(
+    "hike_requests_shed_total", "Requests rejected with 503 because the server was saturated."
+)
+_UNLIMITED = ("/health", "/api/health", "/metrics")
+
+
+class ConcurrencyLimitMiddleware:
+    """At most MAX_CONCURRENT_REQUESTS requests run at once; the rest wait on the event loop
+    (holding no thread and no database connection) and get 503 + Retry-After if no slot frees
+    within REQUEST_QUEUE_TIMEOUT. Health checks and metrics bypass the limit so the service
+    stays observable while saturated.
+
+    Without this, a burst larger than the thread pool made worker threads wait for database
+    connections held by requests that needed a thread to finish: the 500-user load test
+    deadlocked the API until it was restarted.
+    """
+
+    def __init__(self, app) -> None:
+        self.app = app
+        self._slots = None
+        self._loop = None
+
+    def _semaphore(self):
+        import asyncio
+
+        loop = asyncio.get_running_loop()
+        if self._loop is not loop:  # a semaphore belongs to one event loop
+            self._slots = asyncio.Semaphore(settings.max_concurrent_requests)
+            self._loop = loop
+        return self._slots
+
+    async def __call__(self, scope, receive, send):
+        import asyncio
+
+        if scope["type"] != "http" or scope.get("path", "").startswith(_UNLIMITED):
+            await self.app(scope, receive, send)
+            return
+        self.slots = self._semaphore()
+        REQUESTS_WAITING.inc()
+        try:
+            await asyncio.wait_for(self.slots.acquire(), settings.request_queue_timeout)
+        except TimeoutError:
+            REQUESTS_WAITING.dec()
+            REQUESTS_SHED.inc()
+            body = b'{"detail": "The server is busy. Please try again in a moment."}'
+            await send(
+                {
+                    "type": "http.response.start",
+                    "status": 503,
+                    "headers": [
+                        (b"content-type", b"application/json"),
+                        (b"retry-after", b"2"),
+                        (b"content-length", str(len(body)).encode()),
+                    ],
+                }
+            )
+            await send({"type": "http.response.body", "body": body})
+            return
+        REQUESTS_WAITING.dec()
+        try:
+            await self.app(scope, receive, send)
+        finally:
+            self.slots.release()
+
+
 _DOCS = ("/api/docs", "/api/openapi.json", "/api/docs/oauth2-redirect")
 
 

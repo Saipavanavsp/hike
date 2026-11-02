@@ -84,6 +84,25 @@ def test_metrics_endpoint(client):
     assert 'hike_background_tasks_last_hour{status="failed"}' in text
 
 
+def test_load_shedding_returns_503_when_saturated(client, monkeypatch):
+    """With every slot taken and no queue time, extra requests are refused fast with 503,
+    while health checks still answer."""
+    monkeypatch.setattr(settings, "max_concurrent_requests", 0)
+    monkeypatch.setattr(settings, "request_queue_timeout", 0.05)
+    from app.main import app
+
+    app.middleware_stack = None  # rebuild with the patched settings
+    try:
+        res = client.get("/api/jobs")
+        assert res.status_code == 503
+        assert res.headers["retry-after"] == "2"
+        assert client.get("/health").status_code == 200
+        assert "hike_requests_shed_total 1.0" in client.get("/metrics").text
+    finally:
+        monkeypatch.undo()
+        app.middleware_stack = None
+
+
 def test_metrics_token(client, monkeypatch):
     monkeypatch.setattr(settings, "metrics_token", "s3cret")
     assert client.get("/metrics").status_code == 401

@@ -1,0 +1,284 @@
+[
+ {
+  "users": 100,
+  "seconds": 120,
+  "endpoints": {
+   "autocomplete": {
+    "requests": 776,
+    "failures": 0,
+    "rps": 7.4,
+    "p50": 4.0,
+    "p95": 7.0,
+    "p99": 14.0
+   },
+   "job detail /api/jobs/{id}": {
+    "requests": 1120,
+    "failures": 0,
+    "rps": 10.6,
+    "p50": 9.0,
+    "p95": 19.0,
+    "p99": 28.0
+   },
+   "my applications": {
+    "requests": 349,
+    "failures": 0,
+    "rps": 3.3,
+    "p50": 11.0,
+    "p95": 18.0,
+    "p99": 29.0
+   },
+   "notifications": {
+    "requests": 187,
+    "failures": 0,
+    "rps": 1.8,
+    "p50": 8.0,
+    "p95": 14.0,
+    "p99": 49.0
+   },
+   "recruiter pipeline": {
+    "requests": 149,
+    "failures": 0,
+    "rps": 1.4,
+    "p50": 63.0,
+    "p95": 86.0,
+    "p99": 140.0
+   },
+   "resume upload": {
+    "requests": 79,
+    "failures": 0,
+    "rps": 0.8,
+    "p50": 58.0,
+    "p95": 68.0,
+    "p99": 71.0
+   },
+   "search /api/jobs": {
+    "requests": 1890,
+    "failures": 0,
+    "rps": 18.0,
+    "p50": 10.0,
+    "p95": 19.0,
+    "p99": 30.0
+   },
+   "Aggregated": {
+    "requests": 4708,
+    "failures": 0,
+    "rps": 44.7,
+    "p50": 9.0,
+    "p95": 24.0,
+    "p99": 72.0
+   }
+  },
+  "search_cache_hit_rate": 0.76,
+  "redis_hit_rate": 0.914,
+  "db_connections_max": 13,
+  "db_connections_mean": 12.5,
+  "postgres_max_connections": 100,
+  "uploads": {
+   "queued": 88,
+   "succeeded": 88,
+   "failed": 0,
+   "p50_s": 0.28,
+   "p95_s": 0.31,
+   "client_flows": 88,
+   "client_p50_ms": 581,
+   "client_p95_ms": 612
+  },
+  "resources_mid_stage": {
+   "worker": "0.15% CPU, 252.2MiB",
+   "backend": "23.13% CPU, 310.6MiB",
+   "frontend": "1.74% CPU, 18.12MiB",
+   "backup": "0.00% CPU, 2.496MiB",
+   "redis": "0.57% CPU, 21.96MiB",
+   "postgres": "5.58% CPU, 260.7MiB"
+  },
+  "locust_errors": []
+ },
+ {
+  "users": 250,
+  "seconds": 120,
+  "endpoints": {
+   "autocomplete": {
+    "requests": 1812,
+    "failures": 0,
+    "rps": 19.1,
+    "p50": 4.0,
+    "p95": 10.0,
+    "p99": 27.0
+   },
+   "job detail /api/jobs/{id}": {
+    "requests": 2648,
+    "failures": 0,
+    "rps": 27.9,
+    "p50": 10.0,
+    "p95": 30.0,
+    "p99": 47.0
+   },
+   "my applications": {
+    "requests": 867,
+    "failures": 0,
+    "rps": 9.1,
+    "p50": 12.0,
+    "p95": 29.0,
+    "p99": 46.0
+   },
+   "notifications": {
+    "requests": 419,
+    "failures": 0,
+    "rps": 4.4,
+    "p50": 9.0,
+    "p95": 24.0,
+    "p99": 57.0
+   },
+   "recruiter pipeline": {
+    "requests": 130,
+    "failures": 0,
+    "rps": 1.4,
+    "p50": 44.0,
+    "p95": 150.0,
+    "p99": 200.0
+   },
+   "resume upload": {
+    "requests": 72,
+    "failures": 0,
+    "rps": 0.8,
+    "p50": 63.0,
+    "p95": 100.0,
+    "p99": 170.0
+   },
+   "search /api/jobs": {
+    "requests": 4576,
+    "failures": 0,
+    "rps": 48.1,
+    "p50": 11.0,
+    "p95": 31.0,
+    "p99": 54.0
+   },
+   "Aggregated": {
+    "requests": 10668,
+    "failures": 0,
+    "rps": 112.2,
+    "p50": 10.0,
+    "p95": 32.0,
+    "p99": 75.0
+   }
+  },
+  "search_cache_hit_rate": 0.862,
+  "redis_hit_rate": 0.948,
+  "db_connections_max": 17,
+  "db_connections_mean": 16.6,
+  "postgres_max_connections": 100,
+  "uploads": {
+   "queued": 89,
+   "succeeded": 89,
+   "failed": 0,
+   "p50_s": 0.29,
+   "p95_s": 0.32,
+   "client_flows": 89,
+   "client_p50_ms": 585,
+   "client_p95_ms": 631
+  },
+  "resources_mid_stage": {
+   "worker": "71.34% CPU, 257.3MiB",
+   "backend": "58.27% CPU, 322.9MiB",
+   "frontend": "4.07% CPU, 20.5MiB",
+   "backup": "0.00% CPU, 2.496MiB",
+   "redis": "1.03% CPU, 21.49MiB",
+   "postgres": "10.39% CPU, 278.4MiB"
+  },
+  "locust_errors": []
+ },
+ {
+  "users": 500,
+  "seconds": 120,
+  "endpoints": {
+   "autocomplete": {
+    "requests": 3512,
+    "failures": 0,
+    "rps": 36.6,
+    "p50": 37.0,
+    "p95": 190.0,
+    "p99": 250.0
+   },
+   "job detail /api/jobs/{id}": {
+    "requests": 5546,
+    "failures": 0,
+    "rps": 57.8,
+    "p50": 68.0,
+    "p95": 230.0,
+    "p99": 290.0
+   },
+   "my applications": {
+    "requests": 1722,
+    "failures": 0,
+    "rps": 17.9,
+    "p50": 91.0,
+    "p95": 250.0,
+    "p99": 300.0
+   },
+   "notifications": {
+    "requests": 879,
+    "failures": 0,
+    "rps": 9.2,
+    "p50": 68.0,
+    "p95": 240.0,
+    "p99": 270.0
+   },
+   "recruiter pipeline": {
+    "requests": 124,
+    "failures": 0,
+    "rps": 1.3,
+    "p50": 210.0,
+    "p95": 550.0,
+    "p99": 580.0
+   },
+   "resume upload": {
+    "requests": 68,
+    "failures": 0,
+    "rps": 0.7,
+    "p50": 140.0,
+    "p95": 290.0,
+    "p99": 410.0
+   },
+   "search /api/jobs": {
+    "requests": 8966,
+    "failures": 0,
+    "rps": 93.4,
+    "p50": 73.0,
+    "p95": 230.0,
+    "p99": 290.0
+   },
+   "Aggregated": {
+    "requests": 20954,
+    "failures": 0,
+    "rps": 218.3,
+    "p50": 67.0,
+    "p95": 230.0,
+    "p99": 290.0
+   }
+  },
+  "search_cache_hit_rate": 0.907,
+  "redis_hit_rate": 0.964,
+  "db_connections_max": 18,
+  "db_connections_mean": 17.9,
+  "postgres_max_connections": 100,
+  "uploads": {
+   "queued": 85,
+   "succeeded": 85,
+   "failed": 0,
+   "p50_s": 0.31,
+   "p95_s": 0.37,
+   "client_flows": 84,
+   "client_p50_ms": 769,
+   "client_p95_ms": 1168
+  },
+  "resources_mid_stage": {
+   "worker": "60.90% CPU, 262MiB",
+   "backend": "92.18% CPU, 328.9MiB",
+   "frontend": "7.18% CPU, 22.17MiB",
+   "backup": "0.00% CPU, 2.496MiB",
+   "redis": "1.45% CPU, 22.27MiB",
+   "postgres": "21.13% CPU, 275.8MiB"
+  },
+  "locust_errors": []
+ }
+]

@@ -1,0 +1,13 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,search /api/jobs,HTTPError('500 Server Error: Internal Server Error for url: search /api/jobs'),33,2026-11-02T07:16:42Z,2026-11-02T07:17:12Z
+GET,my applications,HTTPError('500 Server Error: Internal Server Error for url: my applications'),6,2026-11-02T07:16:42Z,2026-11-02T07:17:12Z
+GET,recruiter pipeline,HTTPError('500 Server Error: Internal Server Error for url: recruiter pipeline'),1,2026-11-02T07:16:42Z,2026-11-02T07:16:42Z
+GET,autocomplete,HTTPError('504 Server Error: Gateway Time-out for url: autocomplete'),76,2026-11-02T07:17:12Z,2026-11-02T07:17:44Z
+GET,job detail /api/jobs/{id},HTTPError('504 Server Error: Gateway Time-out for url: job detail /api/jobs/{id}'),104,2026-11-02T07:17:12Z,2026-11-02T07:17:45Z
+POST,resume upload,HTTPError('504 Server Error: Gateway Time-out for url: resume upload'),5,2026-11-02T07:17:14Z,2026-11-02T07:17:18Z
+GET,my applications,HTTPError('504 Server Error: Gateway Time-out for url: my applications'),56,2026-11-02T07:17:12Z,2026-11-02T07:17:47Z
+GET,recruiter pipeline,HTTPError('504 Server Error: Gateway Time-out for url: recruiter pipeline'),5,2026-11-02T07:17:12Z,2026-11-02T07:17:45Z
+GET,job detail /api/jobs/{id},HTTPError('500 Server Error: Internal Server Error for url: job detail /api/jobs/{id}'),19,2026-11-02T07:16:42Z,2026-11-02T07:17:12Z
+GET,search /api/jobs,HTTPError('504 Server Error: Gateway Time-out for url: search /api/jobs'),182,2026-11-02T07:17:12Z,2026-11-02T07:17:45Z
+GET,notifications,HTTPError('500 Server Error: Internal Server Error for url: notifications'),3,2026-11-02T07:17:12Z,2026-11-02T07:17:12Z
+GET,notifications,HTTPError('504 Server Error: Gateway Time-out for url: notifications'),34,2026-11-02T07:17:12Z,2026-11-02T07:17:45Z

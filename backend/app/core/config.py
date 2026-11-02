@@ -38,6 +38,16 @@ class Settings(BaseSettings):
     embedding_backend: str = "onnx"
     model_dir: str = ""  # directory with model.onnx + tokenizer.json; empty = HF cache
 
+    # Capacity. Requests beyond max_concurrent_requests wait (without holding a thread or a
+    # database connection) for up to request_queue_timeout seconds, then get 503. The
+    # database pool (size + overflow) must be at least 2x max_concurrent_requests: a request
+    # can briefly use a second session (task enqueue, audit, health).
+    max_concurrent_requests: int = 15
+    request_queue_timeout: float = 10.0
+    db_pool_size: int = 15
+    db_max_overflow: int = 15
+    db_pool_timeout: int = 10
+
     search_cache_ttl_seconds: int = 60
     # Search features; values chosen with the search evaluation (docs/search-evaluation.md).
     search_synonyms: bool = True

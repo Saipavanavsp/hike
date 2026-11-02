@@ -4,6 +4,8 @@ import json
 import logging
 from typing import Any
 
+from prometheus_client import Counter
+
 from app.core.redis import get_redis
 
 log = logging.getLogger(__name__)
@@ -28,11 +30,24 @@ def bump_jobs_version() -> None:
         log.warning("redis unavailable: bump_jobs_version")
 
 
+CACHE_REQUESTS = Counter(
+    "hike_cache_requests_total",
+    "Redis cache lookups by cache (key prefix) and result.",
+    ["cache", "result"],
+)
+
+
+def _cache_name(key: str) -> str:
+    return key.split(":", 1)[0]
+
+
 def get_json(key: str) -> Any | None:
     try:
         raw = get_redis().get(key)
     except Exception:
+        CACHE_REQUESTS.labels(_cache_name(key), "error").inc()
         return None
+    CACHE_REQUESTS.labels(_cache_name(key), "hit" if raw else "miss").inc()
     return json.loads(raw) if raw else None
 
 

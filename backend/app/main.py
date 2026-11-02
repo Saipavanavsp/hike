@@ -20,7 +20,12 @@ from app.api import (
 )
 from app.core.config import settings
 from app.core.health import DependencyCollector
-from app.core.observability import ObservabilityMiddleware, configure_logging, init_sentry
+from app.core.observability import (
+    ConcurrencyLimitMiddleware,
+    ObservabilityMiddleware,
+    configure_logging,
+    init_sentry,
+)
 from app.ml.classifier import get_classifier
 from app.ml.embeddings import get_embedder
 from app.tasks import definitions as _tasks  # noqa: F401  registers the Celery tasks
@@ -56,6 +61,8 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
         expose_headers=["X-Request-ID"],
     )
+    # Load shedding sits inside observability, so shed requests are still logged and counted.
+    app.add_middleware(ConcurrencyLimitMiddleware)
     # Added last = outermost: request ids and timings cover CORS handling too.
     app.add_middleware(ObservabilityMiddleware)
     app.include_router(health.router)
