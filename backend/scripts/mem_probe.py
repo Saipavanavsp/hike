@@ -30,7 +30,8 @@ def opts():
 
 
 ort.SessionOptions = opts
-jobs = json.load(open("seed/data/jobs.json", encoding="utf-8"))
+with open("seed/data/jobs.json", encoding="utf-8") as f:
+    jobs = json.load(f)
 before = rss_mb()
 emb = embeddings.get_embedder()
 loaded = rss_mb()

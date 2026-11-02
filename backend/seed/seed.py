@@ -29,6 +29,7 @@ from app.models import (
     Application,
     ApplicationStatusHistory,
     Company,
+    EvalRun,
     Interview,
     Job,
     Notification,
@@ -308,9 +309,10 @@ def seed(
         metrics = ev.run()
         ev.RESULTS_PATH.write_text(json.dumps(metrics, indent=1), encoding="utf-8")
         ev.save_to_db(metrics)
-    elif load_committed_eval:
-        # Small instances: store the committed results (computed by the same code) instead
-        # of rerunning the evaluation at start-up, so the landing page still has its numbers.
+    else:
+        # Store the committed results (computed by the same code) instead of rerunning the
+        # evaluation, e.g. at start-up on a small instance. This row also marks the seed as
+        # finished (see main).
         from app.ml import eval as ev
 
         metrics = json.loads(ev.RESULTS_PATH.read_text(encoding="utf-8"))
@@ -343,7 +345,13 @@ def main(argv: list[str] | None = None) -> int:
 
     with SessionLocal() as db:
         has_users = db.scalar(select(func.count()).select_from(User)) > 0
+        # The evaluation row is written last, so users without it mean a seed that was
+        # killed part-way (e.g. out of memory on a small instance): start it over.
+        seed_finished = db.scalar(select(func.count()).select_from(EvalRun)) > 0
         if args.reset:
+            reset(db)
+        elif has_users and args.if_empty and not seed_finished:
+            log.warning("incomplete seed found (no eval run); wiping and seeding again")
             reset(db)
         elif has_users:
             if args.if_empty:
