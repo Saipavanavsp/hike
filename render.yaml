@@ -1,6 +1,5 @@
 # Render Blueprint: API (Docker web service), frontend (static site), Postgres, Key Value (Redis).
-# Deploys are triggered by GitHub Actions (deploy.yml) after the E2E suite passes,
-# so auto-deploy on push is turned off here.
+# Render deploys main automatically once the GitHub checks (tests, E2E, security scans) pass.
 #
 # If Render gives your services different hostnames (the names below are taken), update
 # CORS_ORIGINS and the /api/* rewrite destination to the URLs Render shows you.
@@ -14,7 +13,7 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /health
-    autoDeployTrigger: "off"
+    autoDeployTrigger: checksPass
     envVars:
       - key: APP_ENV
         value: production
@@ -47,7 +46,7 @@ services:
         value: json
       # Links in emails and calendar invites. Update if Render gives hike-web another hostname.
       - key: PUBLIC_APP_URL
-        value: https://hike-web.onrender.com
+        value: https://hike-web-a3qk.onrender.com
       # Emails are logged until you add an SMTP provider: set EMAIL_BACKEND=smtp and the
       # SMTP_HOST / SMTP_USERNAME / SMTP_PASSWORD / EMAIL_FROM variables in the dashboard.
       - key: EMAIL_BACKEND
@@ -56,7 +55,7 @@ services:
       - key: COOKIE_SECURE
         value: "true"
       - key: CORS_ORIGINS
-        value: https://hike-web.onrender.com
+        value: https://hike-web-a3qk.onrender.com
       - key: SEED_ON_START
         value: "true"
       # 512 MB: store the committed evaluation results instead of recomputing at start-up.
@@ -72,7 +71,7 @@ services:
     runtime: static
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: ./frontend/dist
-    autoDeployTrigger: "off"
+    autoDeployTrigger: checksPass
     envVars:
       - key: VITE_API_URL
         value: ""

@@ -6,7 +6,8 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sen
 
 ![Seeker dashboard](docs/screenshots/seeker-dashboard.png)
 
-- **Live demo:** _add the Render URL after deploying (see [Deployment](#deployment))_
+- **Live demo:** https://hike-web-a3qk.onrender.com (Render free plan: the first visit after 15 idle minutes takes about a minute to wake up). Sign in as `rahul@example.com` / `Seeker@123`, `rohan@example.com` / `Recruiter@123` or `admin@example.com` / `Admin@123`.
+- **Demo video:** [docs/demo/hike-demo.webm](docs/demo/hike-demo.webm)
 - **API docs:** `/api/docs` (FastAPI Swagger UI) on any running instance, e.g. http://localhost:8080/api/docs
 - **Author:** Sai Pavan ([@Saipavanavsp](https://github.com/Saipavanavsp))
 

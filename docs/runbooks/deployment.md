@@ -79,12 +79,33 @@ resolves the upstream at request time through Docker's DNS (`resolver 127.0.0.11
   The previous version runs against the migrated database (see Deploy).
 - Data: restore a backup (see [backup-restore.md](backup-restore.md)).
 
-## What still needs your accounts
+## Live deployment (free plan)
 
-These steps need logins I do not have; everything above them was tested locally.
+Created on 2026-11-02 through the Render API, with the same settings as `render.yaml`:
 
-1. Render: create the Blueprint (free: `render.yaml`; production: Blueprint path
-   `deploy/render-production.yaml`, which needs paid plans).
-2. Cloudflare R2 (production storage): bucket and API token, values entered when Render
-   prompts.
-3. GitHub secrets: `RENDER_DEPLOY_HOOK_API`, `RENDER_DEPLOY_HOOK_WEB`, `SMOKE_URL`.
+| Service | Address / id |
+|---|---|
+| Website | https://hike-web-a3qk.onrender.com (`srv-dbk973vb9u1s7380jq7g`) |
+| API | https://hike-api.onrender.com (`srv-dbk96vhsrm7s73e8i5m0`) |
+| PostgreSQL 16 (free, expires 2026-12-02) | `dpg-dbk96dutlv9c73f7k9b0-a` |
+| Key Value (free) | `red-dbk96eqjnfac739vdclg` |
+
+Both services use `autoDeployTrigger: checksPass`: Render deploys `main` itself once the
+GitHub checks pass. `.github/workflows/live-smoke.yml` smoke-tests the live site twice a day
+(`SMOKE_URL` secret).
+
+First deploy findings, fixed: the 512 MB instance ran out of memory while seeding (embedding
+all job windows in one batch, 587 MB peak); embeddings now run in batches of 4 (373 MB),
+the seed stores the committed evaluation instead of recomputing it, and a seed killed
+part-way is detected and restarted on the next start.
+
+Smoke test against the live site after the fix: 10 of 10 checks passed; console sweep: 18
+pages, no errors.
+
+**Before 2026-12-02:** Render deletes free databases after 30 days. Upgrade `hike-db` to a
+paid plan, or create a new free database and update `DATABASE_URL` (the API reseeds itself).
+
+## Production upgrade (needs paid plans and a Cloudflare account)
+
+Use `deploy/render-production.yaml` (Blueprint path) for a separate worker, a backed-up
+database and R2 storage; see "Persistent encrypted resume storage" above.
