@@ -3,6 +3,8 @@ name: hike
 # Default:     docker compose up --build              (app + worker)
 # + ClamAV:    $env:MALWARE_SCAN="clamav"; docker compose --profile security up --build
 # + Grafana:   docker compose --profile monitoring up --build
+# + S3:        $env:STORAGE_BACKEND="s3"; docker compose --profile s3 up --build
+#              (local S3-compatible server on :9091, bucket hike-resumes)
 #              (Prometheus http://localhost:9090, Grafana http://localhost:3000, admin/admin)
 
 x-backend-env: &backend-env
@@ -16,6 +18,13 @@ x-backend-env: &backend-env
   MALWARE_SCAN: ${MALWARE_SCAN:-heuristic}
   CLAMAV_HOST: clamav
   LOG_FORMAT: json
+  # local = the uploads volume; s3 = any S3-compatible bucket (the s3 profile below, Cloudflare R2, AWS S3)
+  STORAGE_BACKEND: ${STORAGE_BACKEND:-local}
+  S3_BUCKET: ${S3_BUCKET:-hike-resumes}
+  S3_ENDPOINT_URL: ${S3_ENDPOINT_URL:-http://s3:9090}
+  S3_REGION: ${S3_REGION:-us-east-1}
+  S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-hike-dev}
+  S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-hike-dev-secret}
 
 services:
   postgres:
@@ -128,6 +137,21 @@ services:
     depends_on:
       - prometheus
 
+  # S3-compatible object storage for resume files (production: Cloudflare R2 or AWS S3).
+  # Adobe S3Mock speaks the S3 API the app uses; files persist in the s3data volume.
+  s3:
+    profiles: ["s3"]
+    image: adobe/s3mock:latest
+    # The named volume is owned by root; the image's default user (1000) cannot write to it.
+    user: "0"
+    environment:
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: hike-resumes
+      COM_ADOBE_TESTING_S3MOCK_STORE_ROOT: /data
+      COM_ADOBE_TESTING_S3MOCK_STORE_RETAIN_FILES_ON_EXIT: "true"
+    ports:
+      - "9091:9090"
+    volumes:
+      - s3data:/data
   # Daily pg_dump of the database, verified after writing; 7 days kept (see docs/runbooks).
   backup:
     image: pgvector/pgvector:pg16
@@ -151,3 +175,4 @@ volumes:
   pgdata:
   uploads:
   backups:
+  s3data:

@@ -21,7 +21,11 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sen
 - [Background jobs](#background-jobs)
 - [Resume privacy and security](#resume-privacy-and-security)
 - [Observability](#observability)
+- [Reliability and disaster recovery](#reliability-and-disaster-recovery)
+- [Security hardening](#security-hardening)
+- [Load testing](#load-testing)
 - [Evaluation](#evaluation)
+- [Engineering documentation](#engineering-documentation)
 - [Run locally](#run-locally)
 - [Demo accounts](#demo-accounts)
 - [Tests](#tests)
@@ -161,13 +165,22 @@ The API returns `{score, skills_matched, skills_missing, skills_ratio: "7/9", ex
 
 `backend/app/services/ranking.py` and `search.py`
 
-PostgreSQL does the filtering and full-text match (`websearch_to_tsquery` against a weighted `tsvector`: title A, company and skills B, description C; GIN index). It returns up to 1,000 candidates with their `ts_rank_cd`, and these are cached in Redis. The "relevance" order is then computed in Python:
+PostgreSQL does the filtering and the full-text match against a weighted `tsvector` (title A, company and skills B, description C; GIN index). Before the query runs, `services/query_understanding.py` rewrites it:
+- **Typo correction.** A word that matches no open job is replaced by the closest word in the job vocabulary. The vocabulary is a materialized view of title words and skills; the match uses `pg_trgm` similarity plus `fuzzystrmatch` edit distance, the same first letter, and at most 1–2 edits. So "pyhton developer" becomes "python developer", and the UI shows "Showing results for …".
+- **Synonyms.** Words and phrases expand to OR groups from `app/ml/data/search_synonyms.json`: "js" also matches JavaScript, "k8s" Kubernetes, "sde" software engineer.
+- **Semantic candidates.** A job whose MiniLM cosine with the query is at least 0.45 is a candidate even if it shares no words with the query.
+
+Up to 1,000 candidates come back in one SQL query with `ts_rank_cd` and the cosine, and they are cached in Redis. The "relevance" order is then computed in Python:
 
 ```
 score = 0.45 × text_relevance + 0.35 × match + 0.15 × recency + 0.05 × category_fit
 ```
 
-- `text_relevance` = `ts_rank_cd / (ts_rank_cd + 1)`, squashing the unbounded rank into [0, 1).
+- `text_relevance` = 0.6 × lexical + 0.4 × semantic. Lexical is `ts_rank_cd / (ts_rank_cd + 1)`, squashing the unbounded rank into [0, 1). Semantic is the query/job cosine rescaled to [0, 1].
+- **Effect, measured on 37 labelled queries** ([docs/search-evaluation.md](docs/search-evaluation.md)):
+  - NDCG@10 goes from 0.404 to 0.787. The paired 95% CI for the gain is +0.25 to +0.53.
+  - Zero-result queries drop from 49% to 5%.
+  - Nearly all of the gain comes from synonyms and typo correction. The semantic signal adds +0.002, and the report says so.
 - `match` = match score / 100 for the signed-in seeker.
 - `recency` = `exp(−ln 2 × age_days / 14)`: 1.0 today, 0.5 at two weeks, 0.25 at four.
 - `category_fit` = 1 if the job's role category equals the category predicted for the seeker's resume.
@@ -238,6 +251,71 @@ Limits: the built-in checks are heuristics, not an antivirus engine; turn on Cla
 - **Health:** `/health` returns 503 if Postgres or Redis is down, and reports the worker, queue depth and latencies.
 - **Alerts and dashboard:** `docker compose --profile monitoring up` adds Prometheus (http://localhost:9090) with seven alert rules (`ops/prometheus/alerts.yml`): API down, dependency down, worker down, failed background tasks, queue backlog, 5xx rate above 5%, p95 latency above 1 s. It also adds Grafana (http://localhost:3000) with a provisioned dashboard.
 - **Errors:** set `SENTRY_DSN` to send exceptions and failed tasks to Sentry (no personal data is sent).
+
+## Reliability and disaster recovery
+
+- **Backups:**
+  - The `backup` service writes a daily `pg_dump`.
+  - Each dump is checked with `pg_restore --list` and given a checksum; 7 days are kept.
+  - `ops/backup/verify-restore.sh` restores the latest dump into a scratch database and compares every table's row count and the migration revision with the live database.
+  - CI runs that restore check on every push to `main`. Runbook: [docs/runbooks/backup-restore.md](docs/runbooks/backup-restore.md).
+- **Dead letter:**
+  - A task that still fails after its retries stays `failed` and counts toward `hike_dead_letter_tasks`, which has an alert.
+  - Admins see it on the System page and can retry it (audited). A failed resume parse is reset and processed again.
+- **Idempotency:**
+  - Resume parsing and email delivery lock their row (`FOR UPDATE SKIP LOCKED`).
+  - Emails carry a stable `Message-ID` so mail clients can drop a duplicate.
+  - Saved-search alerts are deduplicated.
+  - Tests run each task twice, and concurrently.
+- **Graceful shutdown and recovery:**
+  - On shutdown, the API finishes in-flight requests (25 s) and the worker finishes its current tasks.
+  - `acks_late` redelivers tasks from a worker that died.
+  - On start, the worker re-dispatches tasks left `queued` or `running` for 10 minutes.
+  - Verified by stopping the worker, uploading a resume, and starting the worker again: the resume was parsed as soon as the worker came back.
+
+## Security hardening
+
+- **CSRF:** the cookie endpoints (login, register, refresh, logout) require an `X-CSRF-Protection` header and check `Origin`, on top of `SameSite=Lax` (`app/core/csrf.py`).
+- **Headers:**
+  - The API sends CSP `default-src 'none'`, nosniff, `X-Frame-Options: DENY`, Referrer-Policy and Permissions-Policy, plus HSTS on HTTPS and `no-store` on auth responses.
+  - The website (nginx and the Render static site) sends a CSP with `script-src 'self'` and `frame-ancestors 'none'`.
+  - A browser sweep of 18 pages across all roles found no CSP violations.
+- **Access control:** `tests/test_access_control.py` holds a table of who may call each of the 67 routes, and checks every route as anonymous, seeker, recruiter and admin. It fails if a new route is not in the table, and also tests cross-account access to jobs, applications, interviews, resumes, saved searches and tasks.
+- **Upload and download attacks:** tests cover:
+  - hostile filenames (path traversal, quotes, CRLF header injection);
+  - HTML hidden in a PDF;
+  - signed links tampered to point at another resume or a later expiry;
+  - EICAR, macros, zip bombs and sandbox limits.
+- **Scanning** (`.github/workflows/security.yml`, on every push and weekly):
+  - `pip-audit` on the backend.
+  - `npm audit`, which fails on high-severity issues in shipped frontend code.
+  - Trivy on both Docker images, failing on fixable HIGH/CRITICAL findings.
+- **What the scans fixed:**
+  - Upgraded react-router (open redirect) and zod.
+  - Pinned msgpack, urllib3 and setuptools.
+  - Removed pip from the runtime image, because its bundled libraries were flagged.
+  - Updated the nginx Alpine base. Both images now scan clean.
+- **Threat model:** [docs/threat-model.md](docs/threat-model.md).
+
+## Load testing
+
+Locust scenarios in `loadtest/` include searching, job pages, autocomplete, signed-in seekers, recruiters loading ranked pipelines, and resume uploads parsed by the worker. Full report: [docs/load-testing.md](docs/load-testing.md). Everything ran on one laptop:
+
+| Concurrent users | Req/s | Errors | p50 | p95 | p99 | Search cache hits |
+|---|---|---|---|---|---|---|
+| 100 | 44.7 | 0% | 9 ms | 24 ms | 72 ms | 76% |
+| 250 | 112.2 | 0% | 10 ms | 32 ms | 75 ms | 86% |
+| 500 | 218.3 | 0% | 67 ms | 230 ms | 290 ms | 91% |
+
+The first run deadlocked the API at 500 users (96% errors), and it stayed hung until restarted:
+- **Cause:** the 40-thread pool waited for 15 pooled connections, while the requests holding those connections waited for a thread.
+- **Fix:**
+  - an async session dependency;
+  - a concurrency limit that answers `503 Retry-After` when saturated;
+  - a database pool sized for two sessions per running request.
+- **Records:** [ADR 0008](docs/adr/0008-load-shedding.md) and the before/after table in the report.
+
+At 500 users PostgreSQL used at most 18 connections. Resume upload-to-parsed stayed under 1.2 s at p95.
 
 ## Evaluation
 
@@ -310,6 +388,18 @@ qa         [0, 0, 0, 0, 0, 0, 2]
 
 Perfect scores here mean the task is easy on synthetic data. The training texts are generated from templates (`seed/build_classifier_data.py`), and the seed resumes use clear role vocabulary. Expect lower accuracy on real resumes, especially Full-Stack versus Frontend/Backend.
 
+## Engineering documentation
+
+| Document | Contents |
+|---|---|
+| [docs/adr/](docs/adr/README.md) | 8 Architecture Decision Records: monolith + worker, PostgreSQL for search and vectors, ONNX embeddings, Celery task tracking, JWT + rotating refresh cookie, encrypted storage + signed links, identity redaction, load shedding |
+| [docs/architecture.md](docs/architecture.md) | ER diagram of every table; sequence diagrams for sign-in and refresh rotation, the resume pipeline, search, applying and email, interview scheduling, and the request path inside the API |
+| [docs/threat-model.md](docs/threat-model.md) | STRIDE per trust boundary: threat, mitigation, code location, test; residual risks |
+| [docs/load-testing.md](docs/load-testing.md) | 100/250/500-user results, the deadlock found and fixed, bottlenecks |
+| [docs/evaluation.md](docs/evaluation.md), [docs/search-evaluation.md](docs/search-evaluation.md) | Matching and search relevance evaluations |
+| [docs/runbooks/](docs/runbooks/deployment.md) | Deployment, post-deploy smoke test, restart/redeploy verification, backup and restore |
+| [docs/demo/hike-demo.webm](docs/demo/hike-demo.webm) | 47-second captioned walkthrough of the seeker, recruiter and admin workflows, recorded with Playwright (`e2e/tests/demo.spec.ts`) |
+
 ## Run locally
 
 **Requirements:** Docker Desktop. That is all you need for the full app.
@@ -377,22 +467,30 @@ The other 15 seeded seekers use `<firstname>@example.com` with the same password
 
 | Suite | Command | What it covers |
 |---|---|---|
-| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 208 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing, skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, both eval harnesses (including a check that the committed numbers and report reproduce), applications pipeline, admin, seed. Background tasks: retries, permanent failures, alerts, queue-down fallback, email delivery, bulk re-scoring. Security: malware heuristics, a fake clamd server (clean, infected, unreachable = 503), sandboxed parsing (timeout, memory limit, no secrets in the child), encryption at rest, signed URL tampering, expiry and revocation. Privacy: resume and account deletion, retention rules. Observability: request IDs, JSON 500s, metrics, health. Features: score components, identity redaction and the fairness regression guard, interviews (stage rule, time checks, permissions, reschedule/cancel, `.ics` content and line folding), SMTP email with the invite attached (fake SMTP server), email opt-out, saved searches and alerts, the analytics funnel and timings, company pages, and the audit log (including anonymised entries after account deletion). Needs Postgres and Redis (`docker compose up -d postgres redis`). One test (parser memory limit) runs on Linux only. |
+| Backend (PyTest) | `cd backend; .\.venv\Scripts\python -m pytest --cov=app` | 294 tests: auth (rotation, reuse detection, rate limit, 401 vs 403), search/filters/sort/pagination/cache invalidation, Trie, ranking, resume parsing, skills taxonomy, embeddings (ONNX vs reference), matching and its cache, classifier, both eval harnesses (including a check that the committed numbers and report reproduce), applications pipeline, admin, seed. Background tasks: retries, permanent failures, alerts, queue-down fallback, email delivery, bulk re-scoring. Security: malware heuristics, a fake clamd server (clean, infected, unreachable = 503), sandboxed parsing (timeout, memory limit, no secrets in the child), encryption at rest, signed URL tampering, expiry and revocation. Privacy: resume and account deletion, retention rules. Observability: request IDs, JSON 500s, metrics, health. Features: score components, identity redaction and the fairness regression guard, interviews (stage rule, time checks, permissions, reschedule/cancel, `.ics` content and line folding), SMTP email with the invite attached (fake SMTP server), email opt-out, saved searches and alerts, the analytics funnel and timings, company pages, and the audit log (including anonymised entries after account deletion). Reliability: dead-letter retry, idempotent parsing and email (concurrent duplicates), stale-task recovery. Hardening: every route checked for every role, cross-account access, CSRF, security headers, hostile filenames, load shedding. Search: typo correction, synonyms, hybrid score, and the search evaluation reproducing. Needs Postgres and Redis (`docker compose up -d postgres redis`). One test (parser memory limit) runs on Linux only. |
 | Frontend (Vitest + RTL) | `cd frontend; npm test` | 33 tests: score component table, interview scheduling only from the Interview column, MatchPill thresholds, filter chips, login/register validation, kanban moves and allowed transitions, a candidate whose resume was deleted, resume upload consent and the processing/failed states, formatting. |
-| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | 19 tests against the running stack on :8080, with the real worker. Covered: score components and the company page; scheduling an interview in the UI and the seeker downloading the `.ics` and opening the Google Calendar link; a saved search producing an alert when a matching job is posted; recruiter analytics; the admin audit log; the hiring flow (search, match breakdown, apply, recruiter shortlists, seeker sees the status); invalid login; role-based redirects; 401/403 across the API and a forged token; refresh-token reuse revoking the session; sign-out revoking the refresh token; deactivation ending a live session; upload failures (wrong type, oversize, fake PDF, EICAR, unreadable PDF processed by the worker); upload without consent; duplicate applications; invalid pipeline moves and cross-recruiter access; signed file links; resume deletion; account deletion; a recruiter's view after a resume is deleted. |
+| E2E (Playwright) | `cd e2e; npm ci; npx playwright install chromium; npx playwright test` | 20 tests against the running stack on :8080, with the real worker. Covered: typo correction and synonyms in the search UI; score components and the company page; scheduling an interview in the UI and the seeker downloading the `.ics` and opening the Google Calendar link; a saved search producing an alert when a matching job is posted; recruiter analytics; the admin audit log; the hiring flow (search, match breakdown, apply, recruiter shortlists, seeker sees the status); invalid login; role-based redirects; 401/403 across the API and a forged token; refresh-token reuse revoking the session; sign-out revoking the refresh token; deactivation ending a live session; upload failures (wrong type, oversize, fake PDF, EICAR, unreadable PDF processed by the worker); upload without consent; duplicate applications; invalid pipeline moves and cross-recruiter access; signed file links; resume deletion; account deletion; a recruiter's view after a resume is deleted. |
 
-Backend coverage is 96% overall. Every module in `app/services`, `app/tasks` and `app/ml` is above 80% except three:
-- `services/cache.py` (68%): Redis-down fallbacks.
+Backend coverage is 95% overall. Every module in `app/services`, `app/tasks` and `app/ml` is above 80% except three:
+- `services/cache.py` (71%): Redis-down fallbacks.
 - `services/doc_extract.py` (69%): its main path runs in the sandbox subprocess, which coverage does not measure, though the tests exercise it.
 - `services/storage.py` (88%) covers everything except the S3 backend.
 
 Lint: `ruff check . ; black --check .` (backend) and `npm run lint` (ESLint + Prettier, frontend).
 
+Post-deploy smoke test: `node e2e/tools/smoke.cjs <url>`. The browser console sweep is `node e2e/tools/console-sweep.cjs`, and Mermaid diagrams are checked with `node e2e/tools/check-mermaid.cjs <files>`.
+
 ## Deployment
 
 **CI/CD (GitHub Actions)**
 - `.github/workflows/ci.yml` runs on every pull request and push to `main`: ruff, black, PyTest with coverage (Postgres + pgvector and Redis service containers), then ESLint, Prettier, Vitest and the production build.
-- `.github/workflows/deploy.yml` runs on push to `main`: it brings up the whole stack with `docker compose`, runs the Playwright E2E test against it, and only if that passes calls the Render deploy hooks.
+- `.github/workflows/deploy.yml` runs on push to `main`:
+  1. brings up the whole stack with `docker compose`;
+  2. runs the Playwright suite;
+  3. backs up and verifies a restore;
+  4. calls the Render deploy hooks;
+  5. smoke-tests the live site with `e2e/tools/smoke.cjs`, if the `SMOKE_URL` secret is set.
+- `.github/workflows/security.yml`: dependency and container vulnerability scans (see [Security hardening](#security-hardening)).
 
 **Render** (`render.yaml` blueprint):
 - `hike-api`: Docker web service, health check `/health`.
@@ -402,7 +500,16 @@ Lint: `ruff check . ; black --check .` (backend) and `npm run lint` (ESLint + Pr
 
 The API seeds itself on first start. Render generates `JWT_SECRET`, `FILE_ENCRYPTION_KEY` (keep it: changing it makes stored resumes unreadable) and `METRICS_TOKEN`.
 
-The free plan has no background workers, so the blueprint sets `TASKS_EAGER=true`: tasks run inline, and the retention policy runs on every start. On a paid plan, add a worker service that runs `celery -A app.worker worker --beat --concurrency=2` with the same environment, and set `TASKS_EAGER=false`. ClamAV needs about 1.2 GB of RAM, so the free deployment uses the built-in heuristic scan only.
+The free plan has no background workers, so the blueprint sets `TASKS_EAGER=true`: tasks run inline, and the retention policy runs on every start. ClamAV needs about 1.2 GB of RAM, so the free deployment uses the built-in heuristic scan only.
+
+**Production blueprint** (`deploy/render-production.yaml`, paid plans) deploys separately:
+- the API (2 processes);
+- a background worker;
+- PostgreSQL with daily backups;
+- Redis with `noeviction`, because it holds the queue;
+- the static site.
+
+Resumes go to an S3-compatible bucket (Cloudflare R2), encrypted by the app. The API and the worker share their secrets through an environment group. The runbook ([docs/runbooks/deployment.md](docs/runbooks/deployment.md)) covers storage setup, deploys, rollback, and the restart and redeploy verification. That verification ran locally with `docker compose --profile s3`: a resume stored before a restart and a full redeploy still decrypted to the original bytes.
 
 One-time setup:
 1. Push this repo to GitHub.

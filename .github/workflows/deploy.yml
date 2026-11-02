@@ -53,6 +53,8 @@ jobs:
     env:
       API_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_API }}
       WEB_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_WEB }}
+      # Public URL of the deployed site (e.g. https://hike-web.onrender.com); optional.
+      SMOKE_URL: ${{ secrets.SMOKE_URL }}
     steps:
       - name: Call deploy hooks
         run: |
@@ -63,3 +65,19 @@ jobs:
           curl -fsS -X POST "$API_HOOK"
           curl -fsS -X POST "$WEB_HOOK"
           echo "Deploys triggered."
+      - uses: actions/checkout@v4
+        if: env.SMOKE_URL != ''
+      - uses: actions/setup-node@v4
+        if: env.SMOKE_URL != ''
+        with:
+          node-version: 20
+      - name: Smoke test the live site after the deploy
+        if: env.SMOKE_URL != ''
+        run: |
+          # Render deploys take a few minutes; wait for the new API to answer, then test.
+          sleep 240
+          for i in $(seq 1 30); do
+            curl -fsS "$SMOKE_URL/api/health" && break
+            sleep 20
+          done
+          node e2e/tools/smoke.cjs "$SMOKE_URL"
