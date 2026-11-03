@@ -7,7 +7,7 @@ export function Tag({ children, className }: { children: ReactNode; className?: 
   return (
     <span
       className={cn(
-        "inline-flex h-5 items-center rounded-sm border border-border bg-surface px-1.5 text-xs text-ink-secondary",
+        "inline-flex h-6 items-center rounded-md border border-border bg-surface px-2 text-xs font-medium text-ink-secondary",
         className,
       )}
     >
@@ -26,9 +26,9 @@ export function matchTone(score: number): MatchTone {
 }
 
 const toneClasses: Record<MatchTone, string> = {
-  green: "bg-status-green-bg text-status-green border-status-green/30",
-  amber: "bg-status-amber-bg text-status-amber border-status-amber/30",
-  grey: "bg-status-grey-bg text-status-grey border-status-grey/30",
+  green: "bg-status-green-bg text-status-green border-status-green/25",
+  amber: "bg-status-amber-bg text-status-amber border-status-amber/25",
+  grey: "bg-status-grey-bg text-status-grey border-status-grey/25",
 };
 
 export function MatchPill({
@@ -47,7 +47,7 @@ export function MatchPill({
       data-tone={tone}
       title={`${score}% match`}
       className={cn(
-        "inline-flex h-5 min-w-[42px] items-center justify-center rounded-sm border px-1.5 font-mono text-xs font-medium tabular",
+        "inline-flex h-6 min-w-[46px] items-center justify-center rounded-full border px-2 font-mono text-xs font-semibold tabular",
         toneClasses[tone],
         className,
       )}
@@ -69,16 +69,17 @@ export function StatusBadge({ status }: { status: ApplicationStatus }) {
   const tone = statusTone[status];
   const cls =
     tone === "red"
-      ? "bg-status-red-bg text-status-red border-status-red/30"
+      ? "bg-status-red-bg text-status-red border-status-red/25"
       : toneClasses[tone as MatchTone];
   return (
     <span
       data-status={status}
       className={cn(
-        "inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium",
+        "inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 text-xs font-medium",
         cls,
       )}
     >
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
       {STATUS_LABELS[status]}
     </span>
   );

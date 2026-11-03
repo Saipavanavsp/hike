@@ -70,7 +70,7 @@ export function InterviewList({
                 </span>
                 {iv.status === "cancelled" && <Tag className="ml-2 text-status-red">Cancelled</Tag>}
               </p>
-              <p className="font-mono text-xs leading-5">
+              <p className="tabular text-xs leading-5">
                 {formatInterviewTime(iv.starts_at, iv.duration_minutes)}
               </p>
               <p className="text-xs text-ink-secondary">
@@ -96,7 +96,7 @@ export function InterviewList({
                   <Download {...icon} /> Calendar file
                 </Button>
                 <a
-                  className="inline-flex h-7 items-center gap-1.5 rounded border border-border bg-bg px-2.5 text-sm font-medium text-ink no-underline hover:bg-surface"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border bg-bg px-3 text-sm font-medium text-ink no-underline shadow-xs transition-colors hover:border-border-strong hover:bg-surface hover:text-ink"
                   href={iv.google_calendar_url}
                   target="_blank"
                   rel="noreferrer noopener"

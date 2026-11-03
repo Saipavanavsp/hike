@@ -86,6 +86,10 @@ Built with FastAPI, PostgreSQL (full-text search + pgvector), Redis, Celery, sen
 | Candidates ranked by match score with skill gaps | Admin users table with bulk actions |
 | ![Resume page](docs/screenshots/resume.png) | <img src="docs/screenshots/mobile-jobs.png" alt="Mobile job list" width="240"> |
 | Parsed resume and predicted role category | Mobile: bottom tab bar and two-line rows |
+| ![Recruiter pipeline, dark theme](docs/screenshots/recruiter-pipeline-dark.png) | ![Sign-in page](docs/screenshots/landing.png) |
+| Dark theme (follows the system setting; toggle in the top bar) | Sign-in page |
+
+The interface has light and dark themes (the choice is saved in the browser), a sidebar grouped by task, breadcrumbs, and a command menu (Ctrl+K / Cmd+K) to jump between pages or start a job search. Colours, radii, shadows and motion are design tokens: CSS variables in `frontend/src/index.css`, mapped to Tailwind in `frontend/tailwind.config.ts`. Animations are switched off when the system asks for reduced motion.
 
 All screenshots are of the running app with the seed data, captured by Playwright (`e2e/tests/screenshots.spec.ts`).
 
@@ -538,7 +542,7 @@ hike/
 │   ├── eval/holdout/   # holdout evaluation data: 34 jobs, 24 resumes in 4 layouts, graded labels
 │   ├── seed/           # seed script, dataset builders, 20 resume PDFs, JSON data
 │   └── tests/          # PyTest suites + fixture resumes
-├── frontend/           # React + Vite + Tailwind (design tokens in tailwind.config.ts)
+├── frontend/           # React + Vite + Tailwind (theme tokens in src/index.css + tailwind.config.ts)
 ├── e2e/                # Playwright E2E + screenshot capture
 ├── ops/                # Prometheus config + alert rules, Grafana dashboard
 ├── docs/               # evaluation report, screenshots

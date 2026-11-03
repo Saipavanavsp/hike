@@ -10,10 +10,10 @@ import { STATUS_LABELS } from "@/lib/format";
 
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded border border-border p-3">
-      <p className="text-xs text-ink-secondary">{label}</p>
-      <p className="mt-0.5 font-mono text-xl">{value}</p>
-      {hint && <p className="mt-0.5 text-xs text-ink-secondary">{hint}</p>}
+    <div className="rounded-lg border border-border bg-bg p-5 shadow-card">
+      <p className="text-xs font-medium text-ink-secondary">{label}</p>
+      <p className="mt-2 text-3xl font-semibold tracking-tight tabular text-ink">{value}</p>
+      {hint && <p className="mt-1 text-xs text-ink-secondary">{hint}</p>}
     </div>
   );
 }
@@ -45,7 +45,7 @@ export default function AnalyticsPage() {
       {isLoading || !data ? (
         <TextSkeleton lines={8} />
       ) : data.total_applications === 0 ? (
-        <div className="rounded border border-border">
+        <div className="rounded-lg border border-border bg-bg shadow-card">
           <EmptyState message="No applications yet." />
         </div>
       ) : (
@@ -78,7 +78,7 @@ export default function AnalyticsPage() {
                     <dt className="text-ink-secondary">
                       {STATUS_LABELS[stage as keyof typeof STATUS_LABELS]}
                     </dt>
-                    <dd className="font-mono text-xs leading-5">{d} d</dd>
+                    <dd className="tabular text-xs leading-5">{d} d</dd>
                   </div>
                 ))}
               </dl>
@@ -105,12 +105,10 @@ export default function AnalyticsPage() {
                       <TD>
                         <Link to={`/recruiter/jobs/${j.job_id}`}>{j.title}</Link>
                       </TD>
-                      <TD className="text-right font-mono text-xs">{j.applications}</TD>
-                      <TD className="text-right font-mono text-xs">{j.interviews}</TD>
-                      <TD className="text-right font-mono text-xs">{j.offers}</TD>
-                      <TD className="text-right font-mono text-xs">
-                        {days(j.median_days_to_offer)}
-                      </TD>
+                      <TD className="text-right tabular text-xs">{j.applications}</TD>
+                      <TD className="text-right tabular text-xs">{j.interviews}</TD>
+                      <TD className="text-right tabular text-xs">{j.offers}</TD>
+                      <TD className="text-right tabular text-xs">{days(j.median_days_to_offer)}</TD>
                     </TR>
                   ))}
                 </tbody>

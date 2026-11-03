@@ -63,12 +63,12 @@ export function Dropdown({ trigger, items, align = "right", header }: DropdownPr
         <div
           role="menu"
           className={cn(
-            "absolute z-40 mt-1 min-w-[180px] rounded border border-border bg-bg py-1 shadow-overlay",
+            "absolute z-40 mt-2 min-w-[200px] origin-top-right animate-scale-in rounded-lg border border-border bg-bg p-1 shadow-overlay",
             align === "right" ? "right-0" : "left-0",
           )}
         >
           {header && (
-            <div className="border-b border-border px-3 pb-2 pt-1 text-xs text-ink-secondary">
+            <div className="-mx-1 mb-1 border-b border-border px-3 pb-2 pt-1.5 text-xs text-ink-secondary">
               {header}
             </div>
           )}
@@ -84,8 +84,10 @@ export function Dropdown({ trigger, items, align = "right", header }: DropdownPr
                 item.onSelect();
               }}
               className={cn(
-                "flex h-8 w-full items-center gap-2 px-3 text-left text-sm hover:bg-surface focus:bg-surface focus:outline-none disabled:opacity-50",
-                item.danger ? "text-status-red" : "text-ink",
+                "flex h-9 w-full items-center gap-2 rounded-md px-2.5 text-left text-sm transition-colors hover:bg-surface focus:bg-surface focus:outline-none focus-visible:ring-0 disabled:opacity-50",
+                item.danger
+                  ? "text-status-red hover:bg-status-red-bg focus:bg-status-red-bg"
+                  : "text-ink",
               )}
             >
               {item.label}

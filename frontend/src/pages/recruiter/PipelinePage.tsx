@@ -47,7 +47,7 @@ export default function PipelinePage() {
 
   if (!jobsLoading && jobs?.length === 0) {
     return (
-      <div className="rounded border border-border">
+      <div className="rounded-lg border border-border bg-bg shadow-card">
         <EmptyState
           message="You have not posted any jobs yet."
           actionLabel="Post a job"
@@ -118,27 +118,27 @@ export default function PipelinePage() {
       </div>
 
       {job && (
-        <div className="mb-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
-          <div className="rounded border border-border p-3">
+        <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+          <div className="rounded-lg border border-border bg-bg p-5 shadow-card">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-lg font-semibold">{job.title}</h1>
+              <h1 className="text-xl font-semibold">{job.title}</h1>
               {job.status === "closed" && <Tag className="text-status-red">Closed</Tag>}
             </div>
-            <p className="text-sm text-ink-secondary">
+            <p className="mt-1 text-sm text-ink-secondary">
               {job.company.name} · {job.location} ·{" "}
-              <span className="font-mono">{formatSalaryRange(job.salary_min, job.salary_max)}</span>{" "}
-              · posted <RelativeTime iso={job.posted_at} />
+              <span className="tabular">{formatSalaryRange(job.salary_min, job.salary_max)}</span> ·
+              posted <RelativeTime iso={job.posted_at} />
             </p>
-            <dl className="mt-3 grid grid-cols-5 divide-x divide-border rounded border border-border text-center">
+            <dl className="mt-4 grid grid-cols-5 divide-x divide-border overflow-hidden rounded-lg border border-border bg-bg text-center">
               {COLUMNS.map((s) => (
-                <div key={s} className="py-2">
-                  <dt className="text-xs text-ink-secondary">{STATUS_LABELS[s]}</dt>
-                  <dd className="font-mono text-base">{counts[s]}</dd>
+                <div key={s} className="px-1 py-3">
+                  <dt className="truncate text-xs text-ink-secondary">{STATUS_LABELS[s]}</dt>
+                  <dd className="mt-0.5 text-xl font-semibold tabular text-ink">{counts[s]}</dd>
                 </div>
               ))}
             </dl>
           </div>
-          <div className="rounded border border-border p-3">
+          <div className="rounded-lg border border-border bg-bg p-5 shadow-card">
             {weekly && <WeeklyChart data={weekly} />}
           </div>
         </div>
@@ -154,8 +154,8 @@ export default function PipelinePage() {
           { id: "ranked", label: "Ranked list" },
         ]}
       />
-      <div className="pt-3">
-        <p className="mb-3 rounded border border-border bg-surface px-3 py-2 text-xs text-ink-secondary">
+      <div className="pt-4">
+        <p className="mb-4 rounded-lg border border-border bg-surface/70 px-4 py-2.5 text-xs text-ink-secondary">
           Match scores are decision support, not a hiring decision. They estimate resume fit from
           skills, experience, location and text similarity (with names, contacts and colleges
           removed). Review each candidate; Hike never rejects anyone automatically.

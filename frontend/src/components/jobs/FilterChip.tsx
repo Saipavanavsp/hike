@@ -62,8 +62,10 @@ export function FilterChip({
     <div ref={root} className="relative">
       <div
         className={cn(
-          "inline-flex h-7 items-center rounded border text-sm",
-          active ? "border-accent bg-accent-tint text-accent" : "border-border bg-bg text-ink",
+          "inline-flex h-8 items-center overflow-hidden rounded-full border text-sm shadow-xs transition-colors",
+          active
+            ? "border-accent/40 bg-accent-tint text-accent"
+            : "border-border bg-bg text-ink hover:border-border-strong hover:bg-surface",
         )}
       >
         <button
@@ -71,18 +73,18 @@ export function FilterChip({
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((o) => !o)}
-          className="inline-flex h-full items-center gap-1 pl-2.5 pr-2"
+          className="inline-flex h-full items-center gap-1.5 pl-3.5 pr-3"
         >
           <span className={cn(active && "font-medium")}>{label}</span>
           {active && <span className="max-w-[160px] truncate">: {summary}</span>}
-          {!active && <ChevronDown {...icon} size={14} />}
+          {!active && <ChevronDown {...icon} size={14} className="text-ink-muted" />}
         </button>
         {active && (
           <button
             type="button"
             aria-label={`Clear ${label} filter`}
             onClick={() => onChange([])}
-            className="inline-flex h-full items-center border-l border-accent/30 px-1.5 hover:bg-accent/10"
+            className="inline-flex h-full items-center border-l border-accent/25 pl-2 pr-2.5 transition-colors hover:bg-accent/10"
           >
             <X {...icon} size={14} />
           </button>
@@ -93,19 +95,19 @@ export function FilterChip({
           id={panelId}
           role="group"
           aria-label={`${label} options`}
-          className="absolute left-0 z-30 mt-1 min-w-[180px] rounded border border-border bg-bg py-1 shadow-overlay"
+          className="absolute left-0 z-30 mt-2 min-w-[200px] animate-scale-in rounded-lg border border-border bg-bg p-1 shadow-overlay"
         >
           {options.map((o) => (
             <label
               key={o.value}
-              className="flex h-8 cursor-pointer items-center gap-2 px-3 text-sm hover:bg-surface"
+              className="flex h-9 cursor-pointer items-center gap-2.5 rounded-md px-3 text-sm hover:bg-surface"
             >
               <input
                 type={multiple ? "checkbox" : "radio"}
                 name={multiple ? undefined : panelId}
                 checked={selected.includes(o.value)}
                 onChange={() => toggle(o.value)}
-                className="h-4 w-4 accent-accent"
+                className="h-4 w-4 accent-[rgb(var(--accent))]"
               />
               {o.label}
             </label>

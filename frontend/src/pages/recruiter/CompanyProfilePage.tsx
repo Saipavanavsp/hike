@@ -49,7 +49,7 @@ export default function CompanyProfilePage() {
           View public page
         </Link>
       </PageHeader>
-      <div className="space-y-4 rounded border border-border p-4">
+      <div className="space-y-4 rounded-lg border border-border bg-bg p-5 shadow-card">
         <ErrorBanner message={update.isError ? apiErrorMessage(update.error) : null} />
         <p className="text-sm">
           <span className="text-ink-secondary">Company: </span>

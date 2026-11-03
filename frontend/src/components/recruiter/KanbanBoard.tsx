@@ -52,8 +52,8 @@ function CandidateCard({
       ref={setNodeRef}
       style={style}
       className={cn(
-        "rounded border border-border bg-bg p-2 text-sm",
-        isDragging && "relative z-20 shadow-overlay",
+        "rounded-lg border border-border bg-bg p-3 text-sm shadow-xs transition-[box-shadow,border-color] hover:border-border-strong hover:shadow-card",
+        isDragging && "relative z-20 rotate-[0.6deg] shadow-overlay",
       )}
       data-testid={`card-${app.id}`}
     >
@@ -73,7 +73,7 @@ function CandidateCard({
             <button
               type="button"
               aria-label={`Actions for ${app.candidate.name}`}
-              className="-mr-1 inline-flex h-5 w-5 items-center justify-center rounded-sm text-ink-secondary hover:bg-surface"
+              className="-mr-1 inline-flex h-6 w-6 items-center justify-center rounded-md text-ink-secondary transition-colors hover:bg-surface hover:text-ink"
               {...p}
             >
               <MoreHorizontal {...icon} size={14} />
@@ -92,15 +92,15 @@ function CandidateCard({
           ]}
         />
       </div>
-      <p className="mt-0.5 truncate text-xs text-ink-secondary">
+      <p className="mt-1 truncate text-xs text-ink-secondary">
         {app.candidate.years_experience !== null && (
-          <span className="font-mono">{app.candidate.years_experience} yrs</span>
+          <span className="tabular">{app.candidate.years_experience} yrs</span>
         )}
         {app.candidate.location && <> · {app.candidate.location}</>}
       </p>
       {resume ? (
         <>
-          <div className="mt-1.5 flex flex-wrap gap-1">
+          <div className="mt-2.5 flex flex-wrap gap-1">
             {resume.skills.slice(0, 4).map((s) => (
               <Tag key={s}>{s}</Tag>
             ))}
@@ -108,7 +108,7 @@ function CandidateCard({
           <button
             type="button"
             onClick={() => onOpenResume(resume.id)}
-            className="mt-1.5 text-xs text-accent hover:text-accent-hover"
+            className="mt-2.5 text-xs font-medium text-accent hover:text-accent-hover"
           >
             Resume
           </button>
@@ -119,6 +119,14 @@ function CandidateCard({
     </li>
   );
 }
+
+const COLUMN_DOT: Record<ApplicationStatus, string> = {
+  applied: "bg-status-grey",
+  shortlisted: "bg-info",
+  interview: "bg-status-amber",
+  offer: "bg-status-green",
+  rejected: "bg-status-red",
+};
 
 function Column({
   status,
@@ -135,15 +143,18 @@ function Column({
       ref={setNodeRef}
       aria-label={`${STATUS_LABELS[status]} column, ${count} candidates`}
       className={cn(
-        "flex min-h-[200px] w-[240px] shrink-0 flex-col rounded border bg-surface md:w-auto md:min-w-0 md:flex-1",
-        isOver ? "border-accent" : "border-border",
+        "flex min-h-[220px] w-[248px] shrink-0 flex-col rounded-xl border bg-surface/70 transition-colors md:w-auto md:min-w-0 md:flex-1",
+        isOver ? "border-accent bg-accent-tint/60" : "border-border",
       )}
     >
-      <h3 className="flex h-9 items-center justify-between border-b border-border px-2.5 text-sm font-medium">
-        {STATUS_LABELS[status]}
-        <span className="font-mono text-xs text-ink-secondary">{count}</span>
+      <h3 className="flex h-11 items-center gap-2 px-3 text-sm font-semibold">
+        <span aria-hidden className={cn("h-2 w-2 rounded-full", COLUMN_DOT[status])} />
+        <span className="flex-1">{STATUS_LABELS[status]}</span>
+        <span className="rounded-full border border-border bg-bg px-2 text-xs font-medium tabular text-ink-secondary">
+          {count}
+        </span>
       </h3>
-      <ul className="flex flex-1 flex-col gap-1.5 p-1.5">{children}</ul>
+      <ul className="flex flex-1 flex-col gap-2 px-2 pb-2">{children}</ul>
     </section>
   );
 }
@@ -198,7 +209,7 @@ export function KanbanBoard({
         },
       }}
     >
-      <div className="flex gap-2 overflow-x-auto pb-2" data-testid="kanban">
+      <div className="flex gap-3 overflow-x-auto pb-2" data-testid="kanban">
         {COLUMNS.map((status) => {
           const items = applications.filter((a) => a.status === status);
           return (
@@ -213,7 +224,9 @@ export function KanbanBoard({
                 />
               ))}
               {items.length === 0 && (
-                <li className="px-1 py-2 text-xs text-ink-secondary">No candidates</li>
+                <li className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-xs text-ink-secondary">
+                  No candidates
+                </li>
               )}
             </Column>
           );

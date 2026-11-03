@@ -45,7 +45,7 @@ function EmailPreferences() {
   const update = useUpdatePreferences();
   if (!data) return null;
   return (
-    <section className="mt-6 rounded border border-border p-4">
+    <section className="mt-6 rounded-lg border border-border bg-bg p-5 shadow-card">
       <h2 className="text-base font-semibold">Email notifications</h2>
       <Checkbox
         className="mt-2"
@@ -85,7 +85,7 @@ function DeleteAccount() {
   }
 
   return (
-    <section className="mt-6 rounded border border-status-red/30 p-4">
+    <section className="mt-6 rounded-lg border border-status-red/30 bg-bg p-5 shadow-card">
       <h2 className="text-base font-semibold">Delete account</h2>
       <p className="mt-1 text-sm text-ink-secondary">
         Permanently erases your account, profile, every resume file and everything read from them,
@@ -179,7 +179,7 @@ export default function ProfilePage() {
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          className="space-y-4 rounded border border-border p-4"
+          className="space-y-4 rounded-lg border border-border bg-bg p-5 shadow-card"
         >
           <ErrorBanner message={update.isError ? apiErrorMessage(update.error) : null} />
           <div className="grid gap-4 md:grid-cols-2">
@@ -250,7 +250,7 @@ export default function ProfilePage() {
                   inputMode="decimal"
                   aria-describedby={describedBy}
                   invalid={invalid}
-                  className="font-mono"
+                  className="tabular"
                   {...register("years_experience")}
                 />
               )}
@@ -281,7 +281,7 @@ export default function ProfilePage() {
                 autoComplete="tel"
                 aria-describedby={describedBy}
                 invalid={invalid}
-                className="font-mono"
+                className="tabular"
                 {...register("phone")}
               />
             )}

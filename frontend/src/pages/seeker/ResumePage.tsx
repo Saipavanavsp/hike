@@ -97,7 +97,7 @@ function UploadBox({ onUploaded }: { onUploaded: (r: Resume) => void }) {
           }}
         />
       </div>
-      <div className="mt-3 rounded border border-border p-3">
+      <div className="mt-3 rounded-lg border border-border bg-bg p-4 shadow-card">
         <Checkbox
           checked={consent}
           onChange={(e) => {
@@ -177,9 +177,9 @@ function ReviewForm({ resume, onDone }: { resume: Resume; onDone: () => void }) 
         <dt className="text-ink-secondary">Name</dt>
         <dd>{p.name ?? "Not found"}</dd>
         <dt className="text-ink-secondary">Email</dt>
-        <dd className="font-mono text-xs leading-5">{p.email ?? "Not found"}</dd>
+        <dd className="tabular text-xs leading-5">{p.email ?? "Not found"}</dd>
         <dt className="text-ink-secondary">Phone</dt>
-        <dd className="font-mono text-xs leading-5">{p.phone ?? "Not found"}</dd>
+        <dd className="tabular text-xs leading-5">{p.phone ?? "Not found"}</dd>
         <dt className="text-ink-secondary">Location</dt>
         <dd>{p.location ?? "Not found"}</dd>
         <dt className="text-ink-secondary">Education</dt>
@@ -195,7 +195,7 @@ function ReviewForm({ resume, onDone }: { resume: Resume; onDone: () => void }) 
             <Input
               id={id}
               inputMode="decimal"
-              className="font-mono"
+              className="tabular"
               value={years}
               onChange={(e) => setYears(e.target.value)}
               aria-describedby={describedBy}
@@ -206,7 +206,7 @@ function ReviewForm({ resume, onDone }: { resume: Resume; onDone: () => void }) 
       </div>
       <p className="mb-1 text-sm font-medium">
         Skills{" "}
-        <span className="font-mono text-xs font-normal text-ink-secondary">({skills.length})</span>
+        <span className="tabular text-xs font-normal text-ink-secondary">({skills.length})</span>
       </p>
       <SkillEditor value={skills} onChange={setSkills} />
       <div className="mt-4 flex justify-end gap-2 border-t border-border pt-3">
@@ -296,12 +296,12 @@ export default function ResumePage() {
                   <div>
                     <p className="font-medium">{current.original_filename}</p>
                     <p className="text-xs text-ink-secondary">
-                      <span className="font-mono">{formatBytes(current.size_bytes)}</span> ·
-                      uploaded <RelativeTime iso={current.created_at} />
+                      <span className="tabular">{formatBytes(current.size_bytes)}</span> · uploaded{" "}
+                      <RelativeTime iso={current.created_at} />
                       {current.years_experience !== null && (
                         <>
                           {" "}
-                          · <span className="font-mono">{current.years_experience}</span> yrs
+                          · <span className="tabular">{current.years_experience}</span> yrs
                           experience
                         </>
                       )}
@@ -310,7 +310,7 @@ export default function ResumePage() {
                       <p className="mt-1 text-xs text-ink-secondary">
                         Classified as {ROLE_LABELS[current.predicted_category]}
                         {current.category_confidence !== null && (
-                          <span className="font-mono">
+                          <span className="tabular">
                             {" "}
                             ({Math.round(current.category_confidence * 100)}%)
                           </span>

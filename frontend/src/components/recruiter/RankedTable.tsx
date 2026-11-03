@@ -38,7 +38,7 @@ export function RankedTable({
         {applications.map((a, i) => (
           <Fragment key={a.id}>
             <TR className="hover:bg-surface">
-              <TD className="text-right font-mono text-xs text-ink-secondary">{i + 1}</TD>
+              <TD className="text-right tabular text-xs text-ink-secondary">{i + 1}</TD>
               <TD>
                 <div className="font-medium">{a.candidate.name}</div>
                 <div className="text-xs text-ink-secondary">{a.candidate.email}</div>
@@ -59,7 +59,7 @@ export function RankedTable({
                   )}
                 </div>
               </TD>
-              <TD className="font-mono text-xs">{a.match?.skills_ratio ?? "--"}</TD>
+              <TD className="tabular text-xs">{a.match?.skills_ratio ?? "--"}</TD>
               <TD>
                 <div className="flex max-w-[280px] flex-wrap gap-1 py-1">
                   {a.match?.skills_missing.slice(0, 4).map((s) => (
@@ -75,7 +75,7 @@ export function RankedTable({
                   )}
                 </div>
               </TD>
-              <TD className="hidden font-mono text-xs lg:table-cell">
+              <TD className="hidden tabular text-xs lg:table-cell">
                 {a.candidate.years_experience ?? "--"}
               </TD>
               <TD className="hidden text-xs text-ink-secondary lg:table-cell">

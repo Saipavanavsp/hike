@@ -35,14 +35,14 @@ export function ScoreComponents({
                 </span>
                 <span className="mt-0.5 block text-xs text-ink-secondary">{c.detail}</span>
               </td>
-              <td className="whitespace-nowrap py-1 text-right font-mono text-xs leading-5">
+              <td className="whitespace-nowrap py-1 text-right tabular text-xs leading-5">
                 {c.points.toFixed(1)} / {c.weight}
               </td>
             </tr>
           ))}
           <tr className="border-t border-border">
             <td className="pt-1.5 font-medium">Match score</td>
-            <td className="pt-1.5 text-right font-mono text-xs font-medium leading-5">
+            <td className="pt-1.5 text-right tabular text-xs font-medium leading-5">
               {score} / 100
             </td>
           </tr>

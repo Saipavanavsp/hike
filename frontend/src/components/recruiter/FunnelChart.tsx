@@ -10,9 +10,7 @@ import {
 } from "recharts";
 import type { FunnelStep } from "@/api/types";
 import { STATUS_LABELS } from "@/lib/format";
-
-const AXIS = { fontSize: 11, fill: "#5A6270", fontFamily: "JetBrains Mono, monospace" };
-const LABEL = { fontSize: 12, fill: "#1A1D21", fontFamily: "JetBrains Mono, monospace" };
+import { CHART } from "./chartTheme";
 
 function pct(x: number | null): string {
   return x === null ? "" : `${Math.round(x * 100)}%`;
@@ -31,7 +29,7 @@ export function FunnelChart({ funnel }: { funnel: FunnelStep[] }) {
   const ticks = [0, max / 2, max];
   return (
     <figure aria-label="Hiring funnel">
-      <figcaption className="mb-1 text-sm font-medium">
+      <figcaption className="mb-3 text-sm font-medium text-ink">
         Applications that reached each stage
       </figcaption>
       <div className="h-[180px]">
@@ -42,64 +40,61 @@ export function FunnelChart({ funnel }: { funnel: FunnelStep[] }) {
             margin={{ top: 4, right: 40, bottom: 0, left: 0 }}
             barCategoryGap={8}
           >
-            <CartesianGrid stroke="#E3E6EB" horizontal={false} />
+            <CartesianGrid stroke={CHART.grid} horizontal={false} />
             <XAxis
               type="number"
               domain={[0, max]}
               ticks={ticks}
               allowDecimals={false}
-              tick={AXIS}
+              tick={CHART.axis}
               tickLine={false}
-              axisLine={{ stroke: "#E3E6EB" }}
+              axisLine={{ stroke: CHART.grid }}
             />
             <YAxis
               type="category"
               dataKey="label"
-              tick={{ ...AXIS, fontFamily: "IBM Plex Sans, sans-serif", fontSize: 12 }}
+              tick={{ ...CHART.axis, fontSize: 12 }}
               tickLine={false}
               axisLine={false}
               width={84}
             />
             <Tooltip
-              cursor={{ fill: "#F7F8FA" }}
+              cursor={{ fill: CHART.cursor }}
               formatter={(v, _n, item) => {
                 const conv = (item.payload as FunnelStep).conversion_from_previous;
                 return [conv === null ? v : `${v} (${pct(conv)} of previous stage)`, "Reached"];
               }}
-              contentStyle={{
-                border: "1px solid #E3E6EB",
-                borderRadius: 6,
-                fontSize: 12,
-                boxShadow: "none",
-              }}
+              contentStyle={CHART.tooltip}
+              labelStyle={CHART.tooltipLabel}
+              itemStyle={CHART.tooltipItem}
             />
             <Bar
               dataKey="count"
-              fill="#0F766E"
+              fill={CHART.series}
               barSize={18}
-              radius={[0, 4, 4, 0]}
+              radius={[0, 5, 5, 0]}
               isAnimationActive={false}
             >
-              <LabelList dataKey="count" position="right" style={LABEL} />
+              <LabelList dataKey="count" position="right" style={CHART.label} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <table className="mt-2 w-full text-xs">
+      <table className="mt-4 w-full text-xs">
         <caption className="sr-only">Funnel values</caption>
         <thead>
           <tr className="text-left text-ink-secondary">
-            <th className="py-1 font-normal">Stage</th>
-            <th className="py-1 text-right font-normal">Reached</th>
-            <th className="py-1 text-right font-normal">From previous stage</th>
+            <th className="py-1.5 font-medium">Stage</th>
+            <th className="py-1.5 text-right font-medium">Reached</th>
+            <th className="py-1.5 text-right font-medium">From previous stage</th>
           </tr>
         </thead>
         <tbody>
           {data.map((d) => (
             <tr key={d.stage} className="border-t border-border">
-              <td className="py-1">{d.label}</td>
-              <td className="py-1 text-right font-mono">{d.count}</td>
-              <td className="py-1 text-right font-mono">
+              <td className="py-1.5">{d.label}</td>
+              <td className="py-1.5 text-right font-medium tabular">{d.count}</td>
+              <td className="py-1.5 text-right font-medium tabular">
                 {d.conversion_from_previous === null ? "--" : pct(d.conversion_from_previous)}
               </td>
             </tr>

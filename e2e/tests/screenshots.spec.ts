@@ -52,6 +52,14 @@ test("capture screenshots", async ({ browser }) => {
   await expect(mp.getByRole("list", { name: "Jobs" })).toBeVisible();
   await mp.screenshot({ path: path.join(DOCS, "mobile-jobs.png") });
 
+  const dark = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "dark" });
+  const dp = await dark.newPage();
+  await login(dp, "meera@example.com", "Recruiter@123");
+  await expect(dp.getByTestId("kanban")).toBeVisible();
+  await dp.waitForTimeout(500);
+  await dp.screenshot({ path: path.join(DOCS, "recruiter-pipeline-dark.png") });
+
   await ctx.close();
   await mobile.close();
+  await dark.close();
 });

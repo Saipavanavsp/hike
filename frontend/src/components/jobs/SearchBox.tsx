@@ -54,7 +54,7 @@ export function SearchBox({ value, onSearch }: { value: string; onSearch: (q: st
     <div className="relative flex-1">
       <Search
         {...icon}
-        className="pointer-events-none absolute left-2.5 top-2 text-ink-secondary"
+        className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-muted"
       />
       <input
         type="search"
@@ -74,13 +74,13 @@ export function SearchBox({ value, onSearch }: { value: string; onSearch: (q: st
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         onKeyDown={onKeyDown}
-        className="h-8 w-full rounded border border-border bg-bg pl-8 pr-3 text-sm placeholder:text-ink-secondary/70 focus:outline-none focus:ring-2 focus:ring-accent"
+        className="h-11 w-full rounded-lg border border-border bg-bg pl-10 pr-3 text-[15px] text-ink shadow-xs placeholder:text-ink-muted transition-[border-color,box-shadow] hover:border-border-strong focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/20"
       />
       {showList && (
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-30 mt-1 w-full rounded border border-border bg-bg py-1 shadow-overlay"
+          className="absolute z-30 mt-2 w-full animate-scale-in rounded-lg border border-border bg-bg p-1 shadow-overlay"
         >
           {suggestions.map((s, i) => (
             <li
@@ -93,12 +93,12 @@ export function SearchBox({ value, onSearch }: { value: string; onSearch: (q: st
                 submit(s.text);
               }}
               className={cn(
-                "flex h-8 cursor-pointer items-center justify-between px-3 text-sm",
+                "flex h-9 cursor-pointer items-center justify-between rounded-md px-3 text-sm",
                 i === active ? "bg-surface" : "hover:bg-surface",
               )}
             >
               <span>{s.text}</span>
-              <span className="text-xs text-ink-secondary">
+              <span className="text-xs text-ink-muted">
                 {s.kind === "title" ? "Job title" : "Skill"}
               </span>
             </li>

@@ -2,23 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme tokens as RGB channels (see tailwind.config.ts). Light is the default; the "dark"
+   class on <html> is set by public/theme-init.js before first paint and by stores/theme.ts. */
 @layer base {
+  :root {
+    color-scheme: light;
+    --canvas: 248 250 252;
+    --bg: 255 255 255;
+    --surface: 241 245 249;
+    --border: 217 226 236;
+    --border-strong: 203 213 225;
+    --ink: 17 24 39;
+    --ink-secondary: 100 116 139;
+    --ink-muted: 148 163 184;
+    --primary: 17 24 39;
+    --primary-hover: 37 52 73;
+    --primary-fg: 255 255 255;
+    --accent: 11 127 114;
+    --accent-hover: 10 107 96;
+    --accent-tint: 230 246 244;
+    --accent-brand: 15 159 143;
+    --accent-fg: 255 255 255;
+    --info: 37 99 235;
+    --info-bg: 239 246 255;
+    --green: 21 128 61;
+    --green-bg: 236 253 243;
+    --amber: 180 83 9;
+    --amber-bg: 255 248 235;
+    --red: 180 35 24;
+    --red-bg: 254 243 242;
+    --grey: 100 116 139;
+    --grey-bg: 241 245 249;
+    --status-fg: 255 255 255;
+    --sidebar: 17 24 39;
+    --sidebar-fg: 229 233 240;
+    --sidebar-muted: 148 163 184;
+    --sidebar-hover: 30 41 59;
+    --sidebar-active: 37 52 73;
+    --sidebar-border: 31 42 60;
+    --shadow: 15 23 42;
+    /* Charts (Recharts takes plain colour strings). */
+    --chart-axis: #64748b;
+    --chart-label: #111827;
+    --chart-grid: #e2e8f0;
+    --chart-cursor: #f1f5f9;
+    --chart-1: #0f9f8f;
+    --chart-2: #3b82f6;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --canvas: 11 17 32;
+    --bg: 17 24 39;
+    --surface: 26 36 54;
+    --border: 37 52 73;
+    --border-strong: 51 65 85;
+    --ink: 229 233 240;
+    --ink-secondary: 148 163 184;
+    --ink-muted: 100 116 139;
+    --primary: 241 245 249;
+    --primary-hover: 255 255 255;
+    --primary-fg: 17 24 39;
+    --accent: 60 196 179;
+    --accent-hover: 94 211 196;
+    --accent-tint: 15 46 46;
+    --accent-brand: 15 159 143;
+    --accent-fg: 11 17 32;
+    --info: 96 165 250;
+    --info-bg: 23 37 84;
+    --green: 74 210 140;
+    --green-bg: 13 45 32;
+    --amber: 245 180 84;
+    --amber-bg: 58 42 14;
+    --red: 248 113 113;
+    --red-bg: 59 22 24;
+    --grey: 148 163 184;
+    --grey-bg: 30 41 59;
+    --status-fg: 17 24 39;
+    --sidebar: 9 14 27;
+    --sidebar-fg: 229 233 240;
+    --sidebar-muted: 148 163 184;
+    --sidebar-hover: 26 36 54;
+    --sidebar-active: 37 52 73;
+    --sidebar-border: 26 36 54;
+    --shadow: 0 0 0;
+    --chart-axis: #94a3b8;
+    --chart-label: #e5e9f0;
+    --chart-grid: #253449;
+    --chart-cursor: #1a2436;
+    --chart-1: #3cc4b3;
+    --chart-2: #60a5fa;
+  }
+
   html {
-    @apply bg-bg font-sans text-base text-ink antialiased;
+    @apply bg-canvas font-sans text-base text-ink antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
   }
   body {
-    @apply min-h-screen;
+    @apply min-h-screen overflow-x-hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tightish;
+  }
+  ::selection {
+    @apply bg-accent/20;
   }
   :focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-1;
+    @apply outline-none ring-2 ring-accent/70 ring-offset-2 ring-offset-bg;
   }
   a {
-    @apply text-accent hover:text-accent-hover;
+    @apply text-accent transition-colors hover:text-accent-hover;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--border-strong)) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer utilities {
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+  .skeleton-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      rgb(var(--surface)) 0%,
+      rgb(var(--border) / 0.55) 50%,
+      rgb(var(--surface)) 100%
+    );
+    background-size: 200% 100%;
   }
 }

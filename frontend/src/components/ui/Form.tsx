@@ -9,11 +9,15 @@ import {
 import { cn } from "@/lib/cn";
 
 const control =
-  "w-full rounded border bg-bg px-2.5 text-sm text-ink placeholder:text-ink-secondary/70 " +
-  "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-0 disabled:bg-surface";
+  "w-full rounded-md border bg-bg px-3 text-sm text-ink shadow-xs placeholder:text-ink-muted " +
+  "transition-[border-color,box-shadow] duration-150 " +
+  "focus:outline-none focus:ring-[3px] focus:ring-offset-0 " +
+  "disabled:cursor-not-allowed disabled:bg-surface disabled:text-ink-secondary";
 
 function borderFor(invalid?: boolean) {
-  return invalid ? "border-status-red" : "border-border";
+  return invalid
+    ? "border-status-red focus:border-status-red focus:ring-status-red/20"
+    : "border-border hover:border-border-strong focus:border-accent focus:ring-accent/20";
 }
 
 export const Input = forwardRef<
@@ -24,7 +28,7 @@ export const Input = forwardRef<
     <input
       ref={ref}
       aria-invalid={invalid || undefined}
-      className={cn(control, "h-8", borderFor(invalid), className)}
+      className={cn(control, "h-9", borderFor(invalid), className)}
       {...props}
     />
   );
@@ -52,7 +56,7 @@ export const Select = forwardRef<
     <select
       ref={ref}
       aria-invalid={invalid || undefined}
-      className={cn(control, "h-8 pr-7", borderFor(invalid), className)}
+      className={cn(control, "h-9 cursor-pointer pr-8", borderFor(invalid), className)}
       {...props}
     >
       {children}
@@ -68,7 +72,10 @@ export const Checkbox = forwardRef<
     <input
       ref={ref}
       type="checkbox"
-      className={cn("h-4 w-4 rounded-sm border-border accent-accent", !label && className)}
+      className={cn(
+        "h-4 w-4 cursor-pointer rounded border-border accent-[rgb(var(--accent))]",
+        !label && className,
+      )}
       {...props}
     />
   );
@@ -99,7 +106,7 @@ export function Field({ label, error, hint, children, className, optional }: Fie
     [error ? errId : null, hint ? hintId : null].filter(Boolean).join(" ") || undefined;
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-ink">
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
         {label}
         {optional && <span className="ml-1 font-normal text-ink-secondary">(optional)</span>}
       </label>
@@ -124,7 +131,7 @@ export function ErrorBanner({ message }: { message?: string | null }) {
   return (
     <div
       role="alert"
-      className="mb-3 rounded border border-status-red bg-status-red-bg px-3 py-2 text-sm text-status-red"
+      className="mb-4 rounded-md border border-status-red/30 bg-status-red-bg px-3 py-2.5 text-sm text-status-red"
     >
       {message}
     </div>

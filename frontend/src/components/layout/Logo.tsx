@@ -1,17 +1,29 @@
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/cn";
 
-export function Logo({ to = "/" }: { to?: string }) {
+export function LogoMark({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden className="shrink-0">
+      <rect width="32" height="32" rx="8" className="fill-accent-brand" />
+      <path
+        d="M10.5 8.5v15M21.5 8.5v15M10.5 16h11"
+        stroke="#fff"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function Logo({ to = "/", className }: { to?: string; className?: string }) {
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-2 text-ink hover:text-ink"
+      className={cn("inline-flex items-center gap-2.5 text-ink hover:text-ink", className)}
       aria-label="Hike home"
     >
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden>
-        <rect width="32" height="32" rx="6" fill="#0F766E" />
-        <path d="M10 8v16M22 8v16M10 16h12" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-      <span className="text-base font-semibold tracking-tight">Hike</span>
+      <LogoMark />
+      <span className="text-[17px] font-semibold tracking-tight">Hike</span>
     </Link>
   );
 }

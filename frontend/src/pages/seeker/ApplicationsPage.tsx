@@ -19,7 +19,7 @@ function Timeline({ app }: { app: SeekerApplication }) {
     <ol className="space-y-1.5 py-1 text-sm" aria-label="Status timeline">
       {app.history.map((h, i) => (
         <li key={i} className="flex gap-3">
-          <span className="w-36 shrink-0 font-mono text-xs leading-5 text-ink-secondary">
+          <span className="w-36 shrink-0 tabular text-xs leading-5 text-ink-secondary">
             {absoluteDate(h.changed_at)}
           </span>
           <span>
@@ -88,14 +88,14 @@ export default function ApplicationsPage() {
             label: (
               <>
                 {f === "all" ? "All" : f === "active" ? "In progress" : "Offer / Rejected"}{" "}
-                <span className="font-mono text-xs text-ink-secondary">{data ? count(f) : ""}</span>
+                <span className="tabular text-xs text-ink-secondary">{data ? count(f) : ""}</span>
               </>
             ),
           }))}
         />
       </div>
       {!isLoading && data?.length === 0 ? (
-        <div className="rounded border border-border">
+        <div className="rounded-lg border border-border bg-bg shadow-card">
           <EmptyState message="No applications yet." actionLabel="Browse jobs" actionTo="/jobs" />
         </div>
       ) : (

@@ -35,7 +35,11 @@ export function Tabs<T extends string>({
   }
 
   return (
-    <div role="tablist" aria-label={label} className="flex gap-4 border-b border-border">
+    <div
+      role="tablist"
+      aria-label={label}
+      className="flex gap-1 overflow-x-auto border-b border-border"
+    >
       {tabs.map((t, i) => {
         const active = t.id === value;
         return (
@@ -51,10 +55,10 @@ export function Tabs<T extends string>({
             onClick={() => onChange(t.id)}
             onKeyDown={(e) => onKeyDown(e, i)}
             className={cn(
-              "-mb-px h-9 border-b-2 text-sm font-medium",
+              "relative -mb-px h-10 whitespace-nowrap border-b-2 px-3 text-sm font-medium transition-colors",
               active
                 ? "border-accent text-accent"
-                : "border-transparent text-ink-secondary hover:text-ink",
+                : "border-transparent text-ink-secondary hover:border-border-strong hover:text-ink",
             )}
           >
             {t.label}

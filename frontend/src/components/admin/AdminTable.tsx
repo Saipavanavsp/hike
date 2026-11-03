@@ -101,13 +101,13 @@ export function AdminTable<T extends { id: number }>({
             placeholder={searchPlaceholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="h-8 w-full rounded border border-border pl-8 pr-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+            className="h-9 w-full rounded-md border border-border bg-bg pl-9 pr-3 text-sm text-ink shadow-xs placeholder:text-ink-muted transition-[border-color,box-shadow] hover:border-border-strong focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/20"
           />
         </div>
         {withBulk && (
           <div className="ml-auto flex items-center gap-2 text-sm">
             <span className="text-ink-secondary">
-              <span className="font-mono text-ink">{selected.size}</span> selected
+              <span className="tabular text-ink">{selected.size}</span> selected
             </span>
             {bulkActions.map((a) => (
               <Button

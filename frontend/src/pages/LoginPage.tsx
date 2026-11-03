@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FileSearch, Gauge, Workflow } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
@@ -10,6 +11,7 @@ import { Logo } from "@/components/layout/Logo";
 import { homeFor } from "@/components/layout/nav";
 import { Button } from "@/components/ui/Button";
 import { ErrorBanner, Field, Input } from "@/components/ui/Form";
+import { icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Tabs } from "@/components/ui/Tabs";
 import { cn } from "@/lib/cn";
@@ -80,7 +82,7 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3" aria-label="Sign in">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4" aria-label="Sign in">
       <ErrorBanner message={apiError} />
       <Field label="Email" error={errors.email?.message}>
         {({ id, describedBy, invalid }) => (
@@ -106,21 +108,24 @@ export function LoginForm() {
           />
         )}
       </Field>
-      <Button type="submit" variant="primary" className="w-full" disabled={isSubmitting}>
+      <Button type="submit" variant="primary" className="h-10 w-full" disabled={isSubmitting}>
         {isSubmitting ? "Signing in…" : "Sign in"}
       </Button>
-      <div className="rounded border border-border bg-surface p-3 text-xs text-ink-secondary">
-        <p className="mb-1.5 font-medium text-ink">Demo accounts</p>
-        <ul className="space-y-1">
+      <div className="rounded-lg border border-border bg-surface/60 p-3.5 text-xs text-ink-secondary">
+        <p className="mb-2 text-2xs font-semibold uppercase tracking-wider text-ink-secondary">
+          Demo accounts
+        </p>
+        <ul className="space-y-1.5">
           {DEMO.map((d) => (
             <li key={d.email} className="flex items-center justify-between gap-2">
-              <span>
-                {d.label}: <span className="font-mono">{d.email}</span> /{" "}
+              <span className="min-w-0">
+                <span className="font-medium text-ink">{d.label}</span>:{" "}
+                <span className="font-mono">{d.email}</span> /{" "}
                 <span className="font-mono">{d.password}</span>
               </span>
               <button
                 type="button"
-                className="shrink-0 text-accent hover:text-accent-hover"
+                className="h-6 shrink-0 rounded-md border border-border bg-bg px-2 font-medium text-accent shadow-xs transition-colors hover:border-border-strong hover:text-accent-hover"
                 onClick={() => {
                   setValue("email", d.email);
                   setValue("password", d.password);
@@ -172,12 +177,12 @@ export function RegisterForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="space-y-3"
+      className="space-y-4"
       aria-label="Create account"
     >
       <ErrorBanner message={apiError} />
       <fieldset>
-        <legend className="mb-1 text-sm font-medium">I am a</legend>
+        <legend className="mb-1.5 text-sm font-medium">I am a</legend>
         <div className="grid grid-cols-2 gap-2">
           {(
             [
@@ -188,12 +193,19 @@ export function RegisterForm() {
             <label
               key={value}
               className={cn(
-                "cursor-pointer rounded border px-3 py-2 text-sm",
-                role === value ? "border-accent bg-accent-tint" : "border-border hover:bg-surface",
+                "cursor-pointer rounded-lg border px-3 py-2.5 text-sm transition-colors",
+                role === value
+                  ? "border-accent/50 bg-accent-tint ring-1 ring-accent/30"
+                  : "border-border bg-bg hover:border-border-strong hover:bg-surface",
               )}
             >
               <span className="flex items-center gap-2 font-medium">
-                <input type="radio" value={value} className="accent-accent" {...register("role")} />
+                <input
+                  type="radio"
+                  value={value}
+                  className="accent-[rgb(var(--accent))]"
+                  {...register("role")}
+                />
                 {title}
               </span>
               <span className="mt-0.5 block text-xs text-ink-secondary">{desc}</span>
@@ -253,7 +265,7 @@ export function RegisterForm() {
           )}
         </Field>
       )}
-      <Button type="submit" variant="primary" className="w-full" disabled={isSubmitting}>
+      <Button type="submit" variant="primary" className="h-10 w-full" disabled={isSubmitting}>
         {isSubmitting ? "Creating account…" : "Create account"}
       </Button>
     </form>
@@ -263,17 +275,17 @@ export function RegisterForm() {
 function BrowserFrame() {
   const [failed, setFailed] = useState(false);
   return (
-    <figure className="w-full max-w-[760px] overflow-hidden rounded border border-border bg-bg">
-      <div className="flex h-8 items-center gap-2 border-b border-border bg-surface px-3">
-        <span className="h-2.5 w-2.5 rounded-sm bg-border" />
-        <span className="h-2.5 w-2.5 rounded-sm bg-border" />
-        <span className="h-2.5 w-2.5 rounded-sm bg-border" />
-        <span className="ml-3 h-5 flex-1 rounded-sm border border-border bg-bg px-2 font-mono text-[11px] leading-5 text-ink-secondary">
+    <figure className="w-full overflow-hidden rounded-xl border border-white/10 bg-[#0B1120] shadow-[0_30px_60px_-20px_rgb(0_0_0/0.55)]">
+      <div className="flex h-9 items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+        <span className="ml-3 h-5 flex-1 rounded-md bg-white/[0.06] px-2 font-mono text-[11px] leading-5 text-[#94A3B8]">
           hike / jobs
         </span>
       </div>
       {failed ? (
-        <div className="flex aspect-[16/10] items-center justify-center text-sm text-ink-secondary">
+        <div className="flex aspect-[16/10] items-center justify-center text-sm text-[#94A3B8]">
           Dashboard screenshot
         </div>
       ) : (
@@ -290,7 +302,7 @@ function BrowserFrame() {
 
 function StatsStrip() {
   const { data, isLoading } = usePublicStats();
-  if (isLoading) return <Skeleton className="h-4 w-96" />;
+  if (isLoading) return <Skeleton className="h-4 w-96 max-w-full" />;
   if (!data) return null;
   const parts = [
     `${data.open_jobs} open jobs`,
@@ -302,16 +314,16 @@ function StatsStrip() {
     <p className="text-sm text-ink-secondary">
       {parts.map((p, i) => (
         <span key={p}>
-          {i > 0 && <span className="mx-2">·</span>}
-          <span className="font-mono text-ink">{p.split(" ")[0]}</span>{" "}
+          {i > 0 && <span className="mx-2 text-ink-muted">·</span>}
+          <span className="font-semibold text-ink tabular">{p.split(" ")[0]}</span>{" "}
           {p.split(" ").slice(1).join(" ")}
         </span>
       ))}
       {data.precision_at_5 !== null && (
         <>
-          <span className="mx-2">·</span>
+          <span className="mx-2 text-ink-muted">·</span>
           match precision@5 on the labelled eval set:{" "}
-          <span className="font-mono text-ink">{data.precision_at_5.toFixed(2)}</span>
+          <span className="font-semibold text-ink tabular">{data.precision_at_5.toFixed(2)}</span>
         </>
       )}
     </p>
@@ -320,14 +332,17 @@ function StatsStrip() {
 
 const VALUE_PROPS = [
   {
+    icon: Gauge,
     title: "Scores you can check",
     body: "Each job shows which required skills your resume covers, which are missing, and whether your experience and location fit.",
   },
   {
+    icon: FileSearch,
     title: "Resume parsed, not retyped",
     body: "Upload a PDF or DOCX; skills, experience and education are extracted and you correct anything before it is saved.",
   },
   {
+    icon: Workflow,
     title: "One pipeline for recruiters",
     body: "Candidates are ranked by match score and moved from Applied to Offer on a board, with every change recorded.",
   },
@@ -339,60 +354,80 @@ export default function LoginPage() {
   if (status === "authenticated" && user) return <Navigate to={homeFor(user.role)} replace />;
 
   return (
-    <div className="min-h-screen bg-bg">
-      <div className="grid min-h-[calc(100vh-64px)] lg:grid-cols-[minmax(380px,460px)_1fr]">
-        <div className="flex flex-col border-border px-6 py-6 lg:border-r lg:px-10">
+    <div className="min-h-screen bg-canvas">
+      <div className="grid min-h-[calc(100vh-56px)] lg:grid-cols-[minmax(420px,520px)_1fr]">
+        <div className="flex flex-col px-6 py-6 sm:px-10">
           <Logo />
-          <div className="mt-10 w-full max-w-[360px] lg:mt-16">
-            <h1 className="text-xl font-semibold">
-              {tab === "signin" ? "Sign in" : "Create your account"}
-            </h1>
-            <p className="mb-4 mt-1 text-sm text-ink-secondary">
-              Jobs in Bengaluru, Hyderabad, Chennai, Pune and remote.
-            </p>
-            <Tabs
-              label="Account"
-              idPrefix="auth"
-              value={tab}
-              onChange={setTab}
-              tabs={[
-                { id: "signin", label: "Sign in" },
-                { id: "register", label: "Create account" },
-              ]}
-            />
-            <div
-              className="pt-4"
-              role="tabpanel"
-              id={`auth-panel-${tab}`}
-              aria-labelledby={`auth-${tab}`}
-            >
-              {tab === "signin" ? <LoginForm /> : <RegisterForm />}
+          <div className="mx-auto flex w-full max-w-[400px] flex-1 flex-col justify-center py-10">
+            <div className="animate-fade-up rounded-xl border border-border bg-bg p-6 shadow-raised sm:p-8">
+              <h1 className="text-2xl font-semibold">
+                {tab === "signin" ? "Sign in" : "Create your account"}
+              </h1>
+              <p className="mb-5 mt-1.5 text-sm text-ink-secondary">
+                Jobs in Bengaluru, Hyderabad, Chennai, Pune and remote.
+              </p>
+              <Tabs
+                label="Account"
+                idPrefix="auth"
+                value={tab}
+                onChange={setTab}
+                tabs={[
+                  { id: "signin", label: "Sign in" },
+                  { id: "register", label: "Create account" },
+                ]}
+              />
+              <div
+                className="pt-5"
+                role="tabpanel"
+                id={`auth-panel-${tab}`}
+                aria-labelledby={`auth-${tab}`}
+              >
+                {tab === "signin" ? <LoginForm /> : <RegisterForm />}
+              </div>
             </div>
           </div>
         </div>
-        <div className="hidden items-center justify-center bg-surface p-10 lg:flex">
-          <BrowserFrame />
+        <div className="relative hidden overflow-hidden bg-[#111827] lg:flex lg:flex-col lg:justify-center lg:px-12 lg:py-12 xl:px-16">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_70%_0%,rgb(15_159_143/0.18),transparent_70%)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgb(255_255_255/0.035)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.035)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(70%_60%_at_50%_40%,black,transparent)]"
+          />
+          <div className="relative mx-auto w-full max-w-[760px]">
+            <p className="text-sm font-medium text-[#5ED3C4]">Hiring, explained</p>
+            <p className="mt-2 max-w-lg text-3xl font-semibold tracking-tight text-white">
+              Match people to roles with scores you can actually read.
+            </p>
+            <div className="mt-8">
+              <BrowserFrame />
+            </div>
+          </div>
         </div>
       </div>
 
-      <section className="border-t border-border">
-        <div className="mx-auto grid max-w-[1180px] gap-0 px-6 md:grid-cols-3">
-          {VALUE_PROPS.map((v, i) => (
-            <div
-              key={v.title}
-              className={cn(
-                "py-6 md:px-6",
-                i > 0 && "border-t border-border md:border-l md:border-t-0",
-              )}
-            >
-              <h2 className="text-sm font-semibold">{v.title}</h2>
-              <p className="mt-1 text-sm text-ink-secondary">{v.body}</p>
+      <section className="border-t border-border bg-bg">
+        <div className="mx-auto grid max-w-[1180px] gap-6 px-6 py-10 md:grid-cols-3 md:gap-8">
+          {VALUE_PROPS.map((v) => (
+            <div key={v.title} className="flex gap-4">
+              <span
+                aria-hidden
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-accent-tint text-accent"
+              >
+                <v.icon {...icon} size={18} />
+              </span>
+              <div>
+                <h2 className="text-sm font-semibold">{v.title}</h2>
+                <p className="mt-1 text-sm text-ink-secondary">{v.body}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
-      <section className="border-t border-border bg-surface">
-        <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-2 px-6 py-3">
+      <section className="border-t border-border bg-canvas">
+        <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-3 px-6 py-4">
           <StatsStrip />
           <p className="text-xs text-ink-secondary">
             Built by Sai Pavan ·{" "}

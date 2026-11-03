@@ -11,7 +11,7 @@ import {
 } from "@/components/jobs/options";
 import { SearchBox } from "@/components/jobs/SearchBox";
 import { Select } from "@/components/ui/Form";
-import { EmptyState, Pagination } from "@/components/ui/Misc";
+import { EmptyState, PageHeader, Pagination } from "@/components/ui/Misc";
 import { JobRowSkeletons } from "@/components/ui/Skeleton";
 
 const SORTS: { value: JobSearch["sort"]; label: string }[] = [
@@ -63,7 +63,11 @@ export default function JobsPage() {
 
   return (
     <div>
-      <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-center">
+      <PageHeader
+        title="Find your next role"
+        description="Search open positions, filter by what matters and see how well each one matches your resume."
+      />
+      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center">
         <SearchBox value={search.q} onSearch={(q) => update({ q })} />
         <label className="flex items-center gap-2 text-sm text-ink-secondary">
           <span className="whitespace-nowrap">Sort by</span>
@@ -71,7 +75,7 @@ export default function JobsPage() {
             aria-label="Sort jobs"
             value={search.sort}
             onChange={(e) => update({ sort: e.target.value as JobSearch["sort"] })}
-            className="w-32"
+            className="w-36"
           >
             {SORTS.map((s) => (
               <option
@@ -85,7 +89,7 @@ export default function JobsPage() {
           </Select>
         </label>
       </div>
-      <div className="mb-3 flex flex-wrap items-center gap-2" aria-label="Filters" role="group">
+      <div className="mb-5 flex flex-wrap items-center gap-2" aria-label="Filters" role="group">
         <FilterChip
           label="Location"
           options={LOCATION_OPTIONS}
@@ -115,7 +119,7 @@ export default function JobsPage() {
           <button
             type="button"
             onClick={reset}
-            className="text-sm text-accent hover:text-accent-hover"
+            className="px-1 text-sm font-medium text-accent hover:text-accent-hover"
           >
             Clear all
           </button>
@@ -124,7 +128,7 @@ export default function JobsPage() {
         <span className="ml-auto text-sm text-ink-secondary" aria-live="polite">
           {data && (
             <>
-              <span className="font-mono text-ink">{data.total}</span>{" "}
+              <span className="font-semibold text-ink tabular">{data.total}</span>{" "}
               {data.total === 1 ? "job" : "jobs"}
             </>
           )}
@@ -132,7 +136,7 @@ export default function JobsPage() {
       </div>
 
       {data?.corrected_query && (
-        <p className="mb-3 text-sm text-ink-secondary" role="status">
+        <p className="mb-4 text-sm text-ink-secondary" role="status">
           Showing results for{" "}
           <span className="font-medium text-ink">&ldquo;{data.corrected_query}&rdquo;</span> (you
           searched for &ldquo;{search.q}&rdquo;).
@@ -140,13 +144,13 @@ export default function JobsPage() {
       )}
 
       {hasResume === false && (
-        <p className="mb-3 rounded border border-border bg-surface px-3 py-2 text-sm text-ink-secondary">
+        <p className="mb-4 rounded-lg border border-border bg-surface/70 px-4 py-2.5 text-sm text-ink-secondary">
           Match scores appear once you upload a resume. <Link to="/resume">Upload resume →</Link>
         </p>
       )}
 
       <div
-        className={`rounded border border-border ${isFetching && !isLoading ? "opacity-70" : ""}`}
+        className={`rounded-lg border border-border bg-bg shadow-card transition-opacity ${isFetching && !isLoading ? "opacity-70" : ""}`}
       >
         <JobListHeader />
         {isLoading && <JobRowSkeletons />}

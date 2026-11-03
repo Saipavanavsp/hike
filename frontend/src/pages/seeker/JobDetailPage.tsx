@@ -154,7 +154,7 @@ export default function JobDetailPage() {
             </article>
 
             <aside className="lg:sticky lg:top-16 lg:self-start">
-              <div className="rounded border border-border">
+              <div className="rounded-lg border border-border bg-bg shadow-card">
                 <div className="space-y-2 border-b border-border p-4">
                   {isSeeker && job.application_status ? (
                     <div className="space-y-1.5">
@@ -202,13 +202,13 @@ export default function JobDetailPage() {
                 </div>
                 <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 border-b border-border p-4 text-sm">
                   <dt className="text-ink-secondary">Salary</dt>
-                  <dd className="font-mono">{formatSalaryRange(job.salary_min, job.salary_max)}</dd>
+                  <dd className="tabular">{formatSalaryRange(job.salary_min, job.salary_max)}</dd>
                   <dt className="text-ink-secondary">Location</dt>
                   <dd>
                     {job.location} ({REMOTE_LABELS[job.remote_type]})
                   </dd>
                   <dt className="text-ink-secondary">Experience</dt>
-                  <dd className="font-mono">
+                  <dd className="tabular">
                     {formatExperience(job.experience_min, job.experience_max)}
                   </dd>
                   <dt className="text-ink-secondary">Role</dt>

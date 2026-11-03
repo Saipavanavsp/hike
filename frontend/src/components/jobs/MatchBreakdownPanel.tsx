@@ -32,7 +32,7 @@ export function MatchBreakdownPanel({ job }: { job: JobDetail }) {
         <Mark ok={allMatched} />
         <div className="min-w-0">
           <p>
-            Skills matched: <span className="font-mono">{m.skills_ratio}</span>
+            Skills matched: <span className="tabular">{m.skills_ratio}</span>
           </p>
           {m.skills_missing.length > 0 && (
             <div className="mt-1 flex flex-wrap gap-1" aria-label="Missing skills">
@@ -47,7 +47,7 @@ export function MatchBreakdownPanel({ job }: { job: JobDetail }) {
         <Mark ok={m.experience_ok} />
         <p>
           Experience:{" "}
-          <span className="font-mono">{years === null ? "not stated" : `${years} yrs`}</span>{" "}
+          <span className="tabular">{years === null ? "not stated" : `${years} yrs`}</span>{" "}
           <span className="text-ink-secondary">
             (needs {job.experience_min}–{job.experience_max})
           </span>

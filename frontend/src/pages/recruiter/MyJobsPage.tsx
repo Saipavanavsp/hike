@@ -27,7 +27,7 @@ export default function MyJobsPage() {
       </PageHeader>
       <ErrorBanner message={setStatus.isError ? apiErrorMessage(setStatus.error) : null} />
       {!isLoading && data?.length === 0 ? (
-        <div className="rounded border border-border">
+        <div className="rounded-lg border border-border bg-bg shadow-card">
           <EmptyState
             message="No jobs posted yet."
             actionLabel="Post a job"
@@ -67,11 +67,11 @@ export default function MyJobsPage() {
                 <TD className="hidden text-ink-secondary md:table-cell">
                   {j.location} · {REMOTE_LABELS[j.remote_type]}
                 </TD>
-                <TD className="hidden font-mono text-xs lg:table-cell">
+                <TD className="hidden tabular text-xs lg:table-cell">
                   {formatSalaryRange(j.salary_min, j.salary_max)}
                 </TD>
-                <TD className="text-right font-mono">{j.applications_count}</TD>
-                <TD className="text-right font-mono">{j.new_count}</TD>
+                <TD className="text-right tabular">{j.applications_count}</TD>
+                <TD className="text-right tabular">{j.new_count}</TD>
                 <TD>
                   {j.status === "open" ? (
                     <Tag className="border-status-green/30 bg-status-green-bg text-status-green">

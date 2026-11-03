@@ -157,7 +157,7 @@ export default function JobFormPage() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="space-y-4 rounded border border-border p-4"
+        className="space-y-4 rounded-lg border border-border bg-bg p-5 shadow-card"
       >
         <ErrorBanner message={apiError} />
         <div className="grid gap-4 md:grid-cols-2">
@@ -244,7 +244,7 @@ export default function JobFormPage() {
               <Input
                 id={id}
                 inputMode="numeric"
-                className="font-mono"
+                className="tabular"
                 aria-describedby={describedBy}
                 invalid={invalid}
                 {...register("experience_min")}
@@ -256,7 +256,7 @@ export default function JobFormPage() {
               <Input
                 id={id}
                 inputMode="numeric"
-                className="font-mono"
+                className="tabular"
                 aria-describedby={describedBy}
                 invalid={invalid}
                 {...register("experience_max")}
@@ -268,7 +268,7 @@ export default function JobFormPage() {
               <Input
                 id={id}
                 inputMode="decimal"
-                className="font-mono"
+                className="tabular"
                 aria-describedby={describedBy}
                 invalid={invalid}
                 {...register("salary_min")}
@@ -280,7 +280,7 @@ export default function JobFormPage() {
               <Input
                 id={id}
                 inputMode="decimal"
-                className="font-mono"
+                className="tabular"
                 aria-describedby={describedBy}
                 invalid={invalid}
                 {...register("salary_max")}
@@ -310,7 +310,7 @@ export default function JobFormPage() {
             <Textarea
               id={id}
               rows={16}
-              className="font-mono text-xs"
+              className="tabular text-xs"
               aria-describedby={describedBy}
               invalid={invalid}
               {...register("description_md")}

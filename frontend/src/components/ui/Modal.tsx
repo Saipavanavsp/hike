@@ -59,7 +59,7 @@ export function Modal({ open, title, onClose, children, footer, width = "max-w-m
   if (!open) return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 pt-[12vh]"
+      className="fixed inset-0 z-50 flex animate-fade-in items-start justify-center overflow-y-auto bg-[rgb(var(--shadow)/0.45)] p-4 pt-[10vh] backdrop-blur-[2px]"
       onMouseDown={onClose}
     >
       <div
@@ -67,20 +67,20 @@ export function Modal({ open, title, onClose, children, footer, width = "max-w-m
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`w-full ${width} rounded border border-border bg-bg shadow-overlay`}
+        className={`w-full ${width} animate-scale-in overflow-hidden rounded-xl border border-border bg-bg shadow-overlay`}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="flex h-11 items-center justify-between border-b border-border pl-4 pr-1.5">
-          <h2 id={titleId} className="text-base font-semibold">
+        <div className="flex h-14 items-center justify-between border-b border-border pl-5 pr-3">
+          <h2 id={titleId} className="text-lg font-semibold">
             {title}
           </h2>
           <IconButton label="Close" onClick={onClose}>
             <X {...icon} />
           </IconButton>
         </div>
-        <div className="px-4 py-3 text-sm">{children}</div>
+        <div className="px-5 py-4 text-sm">{children}</div>
         {footer && (
-          <div className="flex justify-end gap-2 border-t border-border bg-surface px-4 py-2.5">
+          <div className="flex flex-wrap justify-end gap-2 border-t border-border bg-surface/60 px-5 py-3">
             {footer}
           </div>
         )}

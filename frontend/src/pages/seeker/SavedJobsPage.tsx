@@ -14,7 +14,7 @@ export default function SavedJobsPage() {
   return (
     <div className="space-y-4">
       <PageHeader title="Saved Jobs" />
-      <div className="rounded border border-border">
+      <div className="rounded-lg border border-border bg-bg shadow-card">
         <JobListHeader withAction />
         {isLoading && <JobRowSkeletons count={4} />}
         {data?.length === 0 && (

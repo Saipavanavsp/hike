@@ -44,7 +44,7 @@ const columns: Column<AdminJob>[] = [
     key: "applications",
     label: "Applicants",
     sortable: true,
-    className: "text-right font-mono",
+    className: "text-right tabular",
     render: (j) => j.applications,
   },
   {

@@ -70,14 +70,14 @@ export default function AdminSystemPage() {
                 <dt className="text-ink-secondary">PostgreSQL</dt>
                 <dd className="flex items-center gap-2">
                   <Health ok={data.dependencies.postgres.ok} />
-                  <span className="font-mono text-xs text-ink-secondary">
+                  <span className="tabular text-xs text-ink-secondary">
                     {data.dependencies.postgres.latency_ms} ms
                   </span>
                 </dd>
                 <dt className="text-ink-secondary">Redis</dt>
                 <dd className="flex items-center gap-2">
                   <Health ok={data.dependencies.redis.ok} />
-                  <span className="font-mono text-xs text-ink-secondary">
+                  <span className="tabular text-xs text-ink-secondary">
                     {data.dependencies.redis.latency_ms} ms
                   </span>
                 </dd>
@@ -89,7 +89,7 @@ export default function AdminSystemPage() {
                   />
                 </dd>
                 <dt className="text-ink-secondary">Queue depth</dt>
-                <dd className="font-mono text-xs">{data.queue_depth ?? "unknown"}</dd>
+                <dd className="tabular text-xs">{data.queue_depth ?? "unknown"}</dd>
                 {data.dependencies.clamav && (
                   <>
                     <dt className="text-ink-secondary">ClamAV</dt>
@@ -107,7 +107,7 @@ export default function AdminSystemPage() {
                     <dt className="capitalize text-ink-secondary">{s}</dt>
                     <dd
                       className={cn(
-                        "font-mono text-xs leading-5",
+                        "tabular text-xs leading-5",
                         s === "failed" && data.tasks_last_24h.failed > 0 && "text-status-red",
                       )}
                     >
@@ -140,11 +140,11 @@ export default function AdminSystemPage() {
                 <tbody>
                   {data.recent_failures.map((t) => (
                     <TR key={t.id}>
-                      <TD className="font-mono text-xs">{t.kind}</TD>
-                      <TD className="font-mono text-xs text-ink-secondary">
+                      <TD className="tabular text-xs">{t.kind}</TD>
+                      <TD className="tabular text-xs text-ink-secondary">
                         {t.ref_type ? `${t.ref_type} ${t.ref_id}` : "--"}
                       </TD>
-                      <TD className="font-mono text-xs">{t.attempts}</TD>
+                      <TD className="tabular text-xs">{t.attempts}</TD>
                       <TD className="max-w-[360px] truncate text-xs" title={t.error ?? ""}>
                         {t.error}
                       </TD>
@@ -176,13 +176,13 @@ export default function AdminSystemPage() {
             <Section title="Upload security">
               <dl className="grid grid-cols-[160px_1fr] gap-y-2 text-sm">
                 <dt className="text-ink-secondary">Malware scan</dt>
-                <dd className="font-mono text-xs leading-5">{data.security.malware_scan}</dd>
+                <dd className="tabular text-xs leading-5">{data.security.malware_scan}</dd>
                 <dt className="text-ink-secondary">Parser isolation</dt>
-                <dd className="font-mono text-xs leading-5">{data.security.parser_isolation}</dd>
+                <dd className="tabular text-xs leading-5">{data.security.parser_isolation}</dd>
                 <dt className="text-ink-secondary">Files encrypted</dt>
                 <dd>{data.security.files_encrypted ? "Yes" : "No"}</dd>
                 <dt className="text-ink-secondary">Download links expire</dt>
-                <dd className="font-mono text-xs leading-5">
+                <dd className="tabular text-xs leading-5">
                   {data.security.signed_url_ttl_seconds}s
                 </dd>
               </dl>
@@ -191,17 +191,17 @@ export default function AdminSystemPage() {
               <ErrorBanner message={retention.isError ? apiErrorMessage(retention.error) : null} />
               <dl className="grid grid-cols-[200px_1fr] gap-y-2 text-sm">
                 <dt className="text-ink-secondary">Unsaved or failed uploads</dt>
-                <dd className="font-mono text-xs leading-5">
+                <dd className="tabular text-xs leading-5">
                   {data.retention.unconfirmed_days || "kept"}
                   {data.retention.unconfirmed_days ? " days" : ""}
                 </dd>
                 <dt className="text-ink-secondary">Superseded resumes</dt>
-                <dd className="font-mono text-xs leading-5">
+                <dd className="tabular text-xs leading-5">
                   {data.retention.old_resume_days || "kept"}
                   {data.retention.old_resume_days ? " days" : ""}
                 </dd>
                 <dt className="text-ink-secondary">Inactive seeker accounts</dt>
-                <dd className="font-mono text-xs leading-5">
+                <dd className="tabular text-xs leading-5">
                   {data.retention.inactive_seeker_days || "kept"}
                   {data.retention.inactive_seeker_days ? " days" : ""}
                 </dd>

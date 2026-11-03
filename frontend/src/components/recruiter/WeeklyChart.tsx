@@ -8,8 +8,7 @@ import {
   YAxis,
 } from "recharts";
 import type { DayCount } from "@/api/types";
-
-const AXIS = { fontSize: 11, fill: "#5A6270", fontFamily: "JetBrains Mono, monospace" };
+import { CHART } from "./chartTheme";
 
 function dayLabel(iso: string): string {
   return new Date(`${iso}T00:00:00`).toLocaleDateString("en-IN", {
@@ -27,26 +26,26 @@ export function WeeklyChart({ data }: { data: DayCount[] }) {
   const ticks = [0, top / 2, top];
   return (
     <figure aria-label={`Applications this week: ${total} in total`}>
-      <div className="mb-1 flex items-baseline justify-between">
-        <figcaption className="text-sm font-medium">Applications this week</figcaption>
-        <span className="font-mono text-sm">{total}</span>
+      <div className="mb-3 flex items-baseline justify-between">
+        <figcaption className="text-sm font-medium text-ink">Applications this week</figcaption>
+        <span className="text-2xl font-semibold tabular text-ink">{total}</span>
       </div>
       <div className="h-[140px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 6, right: 8, bottom: 0, left: -24 }}>
-            <CartesianGrid stroke="#E3E6EB" strokeDasharray="0" vertical={false} />
+            <CartesianGrid stroke={CHART.grid} strokeDasharray="0" vertical={false} />
             <XAxis
               dataKey="date"
               tickFormatter={dayLabel}
-              tick={AXIS}
+              tick={CHART.axis}
               tickLine={false}
-              axisLine={{ stroke: "#E3E6EB" }}
+              axisLine={{ stroke: CHART.grid }}
             />
             <YAxis
               allowDecimals={false}
               domain={[0, top]}
               ticks={ticks}
-              tick={AXIS}
+              tick={CHART.axis}
               tickLine={false}
               axisLine={false}
               width={48}
@@ -54,20 +53,18 @@ export function WeeklyChart({ data }: { data: DayCount[] }) {
             <Tooltip
               labelFormatter={(v) => dayLabel(String(v))}
               formatter={(v) => [v, "Applications"]}
-              contentStyle={{
-                border: "1px solid #E3E6EB",
-                borderRadius: 6,
-                fontSize: 12,
-                boxShadow: "none",
-              }}
+              contentStyle={CHART.tooltip}
+              labelStyle={CHART.tooltipLabel}
+              itemStyle={CHART.tooltipItem}
+              cursor={{ stroke: CHART.grid }}
             />
             <Line
               type="linear"
               dataKey="count"
-              stroke="#0F766E"
-              strokeWidth={1.5}
-              dot={{ r: 2, fill: "#0F766E", strokeWidth: 0 }}
-              activeDot={{ r: 3 }}
+              stroke={CHART.series}
+              strokeWidth={2}
+              dot={{ r: 2.5, fill: CHART.series, strokeWidth: 0 }}
+              activeDot={{ r: 4, fill: CHART.series, strokeWidth: 0 }}
               isAnimationActive={false}
             />
           </LineChart>

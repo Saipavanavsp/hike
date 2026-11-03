@@ -6,16 +6,17 @@ type Size = "sm" | "md";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent text-white border border-accent hover:bg-accent-hover hover:border-accent-hover",
-  secondary: "bg-bg text-ink border border-border hover:bg-surface",
+    "bg-primary text-primary-fg border border-primary shadow-xs hover:bg-primary-hover hover:border-primary-hover",
+  secondary:
+    "bg-bg text-ink border border-border shadow-xs hover:bg-surface hover:border-border-strong",
   ghost:
     "bg-transparent text-ink-secondary border border-transparent hover:bg-surface hover:text-ink",
-  danger: "bg-status-red text-white border border-status-red hover:opacity-90",
+  danger: "bg-status-red text-status-fg border border-status-red shadow-xs hover:opacity-90",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-7 px-2.5 text-sm gap-1.5",
-  md: "h-8 px-3 text-sm gap-2",
+  sm: "h-8 px-3 text-sm gap-1.5",
+  md: "h-9 px-3.5 text-sm gap-2",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -32,8 +33,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       type={type}
       className={cn(
-        "inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded font-medium",
-        "transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+        "inline-flex shrink-0 select-none items-center justify-center whitespace-nowrap rounded-md font-medium",
+        "transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-150",
+        "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className,
@@ -54,7 +56,8 @@ export function IconButton({
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex h-8 w-8 items-center justify-center rounded text-ink-secondary hover:bg-surface hover:text-ink",
+        "inline-flex h-8 w-8 items-center justify-center rounded-md text-ink-secondary transition-colors",
+        "hover:bg-surface hover:text-ink disabled:pointer-events-none disabled:opacity-50",
         className,
       )}
       {...props}
